@@ -2,7 +2,7 @@ import { MNotify } from '../src';
 
 async function main() {
   const mnotify = new MNotify({
-			apiKey: process.env.MNOTIFY_API_KEY! || "WBuUzVKoqQoEH7PRgBuD0IFEl",
+			apiKey: process.env.MNOTIFY_API_KEY!,
 		});
 
   try {
