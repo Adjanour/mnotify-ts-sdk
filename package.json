@@ -1,0 +1,32 @@
+{
+	"name": "mnotify-ts-sdk",
+	"version": "1.0.0",
+	"description": "A TypeScript SDK for MNotify",
+	"scripts": {
+		"build": "tsc --outDir ./dist --declaration --sourceMap",
+		"watch": "tsc --outDir dist --declaration --sourceMap --watch",
+		"test:watch": "jest --watch",
+		"test": "jest",
+		"lint": "eslint src test --ext .ts",
+		"format": "prettier --write src test",
+		"prepublish": "npm run build",
+		"example:sms": "ts-node examples/sendSMS.ts"
+	},
+	"dependencies": {
+		"axios": "^1.9.0",
+		"axios-mock-adapter": "^2.1.0",
+		"dotenv": "^16.5.0",
+		"zod": "^3.25.56"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/jest": "^29.5.14",
+		"@types/node": "^22.15.30",
+		"eslint": "^9.28.0",
+		"jest": "^29.7.0",
+		"prettier": "^3.5.3",
+		"ts-jest": "^29.3.4",
+		"typedoc": "^0.28.5",
+		"typescript": "^5.8.3"
+	}
+}
