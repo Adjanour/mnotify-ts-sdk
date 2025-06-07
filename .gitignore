@@ -4,3 +4,7 @@ dist
 # Ignore docs
 docs
 
+# Ignore test results
+test-results
+coverage
+

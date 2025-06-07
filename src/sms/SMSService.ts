@@ -18,7 +18,7 @@ import { z } from "zod";
  * @property {number} summary.credit_used - Credits consumed
  * @property {number} summary.credit_left - Remaining account balance
  */
-const SendSMSResponseSchema = z.object({
+export const SendSMSResponseSchema = z.object({
 	status: z.enum(["success", "error"]),
 	code: z.string(),
 	message: z.string(),

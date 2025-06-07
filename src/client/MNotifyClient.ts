@@ -16,7 +16,7 @@ export interface MNotifyConfig {
  * including authentication, retries, and error handling.
  */
 export class MNotifyClient {
-		private readonly axiosInstance: AxiosInstance;
+		public readonly axiosInstance: AxiosInstance;
 		private readonly maxRetries: number;
 		/**
 		 * Creates a new MNotifyClient instance
