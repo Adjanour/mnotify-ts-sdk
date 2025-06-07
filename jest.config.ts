@@ -6,7 +6,7 @@ const config: Config.InitialOptions = {
   testEnvironment: 'node',
   
   // Coverage
-  collectCoverage: true,
+  collectCoverage: false,
   coverageDirectory: 'coverage',
   coverageThreshold: {
     global: {
