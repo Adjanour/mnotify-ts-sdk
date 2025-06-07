@@ -1,0 +1,8 @@
+/* docs-theme/theme.css */
+:root {
+    --primary-color: #4f46e5; /* mNotify brand purple */
+  }
+  
+  header h1 {
+    font-weight: 600;
+  }

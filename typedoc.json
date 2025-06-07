@@ -1,0 +1,68 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "name": "mNotify TypeScript SDK",
+  "includeVersion": true,
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "visibilityFilters": {
+    "public": true,
+    "protected": false,
+    "private": false,
+    "inherited": true
+  },
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "categorizeByGroup": true,
+  "media": "media",
+  "hideGenerator": true,
+  "searchInComments": true,
+  "theme": "default",
+  "highlightTheme": "github-light",
+  "markedOptions": {
+    "gfm": true,
+    "breaks": false,
+    "pedantic": false,
+    "smartLists": true,
+    "smartypants": true
+  },
+  "validation": {
+    "invalidLink": true,
+    "notExported": true
+  },
+  "exclude": [
+    "**/__tests__/**",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/examples/**",
+    "**/interfaces/**"
+  ],
+  "externalPattern": [
+    "!**/node_modules/**"
+  ],
+  "plugin": [
+    "typedoc-plugin-zod",
+    "typedoc-plugin-missing-exports"
+  ],
+  "zodAutoLink": true,
+  "zodDisplaySchema": true,
+  "sort": [
+    "source-order",
+    "required-first",
+    "alphabetical"
+  ],
+  "toc": [
+    "SMSService",
+    "ContactService",
+    "GroupService",
+    "TemplateService",
+    "AccountService",
+    "WebhookService"
+  ],
+  "customCss": "./docs-theme/theme.css",
+  "cleanOutputDir": true
+}

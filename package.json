@@ -10,7 +10,9 @@
 		"lint": "eslint src test --ext .ts",
 		"format": "prettier --write src test",
 		"prepublish": "npm run build",
-		"example:sms": "ts-node examples/sendSMS.ts"
+		"example:sms": "ts-node examples/sendSMS.ts",
+		"docs": "typedoc",
+		"docs:serve": "pnpm dlx serve docs"
 	},
 	"dependencies": {
 		"axios": "^1.9.0",
@@ -27,6 +29,8 @@
 		"prettier": "^3.5.3",
 		"ts-jest": "^29.3.4",
 		"typedoc": "^0.28.5",
+		"typedoc-plugin-missing-exports": "^4.0.0",
+		"typedoc-plugin-zod": "^1.4.1",
 		"typescript": "^5.8.3"
 	}
 }
