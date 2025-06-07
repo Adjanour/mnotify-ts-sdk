@@ -59,11 +59,11 @@ const status = await mnotify.sms.getSMSStatus(response.summary.message_id);
 
 
 ### Upcoming Features
-- [] Contact/Group management
-- [] Template system
-- [] Account operations
-- [] Comprehensive TypeScript types
-- [] Automated documentation generation
+- [ ] Contact/Group management
+- [ ] Template system
+- [ ] Account operations
+- [ ] Comprehensive TypeScript types
+- [ ] Automated documentation generation
 - [ ] USSD API integration
 - [ ] Voice message support
 - [ ] Advanced webhook processing

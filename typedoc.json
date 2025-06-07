@@ -8,7 +8,6 @@
   "excludePrivate": true,
   "excludeProtected": true,
   "visibilityFilters": {
-    "public": true,
     "protected": false,
     "private": false,
     "inherited": true
