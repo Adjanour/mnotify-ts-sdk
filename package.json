@@ -1,10 +1,30 @@
 {
 	"name": "mnotify-ts-sdk",
 	"version": "1.0.0",
-	"description": "A TypeScript SDK for MNotify",
+	"description": "Third-Party TypeScript SDK for mNotify BMS API",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist/**/*"
+	],
+	"keywords": [
+		"mnotify",
+		"africa",
+		"bms",
+		"sdk",
+		"api"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/adjanour/mnotify-ts-sdk.git"},
+	"author": "Adjanour adjanour@icloud.coms",
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
-		"build": "tsc --outDir ./dist --declaration --sourceMap",
-		"watch": "tsc --outDir dist --declaration --sourceMap --watch",
+		"build": "tsc",
+		"watch": "tsc",
 		"test:watch": "jest --watch",
 		"test": "jest",
 		"lint": "eslint src test --ext .ts",
