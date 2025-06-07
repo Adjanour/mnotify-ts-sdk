@@ -1,10 +1,10 @@
 # mNotify TypeScript SDK
 
-[![npm version](https://img.shields.io/npm/v/mnotify-sdk)](https://www.npmjs.com/package/mnotify-sdk)
+[![npm version](https://img.shields.io/npm/v/mnotify-ts-sdk)](https://www.npmjs.com/package/mnotify-sdk)
 [![CI/CD](https://github.com/adjanour/mnotify-ts-sdk/actions/workflows/publish.yml/badge.svg)](https://github.com/your-org/mnotify-ts-sdk/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-3rd Party TypeScript SDK for mNotify's Bulk Messaging Solution (BMS) API, providing seamless SMS, Voice, and contact management capabilities.
+Third Party TypeScript SDK for mNotify's Bulk Messaging Solution (BMS) API, providing seamless SMS, Voice, and contact management capabilities.
 
 ## Project Purpose
 
@@ -28,12 +28,12 @@ Simplify integration with mNotify's communication APIs by providing:
 
 ### Installation
 ```bash
-pnpm install mnotify-sdk
+pnpm install mnotify-ts-sdk
 ```
 
 ### Basic Usage
 ```typescript
-import { MNotify } from 'mnotify-sdk';
+import { MNotify } from 'mnotify-ts-sdk';
 
 // Initialize client
 const mnotify = new MNotify({
