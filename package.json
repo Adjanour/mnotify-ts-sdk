@@ -1,7 +1,7 @@
 {
 	"name": "mnotify-ts-sdk",
-	"version": "2.0.0",
-	"description": "Modern, zero-dependency TypeScript SDK for mNotify BMS API - Type-safe SMS, contacts, and account management",
+	"version": "2.1.0",
+	"description": "Modern, zero-dependency TypeScript SDK for mNotify BMS API - Type-safe SMS, contacts, and account management with Railway-Oriented Programming",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
