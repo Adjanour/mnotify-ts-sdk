@@ -1,7 +1,7 @@
 {
 	"name": "mnotify-ts-sdk",
-	"version": "1.0.1",
-	"description": "Third-Party TypeScript SDK for mNotify BMS API",
+	"version": "2.0.0",
+	"description": "Modern, zero-dependency TypeScript SDK for mNotify BMS API - Type-safe SMS, contacts, and account management",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
@@ -10,9 +10,17 @@
 	"keywords": [
 		"mnotify",
 		"africa",
+		"ghana",
 		"bms",
 		"sdk",
-		"api"
+		"api",
+		"sms",
+		"messaging",
+		"bulk-sms",
+		"typescript",
+		"zero-dependencies",
+		"contacts",
+		"templates"
 	],
 	"repository": {
 		"type": "git",

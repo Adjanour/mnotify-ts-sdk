@@ -1,5 +1,6 @@
 import type { HttpClient } from '../client/HttpClient';
 import { validateSMSResponse, validateDeliveryReport, ValidationError } from '../utils/validation';
+import { toArray } from '../utils/helpers';
 
 /**
  * Response type for SMS send operations
@@ -82,12 +83,8 @@ export class SMSService {
   public async sendQuickBulkSMS(
     options: SendSMSOptions
   ): Promise<SendSMSResponse> {
-    const recipients = Array.isArray(options.recipient)
-      ? options.recipient
-      : [options.recipient];
-
     const payload = {
-      recipient: recipients,
+      recipient: toArray(options.recipient),
       sender: options.sender,
       message: options.message,
       is_schedule: options.is_schedule || false,

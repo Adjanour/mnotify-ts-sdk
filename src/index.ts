@@ -57,3 +57,12 @@ export type { Contact, CreateContactInput } from './contacts/ContactService';
 export type { BalanceResponse, SenderId } from './account/AccountService';
 export type { Template, CreateTemplateInput } from './templates/TemplateService';
 export type { Group, CreateGroupInput } from './groups/GroupService';
+
+// Export utility functions for advanced use cases
+export {
+  toArray,
+  normalizePhone,
+  isValidPhone,
+  chunk,
+  compact,
+} from './utils/helpers';
