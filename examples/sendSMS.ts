@@ -10,10 +10,14 @@ import { MNotify } from '../src';
  *    npm run example:sms
  */
 async function main() {
+  // Validate API key is set
+  const apiKey = process.env.MNOTIFY_API_KEY;
+  if (!apiKey) {
+    throw new Error('MNOTIFY_API_KEY environment variable is required');
+  }
+
   // Initialize the SDK with your API key
-  const mnotify = new MNotify({
-    apiKey: process.env.MNOTIFY_API_KEY || '',
-  });
+  const mnotify = new MNotify({ apiKey });
 
   try {
     // Example 1: Send SMS

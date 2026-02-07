@@ -4,9 +4,9 @@
  */
 
 /**
- * Composes functions from right to left
- * @param fns - Functions to compose
- * @returns Composed function
+ * Pipes functions from left to right (first to last)
+ * @param fns - Functions to pipe
+ * @returns Piped function
  */
 export const pipe = <T>(...fns: Array<(arg: T) => T>) => (value: T): T =>
   fns.reduce((acc, fn) => fn(acc), value);
@@ -23,21 +23,19 @@ export const retry = async <T>(
   maxRetries: number = 3,
   delay: number = 1000
 ): Promise<T> => {
-  let lastError: Error;
-
   for (let i = 0; i <= maxRetries; i++) {
     try {
       return await fn();
     } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-      
-      if (i < maxRetries) {
-        await sleep(delay * Math.pow(2, i)); // Exponential backoff
+      if (i === maxRetries) {
+        throw error instanceof Error ? error : new Error(String(error));
       }
+      await sleep(delay * Math.pow(2, i)); // Exponential backoff
     }
   }
-
-  throw lastError!;
+  
+  // This line should never be reached, but TypeScript requires a return
+  throw new Error('Retry failed');
 };
 
 /**
