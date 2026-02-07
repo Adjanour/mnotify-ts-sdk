@@ -1,38 +1,73 @@
-import { z } from 'zod';
-import { MNotifyClient } from '../client/MNotifyClient';
+import type { HttpClient } from '../client/HttpClient';
+import { isObject, isString, isArray, validateRequired, ValidationError } from '../utils/validation';
 
-const ContactSchema = z.object({
-  _id: z.string(),
-  phone: z.string(),
-  title: z.string().optional(),
-  firstname: z.string(),
-  lastname: z.string(),
-  email: z.array(z.string()).optional(),
-  dbo:z.string().optional(),
-});
+export interface Contact {
+  _id: string;
+  phone: string;
+  title?: string;
+  firstname: string;
+  lastname: string;
+  email?: string[];
+  dbo?: string;
+}
 
-export type Contact = z.infer<typeof ContactSchema>;
-export type CreateContact = Omit<Contact, '_id'>;
+export type CreateContactInput = Omit<Contact, '_id'>;
 
+/**
+ * Validates contact response
+ */
+const validateContact = (data: unknown): data is Contact => {
+  if (!isObject(data)) return false;
+
+  validateRequired(data, ['_id', 'phone', 'firstname', 'lastname']);
+
+  return (
+    isString(data._id) &&
+    isString(data.phone) &&
+    isString(data.firstname) &&
+    isString(data.lastname)
+  );
+};
+
+/**
+ * Service for managing contacts with mNotify API
+ */
 export class ContactService {
-  constructor(private readonly client: MNotifyClient) {}
+  constructor(private readonly client: HttpClient) {}
 
-  public async createContact(contact: Omit<Contact,"_id">) {
-    const response = await this.client.request<CreateContact>({
+  /**
+   * Creates a new contact
+   * @param contact - Contact data
+   * @returns Created contact with ID
+   */
+  public async createContact(contact: CreateContactInput): Promise<Contact> {
+    const response = await this.client.request<Contact>({
       method: 'POST',
       url: '/contacts',
-      data: contact
+      data: contact,
     });
 
-    return ContactSchema.parse(response);
+    if (!validateContact(response)) {
+      throw new ValidationError('Invalid contact response format');
+    }
+
+    return response;
   }
 
-  public async getContacts() {
-    const response = await this.client.request({
+  /**
+   * Retrieves all contacts
+   * @returns Array of contacts
+   */
+  public async getContacts(): Promise<Contact[]> {
+    const response = await this.client.request<Contact[]>({
       method: 'GET',
-      url: '/contacts'
+      url: '/contacts',
     });
 
-    return z.array(ContactSchema).parse(response);
+    if (!isArray(response)) {
+      throw new ValidationError('Invalid contacts response format');
+    }
+
+    return response;
   }
 }
