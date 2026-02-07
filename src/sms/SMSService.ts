@@ -1,6 +1,9 @@
 import type { HttpClient } from '../client/HttpClient';
 import { validateSMSResponse, validateDeliveryReport, ValidationError } from '../utils/validation';
 import { toArray } from '../utils/helpers';
+import type { Result } from '../types/Result';
+import { ok, err } from '../types/Result';
+import { MNotifyError } from '../errors/MNotifyError';
 
 /**
  * Response type for SMS send operations
@@ -66,7 +69,55 @@ export class SMSService {
   constructor(private readonly client: HttpClient) {}
 
   /**
-   * Sends bulk SMS messages to one or more recipients
+   * Sends bulk SMS messages to one or more recipients (railway-oriented programming)
+   * @param {SendSMSOptions} options - SMS configuration
+   * @returns {Promise<Result<SendSMSResponse, MNotifyError>>} Result containing send report or error
+   *
+   * @example
+   * ```typescript
+   * const result = await smsService.sendQuickBulkSMSSafe({
+   *   recipient: ['233200000000', '233244444444'],
+   *   sender: 'MyApp',
+   *   message: 'Hello from mNotify!'
+   * });
+   * 
+   * if (result.isOk()) {
+   *   console.log('SMS sent:', result.value);
+   * } else {
+   *   console.error('Failed to send SMS:', result.error);
+   * }
+   * ```
+   */
+  public async sendQuickBulkSMSSafe(
+    options: SendSMSOptions
+  ): Promise<Result<SendSMSResponse, MNotifyError>> {
+    const payload = {
+      recipient: toArray(options.recipient),
+      sender: options.sender,
+      message: options.message,
+      is_schedule: options.is_schedule || false,
+      schedule_date: options.schedule_date || '',
+    };
+
+    const result = await this.client.requestSafe<SendSMSResponse>({
+      method: 'POST',
+      url: '/sms/quick',
+      data: payload,
+    });
+
+    if (result.isErr()) {
+      return result;
+    }
+
+    if (!validateSMSResponse(result.value)) {
+      return err(new MNotifyError('Invalid SMS response format', 0));
+    }
+
+    return ok(result.value);
+  }
+
+  /**
+   * Sends bulk SMS messages to one or more recipients (throws on error - legacy API)
    * @param {SendSMSOptions} options - SMS configuration
    * @returns {Promise<SendSMSResponse>} Detailed send report
    * @throws {MNotifyError} On API failure or validation errors
@@ -83,29 +134,47 @@ export class SMSService {
   public async sendQuickBulkSMS(
     options: SendSMSOptions
   ): Promise<SendSMSResponse> {
-    const payload = {
-      recipient: toArray(options.recipient),
-      sender: options.sender,
-      message: options.message,
-      is_schedule: options.is_schedule || false,
-      schedule_date: options.schedule_date || '',
-    };
-
-    const response = await this.client.request<SendSMSResponse>({
-      method: 'POST',
-      url: '/sms/quick',
-      data: payload,
-    });
-
-    if (!validateSMSResponse(response)) {
-      throw new ValidationError('Invalid SMS response format');
-    }
-
-    return response;
+    const result = await this.sendQuickBulkSMSSafe(options);
+    return result.unwrap();
   }
 
   /**
-   * Retrieves delivery status for a sent SMS campaign
+   * Retrieves delivery status for a sent SMS campaign (railway-oriented programming)
+   * @param {string} campaignId - ID from send response
+   * @param {string} [status='null'] - Optional status filter
+   * @returns {Promise<Result<SmsDeliveryReport, MNotifyError>>} Result containing delivery report or error
+   *
+   * @example
+   * ```typescript
+   * const result = await smsService.getSMSStatusSafe('campaign_123');
+   * result.match({
+   *   ok: (report) => console.log('Status:', report.status),
+   *   err: (error) => console.error('Error:', error.message)
+   * });
+   * ```
+   */
+  public async getSMSStatusSafe(
+    campaignId: string,
+    status = 'null'
+  ): Promise<Result<SmsDeliveryReport, MNotifyError>> {
+    const result = await this.client.requestSafe<SmsDeliveryReport>({
+      method: 'GET',
+      url: `/campaign/${campaignId}/${status}`,
+    });
+
+    if (result.isErr()) {
+      return result;
+    }
+
+    if (!validateDeliveryReport(result.value)) {
+      return err(new MNotifyError('Invalid delivery report format', 0));
+    }
+
+    return ok(result.value);
+  }
+
+  /**
+   * Retrieves delivery status for a sent SMS campaign (throws on error - legacy API)
    * @param {string} campaignId - ID from send response
    * @param {string} [status='null'] - Optional status filter
    * @returns {Promise<SmsDeliveryReport>} Detailed delivery report
@@ -121,15 +190,7 @@ export class SMSService {
     campaignId: string,
     status = 'null'
   ): Promise<SmsDeliveryReport> {
-    const response = await this.client.request<SmsDeliveryReport>({
-      method: 'GET',
-      url: `/campaign/${campaignId}/${status}`,
-    });
-
-    if (!validateDeliveryReport(response)) {
-      throw new ValidationError('Invalid delivery report format');
-    }
-
-    return response;
+    const result = await this.getSMSStatusSafe(campaignId, status);
+    return result.unwrap();
   }
 }

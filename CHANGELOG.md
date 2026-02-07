@@ -1,5 +1,47 @@
 # Changelog
 
+## 2.1.0 (2024-02-07)
+
+### Features
+- **Railway-Oriented Programming** 🚂
+  - Added `Result<T, E>` type for functional error handling (inspired by Rust)
+  - All services now have "Safe" method variants that return `Result` instead of throwing
+  - Example: `sendQuickBulkSMSSafe()`, `getBalanceSafe()`, etc.
+  - Full backward compatibility - legacy throwing methods still available
+  - Pattern matching support with `.match()`, `.map()`, `.andThen()`, etc.
+  - 20 comprehensive tests for Result type
+- **CI/CD Pipeline** 🔄
+  - GitHub Actions workflows for automated testing
+  - Multi-version Node.js testing (18.x, 20.x, 22.x)
+  - CodeQL security scanning on schedule
+  - Automated NPM publishing on releases
+  - Codecov integration for test coverage
+
+### Improvements
+- Updated HttpClient with `requestSafe()` method returning Result
+- All services refactored to support both error handling patterns
+- Enhanced documentation with railway-oriented programming examples
+- Zero breaking changes - fully backward compatible
+
+### Migration Guide (Optional)
+
+```typescript
+// Legacy API (still works)
+try {
+  const response = await mnotify.sms.sendQuickBulkSMS({...});
+} catch (error) {
+  console.error(error);
+}
+
+// New Railway-Oriented API (recommended)
+const result = await mnotify.sms.sendQuickBulkSMSSafe({...});
+if (result.isOk()) {
+  console.log(result.value);
+} else {
+  console.error(result.error);
+}
+```
+
 ## 2.0.0 (2024-02-07)
 
 ### Breaking Changes

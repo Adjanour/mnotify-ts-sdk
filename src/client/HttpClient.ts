@@ -1,4 +1,5 @@
 import { MNotifyError } from '../errors/MNotifyError';
+import { Result, ok, err } from '../types/Result';
 
 export interface MNotifyConfig {
   apiKey: string;
@@ -43,25 +44,30 @@ export class HttpClient {
   }
 
   /**
-   * Makes an HTTP request to the mNotify API
+   * Makes an HTTP request to the mNotify API with Result type (railway-oriented programming)
    * @param config - Request configuration
    * @param retryCount - Current retry attempt (used internally)
-   * @returns Promise with the parsed response data
-   * @throws {MNotifyError} When API returns an error response
+   * @returns Promise with Result containing either the response data or an error
    *
    * @example
    * ```typescript
    * const client = new HttpClient({ apiKey: 'your-key' });
-   * const response = await client.request<T>({
+   * const result = await client.requestSafe<T>({
    *   method: 'GET',
    *   url: '/account/balance'
    * });
+   * 
+   * if (result.isOk()) {
+   *   console.log(result.value);
+   * } else {
+   *   console.error(result.error);
+   * }
    * ```
    */
-  public async request<T>(
+  public async requestSafe<T>(
     config: RequestConfig,
     retryCount = 0
-  ): Promise<T> {
+  ): Promise<Result<T, MNotifyError>> {
     const url = this.buildUrl(config.url, config.params);
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
@@ -85,36 +91,61 @@ export class HttpClient {
         if (response.status === 429 && retryCount < this.maxRetries) {
           const retryAfter = parseInt(response.headers.get('retry-after') || '1') * 1000;
           await this.sleep(retryAfter);
-          return this.request<T>(config, retryCount + 1);
+          return this.requestSafe<T>(config, retryCount + 1);
         }
 
         const errorData = await response.json().catch(() => ({}));
-        throw new MNotifyError(
+        return err(new MNotifyError(
           errorData.message || response.statusText,
           response.status,
           errorData
-        );
+        ));
       }
 
-      return await response.json() as T;
+      const data = await response.json() as T;
+      return ok(data);
     } catch (error) {
       clearTimeout(timeoutId);
 
       if (error instanceof MNotifyError) {
-        throw error;
+        return err(error);
       }
 
       // Handle timeout
       if (error instanceof Error && error.name === 'AbortError') {
-        throw new MNotifyError('Request timeout', 408);
+        return err(new MNotifyError('Request timeout', 408));
       }
 
       // Handle network errors
-      throw new MNotifyError(
+      return err(new MNotifyError(
         error instanceof Error ? error.message : 'Network error',
         0
-      );
+      ));
     }
+  }
+
+  /**
+   * Makes an HTTP request to the mNotify API (throws on error - legacy API)
+   * @param config - Request configuration
+   * @param retryCount - Current retry attempt (used internally)
+   * @returns Promise with the parsed response data
+   * @throws {MNotifyError} When API returns an error response
+   *
+   * @example
+   * ```typescript
+   * const client = new HttpClient({ apiKey: 'your-key' });
+   * const response = await client.request<T>({
+   *   method: 'GET',
+   *   url: '/account/balance'
+   * });
+   * ```
+   */
+  public async request<T>(
+    config: RequestConfig,
+    retryCount = 0
+  ): Promise<T> {
+    const result = await this.requestSafe<T>(config, retryCount);
+    return result.unwrap();
   }
 
   /**

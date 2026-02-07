@@ -26,6 +26,69 @@ Simplify integration with mNotify's communication APIs by providing:
 | **Templates**      | Create/list/delete templates, Approval status |
 | **Account**        | Balance checks, Sender ID management |
 | **Utilities**      | Built-in validation, Automatic retries |
+| **Error Handling** | Railway-oriented programming with Result type |
+
+## Railway-Oriented Programming
+
+This SDK supports **railway-oriented programming** (inspired by Rust's `Result<T, E>` type) for safer, more predictable error handling. All methods have both throwing and non-throwing variants.
+
+### Using Result Type (Recommended)
+
+```typescript
+import { MNotify } from 'mnotify-ts-sdk';
+
+const mnotify = new MNotify({ apiKey: process.env.MNOTIFY_API_KEY! });
+
+// Use "Safe" methods that return Result<T, Error>
+const result = await mnotify.sms.sendQuickBulkSMSSafe({
+  recipient: ['233200000000'],
+  sender: 'MyApp',
+  message: 'Hello!'
+});
+
+// Pattern matching
+result.match({
+  ok: (response) => console.log('SMS sent!', response.summary),
+  err: (error) => console.error('Failed:', error.message)
+});
+
+// Or check explicitly
+if (result.isOk()) {
+  console.log('Success:', result.value);
+} else {
+  console.error('Error:', result.error);
+}
+
+// Chain operations
+const balanceResult = await mnotify.account.getBalanceSafe();
+const balance = balanceResult
+  .map(b => b.balance)
+  .unwrapOr(0); // Safe default
+```
+
+### Legacy API (Throws Errors)
+
+```typescript
+// Traditional try-catch error handling
+try {
+  const response = await mnotify.sms.sendQuickBulkSMS({
+    recipient: ['233200000000'],
+    sender: 'MyApp',
+    message: 'Hello!'
+  });
+  console.log('SMS sent!', response);
+} catch (error) {
+  console.error('Failed:', error);
+}
+```
+
+### Why Railway-Oriented Programming?
+
+- **Explicit error handling** - No hidden exceptions
+- **Type-safe** - Errors are part of the type signature
+- **Composable** - Easy to chain operations
+- **Predictable** - No surprises in production
+- **Functional** - Works well with modern patterns
 
 ## Why Zero Dependencies?
 
@@ -310,8 +373,27 @@ npm run docs
 | Template Management | ❌ | ✅ |
 | Account Operations | ❌ | ✅ |
 | Functional Utilities | ❌ | ✅ |
+| Railway-Oriented Programming | ❌ | ✅ **New!** |
 | TypeScript Types | Partial | **Full** 💯 |
 | Test Coverage | Basic | **Comprehensive** |
+| CI/CD Pipeline | ❌ | ✅ **New!** |
+
+## CI/CD
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+- **Automated Testing**: Runs on every push and pull request (Node 18.x, 20.x, 22.x)
+- **Security Scanning**: CodeQL security analysis on schedule and PR
+- **NPM Publishing**: Automated releases when GitHub releases are created
+- **Code Coverage**: Integrated with Codecov
+
+### Workflows
+
+| Workflow | Trigger | Description |
+|----------|---------|-------------|
+| `test.yml` | Push/PR to main/develop | Runs linting, build, and tests |
+| `codeql.yml` | Push/PR/Schedule | Security vulnerability scanning |
+| `publish.yml` | GitHub Release | Publishes package to NPM |
 
 ## Documentation
 
