@@ -186,6 +186,85 @@ try {
 }
 ```
 
+## Advanced Usage
+
+### Utility Functions
+
+The SDK exports several utility functions for common operations:
+
+```typescript
+import { 
+  normalizePhone, 
+  isValidPhone, 
+  chunk, 
+  toArray 
+} from 'mnotify-ts-sdk';
+
+// Normalize phone numbers
+const normalized = normalizePhone('0200000000'); // '233200000000'
+
+// Validate phone numbers
+if (isValidPhone('+233200000000')) {
+  // Valid phone number
+}
+
+// Chunk recipients for batch sending
+const recipients = [...]; // large array
+const batches = chunk(recipients, 100); // Split into batches of 100
+
+// Ensure value is an array
+const numbers = toArray(singleNumber); // Always returns array
+```
+
+### Error Handling
+
+The SDK provides detailed error information through the `MNotifyError` class:
+
+```typescript
+import { MNotifyError } from 'mnotify-ts-sdk';
+
+try {
+  await mnotify.sms.sendQuickBulkSMS({...});
+} catch (error) {
+  if (error instanceof MNotifyError) {
+    console.error('API Error:', {
+      status: error.statusCode,
+      message: error.message,
+      data: error.data
+    });
+    
+    // Handle specific errors
+    if (error.statusCode === 429) {
+      // Rate limited - retry later
+    } else if (error.statusCode === 401) {
+      // Invalid API key
+    }
+  }
+}
+```
+
+### Batch Operations
+
+Send SMS to large recipient lists efficiently:
+
+```typescript
+import { chunk } from 'mnotify-ts-sdk';
+
+const allRecipients = [...]; // 1000s of numbers
+const batches = chunk(allRecipients, 100); // Process 100 at a time
+
+for (const batch of batches) {
+  await mnotify.sms.sendQuickBulkSMS({
+    recipient: batch,
+    sender: 'MyApp',
+    message: 'Batch message'
+  });
+  
+  // Optional: Add delay between batches
+  await new Promise(resolve => setTimeout(resolve, 1000));
+}
+```
+
 ## Contribution Guidelines
 
 ### How to Contribute
@@ -199,25 +278,48 @@ try {
 ```bash
 git clone https://github.com/adjanour/mnotify-ts-sdk.git
 cd mnotify-ts-sdk
-pnpm install
+npm install
 ```
 
 ### Testing
 ```bash
-pnpm test
+npm test
 # Watch mode
-pnpm run test:watch
+npm run test:watch
+```
+
+### Building
+```bash
+npm run build
 ```
 
 ### Building Documentation
 ```bash
-pnpm run docs
+npm run docs
 ```
+
+## Features Comparison
+
+| Feature | v1.0.x | v2.0.0 |
+|---------|--------|--------|
+| Runtime Dependencies | 4 | **0** ✨ |
+| Bundle Size | ~1MB | **172KB** 📦 |
+| SMS Service | ✅ | ✅ |
+| Contact Management | Basic | ✅ Complete |
+| Group Management | ❌ | ✅ |
+| Template Management | ❌ | ✅ |
+| Account Operations | ❌ | ✅ |
+| Functional Utilities | ❌ | ✅ |
+| TypeScript Types | Partial | **Full** 💯 |
+| Test Coverage | Basic | **Comprehensive** |
 
 ## Documentation
 
 Full API reference available at:  
-[ mNotify SDK Documentation](https://your-docs-url.com)
+[mNotify SDK Documentation](https://your-docs-url.com)
+
+Official mNotify API documentation:  
+[https://developer.mnotify.com/](https://developer.mnotify.com/)
 
 ## License
 
