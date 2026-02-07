@@ -58,6 +58,10 @@ export type { BalanceResponse, SenderId } from './account/AccountService';
 export type { Template, CreateTemplateInput } from './templates/TemplateService';
 export type { Group, CreateGroupInput } from './groups/GroupService';
 
+// Export Result type for railway-oriented programming
+export type { Result, Ok, Err } from './types/Result';
+export { ok, err, tryCatch, tryCatchAsync, combine } from './types/Result';
+
 // Export utility functions for advanced use cases
 export {
   toArray,
