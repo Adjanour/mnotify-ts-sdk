@@ -69,7 +69,15 @@ export class HttpClient {
     retryCount = 0,
   ): Promise<Result<T, MNotifyError>> {
     const url = this.buildUrl(config.url, config.params);
-    console.log(`Requesting ${url}`);
+    const requestContext = {
+      service: "HttpClient",
+      operation: "requestSafe",
+      stage: "request" as const,
+      method: config.method,
+      path: config.url,
+      url: this.redactUrl(url),
+      retryCount,
+    };
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -102,6 +110,7 @@ export class HttpClient {
             errorData.message || response.statusText,
             response.status,
             errorData,
+            { ...requestContext, stage: "response" },
           ),
         );
       }
@@ -112,20 +121,30 @@ export class HttpClient {
       clearTimeout(timeoutId);
 
       if (error instanceof MNotifyError) {
-        return err(error);
+        return err(
+          error.withContext({
+            ...requestContext,
+            stage: "network",
+          }),
+        );
       }
 
       // Handle timeout
       if (error instanceof Error && error.name === "AbortError") {
-        return err(new MNotifyError("Request timeout", 408));
+        return err(
+          MNotifyError.fromUnknown(error, "Request timeout", 408, {
+            ...requestContext,
+            stage: "network",
+          }),
+        );
       }
 
       // Handle network errors
       return err(
-        new MNotifyError(
-          error instanceof Error ? error.message : "Network error",
-          0,
-        ),
+        MNotifyError.fromUnknown(error, "Network error", 0, {
+          ...requestContext,
+          stage: "network",
+        }),
       );
     }
   }
@@ -155,7 +174,12 @@ export class HttpClient {
    * Builds the full URL with query parameters
    */
   private buildUrl(path: string, params?: Record<string, string>): string {
-    const url = new URL(path, this.baseUrl);
+    // Ensure API base paths like ".../api" are preserved even when path starts with "/"
+    const normalizedBase = this.baseUrl.endsWith("/")
+      ? this.baseUrl
+      : `${this.baseUrl}/`;
+    const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
+    const url = new URL(normalizedPath, normalizedBase);
 
     // Always add API key as query param
     url.searchParams.set("key", this.apiKey);
@@ -168,6 +192,18 @@ export class HttpClient {
     }
 
     return url.toString();
+  }
+
+  private redactUrl(rawUrl: string): string {
+    try {
+      const url = new URL(rawUrl);
+      if (url.searchParams.has("key")) {
+        url.searchParams.set("key", "***");
+      }
+      return url.toString();
+    } catch {
+      return rawUrl;
+    }
   }
 
   /**

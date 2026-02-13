@@ -1,9 +1,13 @@
-import type { HttpClient } from '../client/HttpClient';
-import { validateSMSResponse, validateDeliveryReport, ValidationError } from '../utils/validation';
-import { toArray } from '../utils/helpers';
-import type { Result } from '../types/Result';
-import { ok, err } from '../types/Result';
-import { MNotifyError } from '../errors/MNotifyError';
+import type { HttpClient } from "../client/HttpClient";
+import {
+  validateSMSResponse,
+  validateDeliveryReport,
+} from "../utils/validation";
+import { toArray } from "../utils/helpers";
+import type { Result } from "../types/Result";
+import { ok, err } from "../types/Result";
+import { MNotifyError } from "../errors/MNotifyError";
+import { annotateResultError } from "../errors/errorContext";
 
 /**
  * Response type for SMS send operations
@@ -68,6 +72,16 @@ export class SMSService {
    */
   constructor(private readonly client: HttpClient) {}
 
+  private annotate<T>(
+    result: Result<T, MNotifyError>,
+    operation: string,
+  ): Result<T, MNotifyError> {
+    return annotateResultError(result, {
+      service: "SMSService",
+      operation,
+    });
+  }
+
   /**
    * Sends bulk SMS messages to one or more recipients (railway-oriented programming)
    * @param {SendSMSOptions} options - SMS configuration
@@ -80,7 +94,7 @@ export class SMSService {
    *   sender: 'MyApp',
    *   message: 'Hello from mNotify!'
    * });
-   * 
+   *
    * if (result.isOk()) {
    *   console.log('SMS sent:', result.value);
    * } else {
@@ -89,28 +103,37 @@ export class SMSService {
    * ```
    */
   public async sendQuickBulkSMSSafe(
-    options: SendSMSOptions
+    options: SendSMSOptions,
   ): Promise<Result<SendSMSResponse, MNotifyError>> {
     const payload = {
       recipient: toArray(options.recipient),
       sender: options.sender,
       message: options.message,
       is_schedule: options.is_schedule || false,
-      schedule_date: options.schedule_date || '',
+      schedule_date: options.schedule_date || "",
     };
 
-    const result = await this.client.requestSafe<SendSMSResponse>({
-      method: 'POST',
-      url: '/sms/quick',
-      data: payload,
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<SendSMSResponse>({
+        method: "POST",
+        url: "/sms/quick",
+        data: payload,
+      }),
+      "sendQuickBulkSMSSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateSMSResponse(result.value)) {
-      return err(new MNotifyError('Invalid SMS response format', 0));
+      return err(
+        new MNotifyError("Invalid SMS response format", 0, result.value, {
+          service: "SMSService",
+          operation: "sendQuickBulkSMSSafe",
+          stage: "validation",
+        }),
+      );
     }
 
     return ok(result.value);
@@ -132,7 +155,7 @@ export class SMSService {
    * ```
    */
   public async sendQuickBulkSMS(
-    options: SendSMSOptions
+    options: SendSMSOptions,
   ): Promise<SendSMSResponse> {
     const result = await this.sendQuickBulkSMSSafe(options);
     return result.unwrap();
@@ -155,19 +178,28 @@ export class SMSService {
    */
   public async getSMSStatusSafe(
     campaignId: string,
-    status = 'null'
+    status = "null",
   ): Promise<Result<SmsDeliveryReport, MNotifyError>> {
-    const result = await this.client.requestSafe<SmsDeliveryReport>({
-      method: 'GET',
-      url: `/campaign/${campaignId}/${status}`,
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<SmsDeliveryReport>({
+        method: "GET",
+        url: `/campaign/${campaignId}/${status}`,
+      }),
+      "getSMSStatusSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateDeliveryReport(result.value)) {
-      return err(new MNotifyError('Invalid delivery report format', 0));
+      return err(
+        new MNotifyError("Invalid delivery report format", 0, result.value, {
+          service: "SMSService",
+          operation: "getSMSStatusSafe",
+          stage: "validation",
+        }),
+      );
     }
 
     return ok(result.value);
@@ -188,7 +220,7 @@ export class SMSService {
    */
   public async getSMSStatus(
     campaignId: string,
-    status = 'null'
+    status = "null",
   ): Promise<SmsDeliveryReport> {
     const result = await this.getSMSStatusSafe(campaignId, status);
     return result.unwrap();

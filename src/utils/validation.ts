@@ -4,9 +4,12 @@
  */
 
 export class ValidationError extends Error {
-  constructor(message: string, public readonly field?: string) {
+  constructor(
+    message: string,
+    public readonly field?: string,
+  ) {
     super(message);
-    this.name = 'ValidationError';
+    this.name = "ValidationError";
   }
 }
 
@@ -14,14 +17,14 @@ export class ValidationError extends Error {
  * Validates that a value is a string
  */
 export const isString = (value: unknown): value is string => {
-  return typeof value === 'string';
+  return typeof value === "string";
 };
 
 /**
  * Validates that a value is a number
  */
 export const isNumber = (value: unknown): value is number => {
-  return typeof value === 'number' && !isNaN(value);
+  return typeof value === "number" && !isNaN(value);
 };
 
 /**
@@ -35,7 +38,7 @@ export const isArray = <T>(value: unknown): value is T[] => {
  * Validates that a value is an object
  */
 export const isObject = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 };
 
 /**
@@ -43,10 +46,10 @@ export const isObject = (value: unknown): value is Record<string, unknown> => {
  */
 export function validateRequired(
   obj: unknown,
-  fields: string[]
+  fields: string[],
 ): asserts obj is Record<string, unknown> {
   if (!isObject(obj)) {
-    throw new ValidationError('Expected object');
+    throw new ValidationError("Expected object");
   }
 
   for (const field of fields) {
@@ -57,9 +60,28 @@ export function validateRequired(
 }
 
 /**
+ * Safe required-field validation that never throws.
+ * Useful inside type guards where throwing breaks Result flows.
+ */
+export const hasRequiredFields = (
+  obj: unknown,
+  fields: string[],
+): obj is Record<string, unknown> => {
+  if (!isObject(obj)) {
+    return false;
+  }
+
+  return fields.every(
+    (field) => field in obj && obj[field] !== undefined && obj[field] !== null,
+  );
+};
+
+/**
  * Validates SMS send response
  */
-export const validateSMSResponse = (data: unknown): data is {
+export const validateSMSResponse = (
+  data: unknown,
+): data is {
   status: string;
   code: string;
   message: string;
@@ -76,23 +98,27 @@ export const validateSMSResponse = (data: unknown): data is {
   };
 } => {
   if (!isObject(data)) return false;
-
-  validateRequired(data, ['status', 'code', 'message', 'summary']);
+  if (!hasRequiredFields(data, ["status", "code", "message", "summary"])) {
+    return false;
+  }
 
   const summary = data.summary;
   if (!isObject(summary)) return false;
-
-  validateRequired(summary, [
-    '_id',
-    'message_id',
-    'type',
-    'total_sent',
-    'contacts',
-    'total_rejected',
-    'numbers_sent',
-    'credit_used',
-    'credit_left',
-  ]);
+  if (
+    !hasRequiredFields(summary, [
+      "_id",
+      "message_id",
+      "type",
+      "total_sent",
+      "contacts",
+      "total_rejected",
+      "numbers_sent",
+      "credit_used",
+      "credit_left",
+    ])
+  ) {
+    return false;
+  }
 
   return (
     isString(data.status) &&
@@ -113,7 +139,9 @@ export const validateSMSResponse = (data: unknown): data is {
 /**
  * Validates SMS delivery report response
  */
-export const validateDeliveryReport = (data: unknown): data is {
+export const validateDeliveryReport = (
+  data: unknown,
+): data is {
   status: string;
   report: Array<{
     _id: number;
@@ -127,8 +155,9 @@ export const validateDeliveryReport = (data: unknown): data is {
   }>;
 } => {
   if (!isObject(data)) return false;
-
-  validateRequired(data, ['status', 'report']);
+  if (!hasRequiredFields(data, ["status", "report"])) {
+    return false;
+  }
 
   if (!isArray(data.report)) return false;
 

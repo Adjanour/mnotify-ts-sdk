@@ -1,8 +1,9 @@
-import type { HttpClient } from '../client/HttpClient';
-import { isObject, isString, isArray, validateRequired, ValidationError } from '../utils/validation';
-import type { Result } from '../types/Result';
-import { ok, err } from '../types/Result';
-import { MNotifyError } from '../errors/MNotifyError';
+import type { HttpClient } from "../client/HttpClient";
+import { isObject, isString, isArray } from "../utils/validation";
+import type { Result } from "../types/Result";
+import { ok, err } from "../types/Result";
+import { MNotifyError } from "../errors/MNotifyError";
+import { annotateResultError } from "../errors/errorContext";
 
 export interface Contact {
   _id: string;
@@ -14,22 +15,43 @@ export interface Contact {
   dbo?: string;
 }
 
-export type CreateContactInput = Omit<Contact, '_id'>;
+export type CreateContactInput = Omit<Contact, "_id">;
 
 /**
  * Validates contact response
  */
 const validateContact = (data: unknown): data is Contact => {
   if (!isObject(data)) return false;
+  const hasId = isString(data._id) || isString(data.id);
+  return hasId && isString(data.phone);
+};
 
-  validateRequired(data, ['_id', 'phone', 'firstname', 'lastname']);
+const normalizeContact = (data: unknown): Contact | null => {
+  if (!isObject(data)) return null;
 
-  return (
-    isString(data._id) &&
-    isString(data.phone) &&
-    isString(data.firstname) &&
-    isString(data.lastname)
-  );
+  const id =
+    typeof data._id === "string"
+      ? data._id
+      : typeof data.id === "string"
+        ? data.id
+        : null;
+
+  if (!id || !isString(data.phone)) {
+    return null;
+  }
+
+  return {
+    _id: id,
+    phone: data.phone,
+    firstname: isString(data.firstname) ? data.firstname : "",
+    lastname: isString(data.lastname) ? data.lastname : "",
+    title: isString(data.title) ? data.title : undefined,
+    email:
+      isArray<string>(data.email) && data.email.every((item) => isString(item))
+        ? data.email
+        : undefined,
+    dbo: isString(data.dbo) ? data.dbo : undefined,
+  };
 };
 
 /**
@@ -38,27 +60,76 @@ const validateContact = (data: unknown): data is Contact => {
 export class ContactService {
   constructor(private readonly client: HttpClient) {}
 
+  private annotate<T>(
+    result: Result<T, MNotifyError>,
+    operation: string,
+  ): Result<T, MNotifyError> {
+    return annotateResultError(result, {
+      service: "ContactService",
+      operation,
+    });
+  }
+
   /**
    * Creates a new contact (railway-oriented programming)
    * @param contact - Contact data
    * @returns Result containing created contact with ID or error
    */
-  public async createContactSafe(contact: CreateContactInput): Promise<Result<Contact, MNotifyError>> {
-    const result = await this.client.requestSafe<Contact>({
-      method: 'POST',
-      url: '/contacts',
-      data: contact,
-    });
+  public async createContactSafe(
+    contact: CreateContactInput,
+    groupId?: string,
+  ): Promise<Result<Contact, MNotifyError>> {
+    if (!groupId) {
+      return err(
+        new MNotifyError(
+          "mNotify v2 requires groupId to create a contact. Pass createContactSafe(contact, groupId).",
+          400,
+          undefined,
+          {
+            service: "ContactService",
+            operation: "createContactSafe",
+            stage: "validation",
+            path: "/contact/{group_id}",
+          },
+        ),
+      );
+    }
+
+    const result = this.annotate(
+      await this.client.requestSafe<Contact>({
+        method: "POST",
+        url: `/contact/${groupId}`,
+        data: contact,
+      }),
+      "createContactSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateContact(result.value)) {
-      return err(new MNotifyError('Invalid contact response format', 0));
+      return err(
+        new MNotifyError("Invalid contact response format", 0, result.value, {
+          service: "ContactService",
+          operation: "createContactSafe",
+          stage: "validation",
+        }),
+      );
     }
 
-    return ok(result.value);
+    const normalized = normalizeContact(result.value);
+    if (!normalized) {
+      return err(
+        new MNotifyError("Invalid contact response format", 0, result.value, {
+          service: "ContactService",
+          operation: "createContactSafe",
+          stage: "validation",
+        }),
+      );
+    }
+
+    return ok(normalized);
   }
 
   /**
@@ -66,8 +137,11 @@ export class ContactService {
    * @param contact - Contact data
    * @returns Created contact with ID
    */
-  public async createContact(contact: CreateContactInput): Promise<Contact> {
-    const result = await this.createContactSafe(contact);
+  public async createContact(
+    contact: CreateContactInput,
+    groupId?: string,
+  ): Promise<Contact> {
+    const result = await this.createContactSafe(contact, groupId);
     return result.unwrap();
   }
 
@@ -76,17 +150,26 @@ export class ContactService {
    * @returns Result containing array of contacts or error
    */
   public async getContactsSafe(): Promise<Result<Contact[], MNotifyError>> {
-    const result = await this.client.requestSafe<Contact[]>({
-      method: 'GET',
-      url: '/contacts',
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<Contact[]>({
+        method: "GET",
+        url: "/contact",
+      }),
+      "getContactsSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!isArray(result.value)) {
-      return err(new MNotifyError('Invalid contacts response format', 0));
+      return err(
+        new MNotifyError("Invalid contacts response format", 0, result.value, {
+          service: "ContactService",
+          operation: "getContactsSafe",
+          stage: "validation",
+        }),
+      );
     }
 
     return ok(result.value);

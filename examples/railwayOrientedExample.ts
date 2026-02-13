@@ -7,10 +7,21 @@
 
 import { MNotify, Result, MNotifyError } from "../src";
 
+const apiKey = process.env.MNOTIFY_API_KEY;
+const baseUrl = process.env.MNOTIFY_BASE_URL || "https://api.mnotify.com/api";
+const senderIdToCheck = process.env.MNOTIFY_SENDER_ID;
+const groupId = process.env.MNOTIFY_GROUP_ID;
+const smsSenderId = process.env.MNOTIFY_SMS_SENDER || senderIdToCheck;
+const smsRecipient = process.env.MNOTIFY_SMS_RECIPIENT || "233595661863";
+
+if (!apiKey) {
+  throw new Error("MNOTIFY_API_KEY environment variable is required");
+}
+
 // Initialize MNotify client
 const mnotify = new MNotify({
-  apiKey: "Xkh9YxmhQG7p3QCg82PpPI7BJ",
-  baseUrl: "https://api.mnotify.com/api",
+  apiKey,
+  baseUrl,
 });
 
 /**
@@ -20,7 +31,6 @@ async function examplePatternMatching() {
   console.log("\n=== Example 1: Pattern Matching ===");
 
   const result = await mnotify.account.getBalanceSafe();
-  console.log(result);
 
   const message = result.match({
     ok: (balance) => `Your balance is ${balance.balance} ${balance.currency}`,
@@ -84,16 +94,28 @@ async function exampleComposition() {
     return;
   }
 
+  if (!smsSenderId) {
+    console.log(
+      "Skipping SMS send (set MNOTIFY_SMS_SENDER or MNOTIFY_SENDER_ID to an approved sender ID).",
+    );
+    return;
+  }
+
   // Balance is sufficient, send SMS
   const smsResult = await mnotify.sms.sendQuickBulkSMSSafe({
-    recipient: ["233200000000"],
-    sender: "MyApp",
+    recipient: [smsRecipient],
+    sender: smsSenderId,
     message: "Hello from Railway-Oriented Programming!",
   });
 
   smsResult.match({
     ok: (response) => console.log("SMS sent successfully!", response.summary),
-    err: (error) => console.error("Failed to send SMS:", error.message),
+    err: (error) =>
+      console.error("Failed to send SMS:", {
+        message: error.message,
+        data: error.data,
+        context: error.context,
+      }),
   });
 }
 
@@ -120,23 +142,34 @@ async function exampleErrorRecovery() {
 async function exampleMultipleOperations() {
   console.log("\n=== Example 6: Multiple Operations ===");
 
-  // Get balance and sender IDs in parallel
-  const [balanceResult, sendersResult] = await Promise.all([
-    mnotify.account.getBalanceSafe(),
-    mnotify.account.getSenderIdsSafe(),
+  // Get balance and optionally check a sender ID status in parallel
+  const balancePromise = mnotify.account.getBalanceSafe();
+  const senderPromise = senderIdToCheck
+    ? mnotify.account.checkSenderIdStatusSafe(senderIdToCheck)
+    : Promise.resolve(null);
+
+  const [balanceResult, senderResult] = await Promise.all([
+    balancePromise,
+    senderPromise,
   ]);
 
-  // Check both results
-  if (balanceResult.isOk() && sendersResult.isOk()) {
+  if (balanceResult.isOk()) {
     console.log("Balance:", balanceResult.value);
-    console.log("Sender IDs:", sendersResult.value);
   } else {
-    if (balanceResult.isErr()) {
-      console.error("Balance error:", balanceResult.error.message);
-    }
-    if (sendersResult.isErr()) {
-      console.error("Senders error:", sendersResult.error.message);
-    }
+    console.error("Balance error:", balanceResult.error.message);
+  }
+
+  if (!senderIdToCheck) {
+    console.log(
+      "Skipping sender status check (set MNOTIFY_SENDER_ID to enable).",
+    );
+    return;
+  }
+
+  if (senderResult?.isOk()) {
+    console.log("Sender status:", senderResult.value);
+  } else if (senderResult?.isErr()) {
+    console.error("Sender status error:", senderResult.error.message);
   }
 }
 
@@ -146,22 +179,25 @@ async function exampleMultipleOperations() {
 async function exampleContactCreation() {
   console.log("\n=== Example 7: Contact Creation ===");
 
-  const result = await mnotify.contacts.createContactSafe({
-    phone: "233200000000",
-    firstname: "John",
-    lastname: "Doe",
-    email: ["john@example.com"],
-  });
+  if (!groupId) {
+    console.log(
+      "Skipping contact creation (set MNOTIFY_GROUP_ID to a valid group ID).",
+    );
+    return;
+  }
 
-  // 1. Chain the second operation onto the first
-  const finalResult = await result.andThenAsync(async (contact) => {
-    console.log("Contact created:", contact._id);
-    return await mnotify.groups.addContactToGroupSafe("group_id", contact._id);
-  });
+  const result = await mnotify.contacts.createContactSafe(
+    {
+      phone: "233200000000",
+      firstname: "John",
+      lastname: "Doe",
+      email: ["john@example.com"],
+    },
+    groupId,
+  );
 
-  // 2. Single match at the end of the line
-  finalResult.match({
-    ok: (res) => console.log("Contact added to group successfully:", res),
+  result.match({
+    ok: (contact) => console.log("Contact created:", contact),
     err: (error) => console.error("Flow failed:", error.message),
   });
 }
@@ -172,7 +208,7 @@ async function exampleContactCreation() {
 async function main() {
   console.log("Railway-Oriented Programming Examples\n");
   console.log(
-    "Note: These examples require a valid MNOTIFY_API_KEY environment variable\n",
+    `Config: baseUrl=${baseUrl}, apiKey=${apiKey ? "***set***" : "***missing***"}, senderId=${senderIdToCheck ? "***set***" : "***missing***"}, smsSender=${smsSenderId ? "***set***" : "***missing***"}, smsRecipient=${smsRecipient}, groupId=${groupId ? "***set***" : "***missing***"}\n`,
   );
 
   try {

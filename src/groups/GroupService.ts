@@ -1,8 +1,9 @@
-import type { HttpClient } from '../client/HttpClient';
-import { isObject, isString, isArray, validateRequired, ValidationError } from '../utils/validation';
-import type { Result } from '../types/Result';
-import { ok, err } from '../types/Result';
-import { MNotifyError } from '../errors/MNotifyError';
+import type { HttpClient } from "../client/HttpClient";
+import { isObject, isString, isArray, isNumber } from "../utils/validation";
+import type { Result } from "../types/Result";
+import { ok, err } from "../types/Result";
+import { MNotifyError } from "../errors/MNotifyError";
+import { annotateResultError } from "../errors/errorContext";
 
 /**
  * Contact Group
@@ -29,8 +30,37 @@ export interface CreateGroupInput {
  */
 const validateGroup = (data: unknown): data is Group => {
   if (!isObject(data)) return false;
-  validateRequired(data, ['id', 'name']);
-  return isString(data.id) && isString(data.name);
+  const id =
+    (isString(data.id) && data.id) || (isString(data._id) && data._id) || null;
+  const name =
+    (isString(data.name) && data.name) ||
+    (isString(data.group_name) && data.group_name) ||
+    null;
+  return Boolean(id && name);
+};
+
+const normalizeGroup = (data: unknown): Group | null => {
+  if (!isObject(data)) return null;
+
+  const id =
+    (isString(data.id) && data.id) || (isString(data._id) && data._id) || null;
+  const name =
+    (isString(data.name) && data.name) ||
+    (isString(data.group_name) && data.group_name) ||
+    null;
+
+  if (!id || !name) {
+    return null;
+  }
+
+  return {
+    id,
+    name,
+    description: isString(data.description) ? data.description : undefined,
+    contact_count: isNumber(data.contact_count) ? data.contact_count : 0,
+    created_at: isString(data.created_at) ? data.created_at : "",
+    updated_at: isString(data.updated_at) ? data.updated_at : "",
+  };
 };
 
 /**
@@ -38,6 +68,16 @@ const validateGroup = (data: unknown): data is Group => {
  */
 export class GroupService {
   constructor(private readonly client: HttpClient) {}
+
+  private annotate<T>(
+    result: Result<T, MNotifyError>,
+    operation: string,
+  ): Result<T, MNotifyError> {
+    return annotateResultError(result, {
+      service: "GroupService",
+      operation,
+    });
+  }
 
   /**
    * Creates a new contact group (railway-oriented programming)
@@ -56,22 +96,47 @@ export class GroupService {
    * });
    * ```
    */
-  public async createGroupSafe(input: CreateGroupInput): Promise<Result<Group, MNotifyError>> {
-    const result = await this.client.requestSafe<Group>({
-      method: 'POST',
-      url: '/groups',
-      data: input,
-    });
+  public async createGroupSafe(
+    input: CreateGroupInput,
+  ): Promise<Result<Group, MNotifyError>> {
+    const result = this.annotate(
+      await this.client.requestSafe<Group>({
+        method: "POST",
+        url: "/group",
+        data: {
+          group_name: input.name,
+          description: input.description,
+        },
+      }),
+      "createGroupSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateGroup(result.value)) {
-      return err(new MNotifyError('Invalid group response format', 0));
+      return err(
+        new MNotifyError("Invalid group response format", 0, result.value, {
+          service: "GroupService",
+          operation: "createGroupSafe",
+          stage: "validation",
+        }),
+      );
     }
 
-    return ok(result.value);
+    const normalized = normalizeGroup(result.value);
+    if (!normalized) {
+      return err(
+        new MNotifyError("Invalid group response format", 0, result.value, {
+          service: "GroupService",
+          operation: "createGroupSafe",
+          stage: "validation",
+        }),
+      );
+    }
+
+    return ok(normalized);
   }
 
   /**
@@ -106,20 +171,32 @@ export class GroupService {
    * ```
    */
   public async getGroupsSafe(): Promise<Result<Group[], MNotifyError>> {
-    const result = await this.client.requestSafe<Group[]>({
-      method: 'GET',
-      url: '/groups',
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<Group[]>({
+        method: "GET",
+        url: "/group",
+      }),
+      "getGroupsSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!isArray(result.value)) {
-      return err(new MNotifyError('Invalid groups response format', 0));
+      return err(
+        new MNotifyError("Invalid groups response format", 0, result.value, {
+          service: "GroupService",
+          operation: "getGroupsSafe",
+          stage: "validation",
+        }),
+      );
     }
 
-    return ok(result.value);
+    const normalized = result.value
+      .map((item) => normalizeGroup(item))
+      .filter((item): item is Group => item !== null);
+    return ok(normalized);
   }
 
   /**
@@ -153,20 +230,40 @@ export class GroupService {
    * ```
    */
   public async getGroupSafe(id: string): Promise<Result<Group, MNotifyError>> {
-    const result = await this.client.requestSafe<Group>({
-      method: 'GET',
-      url: `/groups/${id}`,
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<Group>({
+        method: "GET",
+        url: `/group/${id}`,
+      }),
+      "getGroupSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateGroup(result.value)) {
-      return err(new MNotifyError('Invalid group response format', 0));
+      return err(
+        new MNotifyError("Invalid group response format", 0, result.value, {
+          service: "GroupService",
+          operation: "getGroupSafe",
+          stage: "validation",
+        }),
+      );
     }
 
-    return ok(result.value);
+    const normalized = normalizeGroup(result.value);
+    if (!normalized) {
+      return err(
+        new MNotifyError("Invalid group response format", 0, result.value, {
+          service: "GroupService",
+          operation: "getGroupSafe",
+          stage: "validation",
+        }),
+      );
+    }
+
+    return ok(normalized);
   }
 
   /**
@@ -203,20 +300,34 @@ export class GroupService {
    */
   public async addContactToGroupSafe(
     groupId: string,
-    contactId: string
+    contactId: string,
   ): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-    const result = await this.client.requestSafe<{ status: string; message: string }>({
-      method: 'POST',
-      url: `/groups/${groupId}/contacts`,
-      data: { contact_id: contactId },
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<{ status: string; message: string }>({
+        method: "POST",
+        url: `/contact/${groupId}`,
+        data: { contact_id: contactId },
+      }),
+      "addContactToGroupSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!isObject(result.value)) {
-      return err(new MNotifyError('Invalid add contact response format', 0));
+      return err(
+        new MNotifyError(
+          "Invalid add contact response format",
+          0,
+          result.value,
+          {
+            service: "GroupService",
+            operation: "addContactToGroupSafe",
+            stage: "validation",
+          },
+        ),
+      );
     }
 
     return ok(result.value);
@@ -236,7 +347,7 @@ export class GroupService {
    */
   public async addContactToGroup(
     groupId: string,
-    contactId: string
+    contactId: string,
   ): Promise<{ status: string; message: string }> {
     const result = await this.addContactToGroupSafe(groupId, contactId);
     return result.unwrap();
@@ -259,19 +370,33 @@ export class GroupService {
    */
   public async removeContactFromGroupSafe(
     groupId: string,
-    contactId: string
+    contactId: string,
   ): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-    const result = await this.client.requestSafe<{ status: string; message: string }>({
-      method: 'DELETE',
-      url: `/groups/${groupId}/contacts/${contactId}`,
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<{ status: string; message: string }>({
+        method: "DELETE",
+        url: `/contact/${contactId}/${groupId}`,
+      }),
+      "removeContactFromGroupSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!isObject(result.value)) {
-      return err(new MNotifyError('Invalid remove contact response format', 0));
+      return err(
+        new MNotifyError(
+          "Invalid remove contact response format",
+          0,
+          result.value,
+          {
+            service: "GroupService",
+            operation: "removeContactFromGroupSafe",
+            stage: "validation",
+          },
+        ),
+      );
     }
 
     return ok(result.value);
@@ -291,7 +416,7 @@ export class GroupService {
    */
   public async removeContactFromGroup(
     groupId: string,
-    contactId: string
+    contactId: string,
   ): Promise<{ status: string; message: string }> {
     const result = await this.removeContactFromGroupSafe(groupId, contactId);
     return result.unwrap();
@@ -311,18 +436,29 @@ export class GroupService {
    * });
    * ```
    */
-  public async deleteGroupSafe(id: string): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-    const result = await this.client.requestSafe<{ status: string; message: string }>({
-      method: 'DELETE',
-      url: `/groups/${id}`,
-    });
+  public async deleteGroupSafe(
+    id: string,
+  ): Promise<Result<{ status: string; message: string }, MNotifyError>> {
+    const result = this.annotate(
+      await this.client.requestSafe<{ status: string; message: string }>({
+        method: "DELETE",
+        url: `/group/${id}`,
+      }),
+      "deleteGroupSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!isObject(result.value)) {
-      return err(new MNotifyError('Invalid delete response format', 0));
+      return err(
+        new MNotifyError("Invalid delete response format", 0, result.value, {
+          service: "GroupService",
+          operation: "deleteGroupSafe",
+          stage: "validation",
+        }),
+      );
     }
 
     return ok(result.value);
@@ -339,7 +475,9 @@ export class GroupService {
    * await groupService.deleteGroup('group_123');
    * ```
    */
-  public async deleteGroup(id: string): Promise<{ status: string; message: string }> {
+  public async deleteGroup(
+    id: string,
+  ): Promise<{ status: string; message: string }> {
     const result = await this.deleteGroupSafe(id);
     return result.unwrap();
   }

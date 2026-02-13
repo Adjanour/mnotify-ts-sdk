@@ -1,14 +1,9 @@
 import type { HttpClient } from "../client/HttpClient";
-import {
-  isObject,
-  isNumber,
-  isString,
-  validateRequired,
-  ValidationError,
-} from "../utils/validation";
+import { isObject, isNumber, hasRequiredFields } from "../utils/validation";
 import type { Result } from "../types/Result";
 import { ok, err } from "../types/Result";
 import { MNotifyError } from "../errors/MNotifyError";
+import { annotateResultError } from "../errors/errorContext";
 
 /**
  * Account balance response
@@ -28,12 +23,21 @@ export interface SenderId {
   created_at: string;
 }
 
+export interface SenderIdStatus {
+  status: string;
+  message?: string;
+  sender_name?: string;
+  approval_status?: string;
+}
+
 /**
  * Validates balance response
  */
 const validateBalanceResponse = (data: unknown): data is BalanceResponse => {
   if (!isObject(data)) return false;
-  validateRequired(data, ["balance"]);
+  if (!hasRequiredFields(data, ["balance"])) {
+    return false;
+  }
   return isNumber(data.balance);
 };
 
@@ -42,6 +46,16 @@ const validateBalanceResponse = (data: unknown): data is BalanceResponse => {
  */
 export class AccountService {
   constructor(private readonly client: HttpClient) {}
+
+  private annotate<T>(
+    result: Result<T, MNotifyError>,
+    operation: string,
+  ): Result<T, MNotifyError> {
+    return annotateResultError(result, {
+      service: "AccountService",
+      operation,
+    });
+  }
 
   /**
    * Retrieves current account balance (railway-oriented programming)
@@ -59,17 +73,26 @@ export class AccountService {
   public async getBalanceSafe(): Promise<
     Result<BalanceResponse, MNotifyError>
   > {
-    const result = await this.client.requestSafe<BalanceResponse>({
-      method: "GET",
-      url: "/balance/sms",
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<BalanceResponse>({
+        method: "GET",
+        url: "/balance/sms",
+      }),
+      "getBalanceSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateBalanceResponse(result.value)) {
-      return err(new MNotifyError("Invalid balance response format", 0));
+      return err(
+        new MNotifyError("Invalid balance response format", 0, result.value, {
+          service: "AccountService",
+          operation: "getBalanceSafe",
+          stage: "validation",
+        }),
+      );
     }
 
     return ok(result.value);
@@ -104,20 +127,19 @@ export class AccountService {
    * ```
    */
   public async getSenderIdsSafe(): Promise<Result<SenderId[], MNotifyError>> {
-    const result = await this.client.requestSafe<SenderId[]>({
-      method: "GET",
-      url: "/senders",
-    });
-
-    if (result.isErr()) {
-      return result;
-    }
-
-    if (!Array.isArray(result.value)) {
-      return err(new MNotifyError("Invalid sender IDs response format", 0));
-    }
-
-    return ok(result.value);
+    return err(
+      new MNotifyError(
+        "mNotify v2 does not provide a sender list endpoint. Use checkSenderIdStatusSafe(senderName).",
+        400,
+        undefined,
+        {
+          service: "AccountService",
+          operation: "getSenderIdsSafe",
+          stage: "validation",
+          path: "/senderid/status",
+        },
+      ),
+    );
   }
 
   /**
@@ -152,15 +174,22 @@ export class AccountService {
    */
   public async registerSenderIdSafe(
     name: string,
+    purpose: string[] = ["general"],
   ): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-    const result = await this.client.requestSafe<{
-      status: string;
-      message: string;
-    }>({
-      method: "POST",
-      url: "/senders",
-      data: { name },
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<{
+        status: string;
+        message: string;
+      }>({
+        method: "POST",
+        url: "/senderid/register",
+        data: {
+          sender_name: name,
+          purpose,
+        },
+      }),
+      "registerSenderIdSafe",
+    );
 
     if (result.isErr()) {
       return result;
@@ -168,7 +197,16 @@ export class AccountService {
 
     if (!isObject(result.value)) {
       return err(
-        new MNotifyError("Invalid sender ID registration response", 0),
+        new MNotifyError(
+          "Invalid sender ID registration response",
+          0,
+          result.value,
+          {
+            service: "AccountService",
+            operation: "registerSenderIdSafe",
+            stage: "validation",
+          },
+        ),
       );
     }
 
@@ -189,8 +227,55 @@ export class AccountService {
    */
   public async registerSenderId(
     name: string,
+    purpose: string[] = ["general"],
   ): Promise<{ status: string; message: string }> {
-    const result = await this.registerSenderIdSafe(name);
+    const result = await this.registerSenderIdSafe(name, purpose);
+    return result.unwrap();
+  }
+
+  /**
+   * Checks sender ID approval status (railway-oriented programming)
+   * @param name - Sender ID name
+   * @returns Result containing sender status response or error
+   */
+  public async checkSenderIdStatusSafe(
+    name: string,
+  ): Promise<Result<SenderIdStatus, MNotifyError>> {
+    const result = this.annotate(
+      await this.client.requestSafe<SenderIdStatus>({
+        method: "POST",
+        url: "/senderid/status",
+        data: {
+          sender_name: name,
+        },
+      }),
+      "checkSenderIdStatusSafe",
+    );
+
+    if (result.isErr()) {
+      return result;
+    }
+
+    if (!isObject(result.value)) {
+      return err(
+        new MNotifyError("Invalid sender ID status response", 0, result.value, {
+          service: "AccountService",
+          operation: "checkSenderIdStatusSafe",
+          stage: "validation",
+        }),
+      );
+    }
+
+    return ok(result.value);
+  }
+
+  /**
+   * Checks sender ID approval status (throws on error - legacy API)
+   * @param name - Sender ID name
+   * @returns Sender status response
+   */
+  public async checkSenderIdStatus(name: string): Promise<SenderIdStatus> {
+    const result = await this.checkSenderIdStatusSafe(name);
     return result.unwrap();
   }
 }

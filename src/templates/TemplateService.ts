@@ -1,8 +1,9 @@
-import type { HttpClient } from '../client/HttpClient';
-import { isObject, isString, isArray, validateRequired, ValidationError } from '../utils/validation';
-import type { Result } from '../types/Result';
-import { ok, err } from '../types/Result';
-import { MNotifyError } from '../errors/MNotifyError';
+import type { HttpClient } from "../client/HttpClient";
+import { isObject, isString, isArray } from "../utils/validation";
+import type { Result } from "../types/Result";
+import { ok, err } from "../types/Result";
+import { MNotifyError } from "../errors/MNotifyError";
+import { annotateResultError } from "../errors/errorContext";
 
 /**
  * SMS Template
@@ -11,7 +12,7 @@ export interface Template {
   id: string;
   name: string;
   content: string;
-  status: 'approved' | 'pending' | 'rejected';
+  status: "approved" | "pending" | "rejected";
   created_at: string;
   updated_at: string;
 }
@@ -29,13 +30,47 @@ export interface CreateTemplateInput {
  */
 const validateTemplate = (data: unknown): data is Template => {
   if (!isObject(data)) return false;
-  validateRequired(data, ['id', 'name', 'content', 'status']);
-  return (
-    isString(data.id) &&
-    isString(data.name) &&
-    isString(data.content) &&
-    isString(data.status)
-  );
+  const id =
+    (isString(data.id) && data.id) || (isString(data._id) && data._id) || null;
+  const name =
+    (isString(data.name) && data.name) ||
+    (isString(data.title) && data.title) ||
+    null;
+  const content =
+    (isString(data.content) && data.content) ||
+    (isString(data.body) && data.body) ||
+    null;
+  return Boolean(id && name && content);
+};
+
+const normalizeTemplate = (data: unknown): Template | null => {
+  if (!isObject(data)) return null;
+
+  const id =
+    (isString(data.id) && data.id) || (isString(data._id) && data._id) || null;
+  const name =
+    (isString(data.name) && data.name) ||
+    (isString(data.title) && data.title) ||
+    null;
+  const content =
+    (isString(data.content) && data.content) ||
+    (isString(data.body) && data.body) ||
+    null;
+
+  if (!id || !name || !content) {
+    return null;
+  }
+
+  return {
+    id,
+    name,
+    content,
+    status: isString(data.status)
+      ? (data.status as Template["status"])
+      : "pending",
+    created_at: isString(data.created_at) ? data.created_at : "",
+    updated_at: isString(data.updated_at) ? data.updated_at : "",
+  };
 };
 
 /**
@@ -43,6 +78,16 @@ const validateTemplate = (data: unknown): data is Template => {
  */
 export class TemplateService {
   constructor(private readonly client: HttpClient) {}
+
+  private annotate<T>(
+    result: Result<T, MNotifyError>,
+    operation: string,
+  ): Result<T, MNotifyError> {
+    return annotateResultError(result, {
+      service: "TemplateService",
+      operation,
+    });
+  }
 
   /**
    * Creates a new SMS template (railway-oriented programming)
@@ -61,22 +106,47 @@ export class TemplateService {
    * });
    * ```
    */
-  public async createTemplateSafe(input: CreateTemplateInput): Promise<Result<Template, MNotifyError>> {
-    const result = await this.client.requestSafe<Template>({
-      method: 'POST',
-      url: '/templates',
-      data: input,
-    });
+  public async createTemplateSafe(
+    input: CreateTemplateInput,
+  ): Promise<Result<Template, MNotifyError>> {
+    const result = this.annotate(
+      await this.client.requestSafe<Template>({
+        method: "POST",
+        url: "/template",
+        data: {
+          title: input.name,
+          body: input.content,
+        },
+      }),
+      "createTemplateSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateTemplate(result.value)) {
-      return err(new MNotifyError('Invalid template response format', 0));
+      return err(
+        new MNotifyError("Invalid template response format", 0, result.value, {
+          service: "TemplateService",
+          operation: "createTemplateSafe",
+          stage: "validation",
+        }),
+      );
     }
 
-    return ok(result.value);
+    const normalized = normalizeTemplate(result.value);
+    if (!normalized) {
+      return err(
+        new MNotifyError("Invalid template response format", 0, result.value, {
+          service: "TemplateService",
+          operation: "createTemplateSafe",
+          stage: "validation",
+        }),
+      );
+    }
+
+    return ok(normalized);
   }
 
   /**
@@ -111,20 +181,32 @@ export class TemplateService {
    * ```
    */
   public async getTemplatesSafe(): Promise<Result<Template[], MNotifyError>> {
-    const result = await this.client.requestSafe<Template[]>({
-      method: 'GET',
-      url: '/templates',
-    });
+    const result = this.annotate(
+      await this.client.requestSafe<Template[]>({
+        method: "GET",
+        url: "/template",
+      }),
+      "getTemplatesSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!isArray(result.value)) {
-      return err(new MNotifyError('Invalid templates response format', 0));
+      return err(
+        new MNotifyError("Invalid templates response format", 0, result.value, {
+          service: "TemplateService",
+          operation: "getTemplatesSafe",
+          stage: "validation",
+        }),
+      );
     }
 
-    return ok(result.value);
+    const normalized = result.value
+      .map((item) => normalizeTemplate(item))
+      .filter((item): item is Template => item !== null);
+    return ok(normalized);
   }
 
   /**
@@ -157,21 +239,43 @@ export class TemplateService {
    * });
    * ```
    */
-  public async getTemplateSafe(id: string): Promise<Result<Template, MNotifyError>> {
-    const result = await this.client.requestSafe<Template>({
-      method: 'GET',
-      url: `/templates/${id}`,
-    });
+  public async getTemplateSafe(
+    id: string,
+  ): Promise<Result<Template, MNotifyError>> {
+    const result = this.annotate(
+      await this.client.requestSafe<Template>({
+        method: "GET",
+        url: `/template/${id}`,
+      }),
+      "getTemplateSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!validateTemplate(result.value)) {
-      return err(new MNotifyError('Invalid template response format', 0));
+      return err(
+        new MNotifyError("Invalid template response format", 0, result.value, {
+          service: "TemplateService",
+          operation: "getTemplateSafe",
+          stage: "validation",
+        }),
+      );
     }
 
-    return ok(result.value);
+    const normalized = normalizeTemplate(result.value);
+    if (!normalized) {
+      return err(
+        new MNotifyError("Invalid template response format", 0, result.value, {
+          service: "TemplateService",
+          operation: "getTemplateSafe",
+          stage: "validation",
+        }),
+      );
+    }
+
+    return ok(normalized);
   }
 
   /**
@@ -204,18 +308,29 @@ export class TemplateService {
    * }
    * ```
    */
-  public async deleteTemplateSafe(id: string): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-    const result = await this.client.requestSafe<{ status: string; message: string }>({
-      method: 'DELETE',
-      url: `/templates/${id}`,
-    });
+  public async deleteTemplateSafe(
+    id: string,
+  ): Promise<Result<{ status: string; message: string }, MNotifyError>> {
+    const result = this.annotate(
+      await this.client.requestSafe<{ status: string; message: string }>({
+        method: "DELETE",
+        url: `/template/${id}`,
+      }),
+      "deleteTemplateSafe",
+    );
 
     if (result.isErr()) {
       return result;
     }
 
     if (!isObject(result.value)) {
-      return err(new MNotifyError('Invalid delete response format', 0));
+      return err(
+        new MNotifyError("Invalid delete response format", 0, result.value, {
+          service: "TemplateService",
+          operation: "deleteTemplateSafe",
+          stage: "validation",
+        }),
+      );
     }
 
     return ok(result.value);
@@ -232,7 +347,9 @@ export class TemplateService {
    * await templateService.deleteTemplate('template_123');
    * ```
    */
-  public async deleteTemplate(id: string): Promise<{ status: string; message: string }> {
+  public async deleteTemplate(
+    id: string,
+  ): Promise<{ status: string; message: string }> {
     const result = await this.deleteTemplateSafe(id);
     return result.unwrap();
   }
