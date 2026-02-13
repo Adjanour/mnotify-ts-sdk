@@ -24,7 +24,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/adjanour/mnotify-ts-sdk.git"
+		"url": "git+https://github.com/adjanour/mnotify-ts-sdk.git"
 	},
 	"author": "Adjanour adjanour@icloud.com",
 	"license": "MIT",
