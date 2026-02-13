@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.2.0 (2026-02-13)
+
+### Features
+- **mNotify v2 Endpoint Alignment**
+  - Updated Sender ID operations to use `/senderid/register` and `/senderid/status`
+  - Updated Group routes to singular `/group` endpoints
+  - Updated Contact routes to use `/contact` and group-scoped contact creation
+  - Updated Template routes to use `/template` with v2 payload mapping (`title`/`body`)
+- **Improved Error Debugging**
+  - Added structured `MNotifyError.context` metadata (service, operation, method, path, URL, stage, retry count)
+  - Added contextual error wrapping across service layers and HTTP request flow
+  - Added safer response validation paths to preserve Result-based error handling
+
+### Fixes
+- Fixed URL joining so custom base URLs with path segments (e.g. `/api`) are preserved
+- Fixed examples to use environment variables instead of hardcoded API keys/senders/base URLs
+- Fixed `examples/sendSMS.ts` route/config mismatch that caused `The route sms/quick could not be found`
+
+### Improvements
+- Added/updated tests for:
+  - base URL path preservation (`/api`)
+  - sender ID v2 routes and payloads
+  - contact v2 route behavior and validation
+  - Result error context surfacing for safe-mode failures
+
 ## 2.1.0 (2024-02-07)
 
 ### Features
