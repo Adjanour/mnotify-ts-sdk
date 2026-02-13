@@ -3,14 +3,14 @@
 ## 2.1.0 (2024-02-07)
 
 ### Features
-- **Railway-Oriented Programming** 🚂
+- **Railway-Oriented Programming**
   - Added `Result<T, E>` type for functional error handling (inspired by Rust)
   - All services now have "Safe" method variants that return `Result` instead of throwing
   - Example: `sendQuickBulkSMSSafe()`, `getBalanceSafe()`, etc.
   - Full backward compatibility - legacy throwing methods still available
   - Pattern matching support with `.match()`, `.map()`, `.andThen()`, etc.
   - 20 comprehensive tests for Result type
-- **CI/CD Pipeline** 🔄
+- **CI/CD Pipeline**
   - GitHub Actions workflows for automated testing
   - Multi-version Node.js testing (18.x, 20.x, 22.x)
   - CodeQL security scanning on schedule

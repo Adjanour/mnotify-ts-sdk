@@ -56,6 +56,12 @@ export interface Ok<T, E> {
    * Chains another Result-returning operation
    */
   andThen<U>(fn: (value: T) => Result<U, E>): Result<U, E>;
+
+  /**
+   * Chains another async Result-returning operation
+   */
+   andThenAsync<U>(fn: (value: T) => Promise<Result<U, E>>): Promise<Result<U, E>>;
+
   
   /**
    * Returns the Ok value or throws the Err
@@ -90,6 +96,7 @@ export interface Err<T, E> {
   map<U>(fn: (value: T) => U): Result<U, E>;
   mapErr<F>(fn: (error: E) => F): Result<T, F>;
   andThen<U>(fn: (value: T) => Result<U, E>): Result<U, E>;
+    andThenAsync<U>(_fn: (value: T) => Promise<Result<U, E>>): Promise<Result<U, E>>;
   unwrap(): T;
   unwrapOr(defaultValue: T): T;
   unwrapOrElse(fn: (error: E) => T): T;
@@ -130,6 +137,9 @@ export function ok<T, E = Error>(value: T): Result<T, E> {
     match<U>(matcher: { ok: (value: T) => U; err: (error: E) => U }): U {
       return matcher.ok(value);
     },
+    async andThenAsync<U>(fn: (value: T) => Promise<Result<U, E>>): Promise<Result<U, E>> {
+      return await fn(value);
+    }
   };
 }
 
@@ -155,6 +165,9 @@ export function err<T, E = Error>(error: E): Result<T, E> {
     andThen<U>(_fn: (value: T) => Result<U, E>): Result<U, E> {
       return err(error);
     },
+      andThenAsync<U>(_fn: (value: T) => Promise<Result<U, E>>): Promise<Result<U, E>> {
+        return Promise.resolve(err<U,E>(error));
+      },
     unwrap(): T {
       throw error;
     },
@@ -175,15 +188,12 @@ export function err<T, E = Error>(error: E): Result<T, E> {
  */
 export function tryCatch<T, E = Error>(
   fn: () => T,
-  errorHandler?: (error: unknown) => E
+  errorHandler: (error: unknown) => E
 ): Result<T, E> {
   try {
     return ok(fn());
-  } catch (error) {
-    const mappedError = errorHandler 
-      ? errorHandler(error) 
-      : (error as E);
-    return err(mappedError);
+  } catch (e) {
+    return err(errorHandler(e));
   }
 }
 
@@ -192,16 +202,12 @@ export function tryCatch<T, E = Error>(
  */
 export async function tryCatchAsync<T, E = Error>(
   fn: () => Promise<T>,
-  errorHandler?: (error: unknown) => E
+  errorHandler: (error: unknown) => E // Now mandatory
 ): Promise<Result<T, E>> {
   try {
-    const value = await fn();
-    return ok(value);
-  } catch (error) {
-    const mappedError = errorHandler 
-      ? errorHandler(error) 
-      : (error as E);
-    return err(mappedError);
+    return ok(await fn());
+  } catch (e) {
+    return err(errorHandler(e));
   }
 }
 

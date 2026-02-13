@@ -365,8 +365,8 @@ npm run docs
 
 | Feature | v1.0.x | v2.0.0 |
 |---------|--------|--------|
-| Runtime Dependencies | 4 | **0** ✨ |
-| Bundle Size | ~1MB | **172KB** 📦 |
+| Runtime Dependencies | 4 | **0** |
+| Bundle Size | ~1MB | **172KB**  |
 | SMS Service | ✅ | ✅ |
 | Contact Management | Basic | ✅ Complete |
 | Group Management | ❌ | ✅ |
@@ -374,9 +374,9 @@ npm run docs
 | Account Operations | ❌ | ✅ |
 | Functional Utilities | ❌ | ✅ |
 | Railway-Oriented Programming | ❌ | ✅ **New!** |
-| TypeScript Types | Partial | **Full** 💯 |
+| TypeScript Types | Partial | **Full** |
 | Test Coverage | Basic | **Comprehensive** |
-| CI/CD Pipeline | ❌ | ✅ **New!** |
+| CI/CD Pipeline | ❌ | ✅ **New** |
 
 ## CI/CD
 
@@ -405,7 +405,7 @@ Official mNotify API documentation:
 
 ## License
 
-MIT © [Bernard](https://adjarnour.tech)
+MIT © [Bernard](https://adjarnor.dev)
 
 ---
 

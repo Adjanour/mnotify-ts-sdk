@@ -5,7 +5,7 @@ This implementation adds **Railway-Oriented Programming** (Result types) and a c
 
 ## Key Achievements
 
-### 1. Railway-Oriented Programming ✅
+### 1. Railway-Oriented Programming
 **Inspired by Rust's `Result<T, E>` type**
 
 #### What was implemented:

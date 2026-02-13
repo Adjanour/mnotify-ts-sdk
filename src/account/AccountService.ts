@@ -1,8 +1,14 @@
-import type { HttpClient } from '../client/HttpClient';
-import { isObject, isNumber, isString, validateRequired, ValidationError } from '../utils/validation';
-import type { Result } from '../types/Result';
-import { ok, err } from '../types/Result';
-import { MNotifyError } from '../errors/MNotifyError';
+import type { HttpClient } from "../client/HttpClient";
+import {
+  isObject,
+  isNumber,
+  isString,
+  validateRequired,
+  ValidationError,
+} from "../utils/validation";
+import type { Result } from "../types/Result";
+import { ok, err } from "../types/Result";
+import { MNotifyError } from "../errors/MNotifyError";
 
 /**
  * Account balance response
@@ -18,7 +24,7 @@ export interface BalanceResponse {
 export interface SenderId {
   id: string;
   name: string;
-  status: 'approved' | 'pending' | 'rejected';
+  status: "approved" | "pending" | "rejected";
   created_at: string;
 }
 
@@ -27,7 +33,7 @@ export interface SenderId {
  */
 const validateBalanceResponse = (data: unknown): data is BalanceResponse => {
   if (!isObject(data)) return false;
-  validateRequired(data, ['balance']);
+  validateRequired(data, ["balance"]);
   return isNumber(data.balance);
 };
 
@@ -50,10 +56,12 @@ export class AccountService {
    * });
    * ```
    */
-  public async getBalanceSafe(): Promise<Result<BalanceResponse, MNotifyError>> {
+  public async getBalanceSafe(): Promise<
+    Result<BalanceResponse, MNotifyError>
+  > {
     const result = await this.client.requestSafe<BalanceResponse>({
-      method: 'GET',
-      url: '/balance',
+      method: "GET",
+      url: "/balance/sms",
     });
 
     if (result.isErr()) {
@@ -61,7 +69,7 @@ export class AccountService {
     }
 
     if (!validateBalanceResponse(result.value)) {
-      return err(new MNotifyError('Invalid balance response format', 0));
+      return err(new MNotifyError("Invalid balance response format", 0));
     }
 
     return ok(result.value);
@@ -97,8 +105,8 @@ export class AccountService {
    */
   public async getSenderIdsSafe(): Promise<Result<SenderId[], MNotifyError>> {
     const result = await this.client.requestSafe<SenderId[]>({
-      method: 'GET',
-      url: '/senders',
+      method: "GET",
+      url: "/senders",
     });
 
     if (result.isErr()) {
@@ -106,7 +114,7 @@ export class AccountService {
     }
 
     if (!Array.isArray(result.value)) {
-      return err(new MNotifyError('Invalid sender IDs response format', 0));
+      return err(new MNotifyError("Invalid sender IDs response format", 0));
     }
 
     return ok(result.value);
@@ -142,10 +150,15 @@ export class AccountService {
    * });
    * ```
    */
-  public async registerSenderIdSafe(name: string): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-    const result = await this.client.requestSafe<{ status: string; message: string }>({
-      method: 'POST',
-      url: '/senders',
+  public async registerSenderIdSafe(
+    name: string,
+  ): Promise<Result<{ status: string; message: string }, MNotifyError>> {
+    const result = await this.client.requestSafe<{
+      status: string;
+      message: string;
+    }>({
+      method: "POST",
+      url: "/senders",
       data: { name },
     });
 
@@ -154,7 +167,9 @@ export class AccountService {
     }
 
     if (!isObject(result.value)) {
-      return err(new MNotifyError('Invalid sender ID registration response', 0));
+      return err(
+        new MNotifyError("Invalid sender ID registration response", 0),
+      );
     }
 
     return ok(result.value);
@@ -172,7 +187,9 @@ export class AccountService {
    * console.log('Sender ID registered:', result);
    * ```
    */
-  public async registerSenderId(name: string): Promise<{ status: string; message: string }> {
+  public async registerSenderId(
+    name: string,
+  ): Promise<{ status: string; message: string }> {
     const result = await this.registerSenderIdSafe(name);
     return result.unwrap();
   }

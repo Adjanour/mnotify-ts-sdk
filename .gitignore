@@ -8,3 +8,13 @@ docs
 test-results
 coverage
 
+src/client/HttpClient.js
+src/contacts/ContactService.js
+src/errors/MNotifyError.js
+src/groups/GroupService.js
+src/sms/SMSService.js
+src/index.js
+src/templates/TemplateService.js
+src/types/Result.js
+src/utils/helpers.js
+src/utils/validation.js

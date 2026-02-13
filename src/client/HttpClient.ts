@@ -1,5 +1,5 @@
-import { MNotifyError } from '../errors/MNotifyError';
-import { Result, ok, err } from '../types/Result';
+import { MNotifyError } from "../errors/MNotifyError";
+import { Result, ok, err } from "../types/Result";
 
 export interface MNotifyConfig {
   apiKey: string;
@@ -9,7 +9,7 @@ export interface MNotifyConfig {
 }
 
 export interface RequestConfig {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   url: string;
   data?: unknown;
   params?: Record<string, string>;
@@ -38,7 +38,7 @@ export class HttpClient {
    */
   constructor(config: MNotifyConfig) {
     this.apiKey = config.apiKey;
-    this.baseUrl = config.baseUrl || 'https://api.mnotify.com/api';
+    this.baseUrl = config.baseUrl || "https://api.mnotify.com/api";
     this.timeout = config.timeout || 10000;
     this.maxRetries = config.maxRetries || 3;
   }
@@ -56,7 +56,7 @@ export class HttpClient {
    *   method: 'GET',
    *   url: '/account/balance'
    * });
-   * 
+   *
    * if (result.isOk()) {
    *   console.log(result.value);
    * } else {
@@ -66,9 +66,10 @@ export class HttpClient {
    */
   public async requestSafe<T>(
     config: RequestConfig,
-    retryCount = 0
+    retryCount = 0,
   ): Promise<Result<T, MNotifyError>> {
     const url = this.buildUrl(config.url, config.params);
+    console.log(`Requesting ${url}`);
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -76,9 +77,9 @@ export class HttpClient {
       const response = await fetch(url, {
         method: config.method,
         headers: {
-          'Authorization': this.apiKey,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          Authorization: this.apiKey,
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: config.data ? JSON.stringify(config.data) : undefined,
         signal: controller.signal,
@@ -89,20 +90,23 @@ export class HttpClient {
       if (!response.ok) {
         // Handle rate limiting with retry
         if (response.status === 429 && retryCount < this.maxRetries) {
-          const retryAfter = parseInt(response.headers.get('retry-after') || '1') * 1000;
+          const retryAfter =
+            parseInt(response.headers.get("retry-after") || "1") * 1000;
           await this.sleep(retryAfter);
           return this.requestSafe<T>(config, retryCount + 1);
         }
 
         const errorData = await response.json().catch(() => ({}));
-        return err(new MNotifyError(
-          errorData.message || response.statusText,
-          response.status,
-          errorData
-        ));
+        return err(
+          new MNotifyError(
+            errorData.message || response.statusText,
+            response.status,
+            errorData,
+          ),
+        );
       }
 
-      const data = await response.json() as T;
+      const data = (await response.json()) as T;
       return ok(data);
     } catch (error) {
       clearTimeout(timeoutId);
@@ -112,15 +116,17 @@ export class HttpClient {
       }
 
       // Handle timeout
-      if (error instanceof Error && error.name === 'AbortError') {
-        return err(new MNotifyError('Request timeout', 408));
+      if (error instanceof Error && error.name === "AbortError") {
+        return err(new MNotifyError("Request timeout", 408));
       }
 
       // Handle network errors
-      return err(new MNotifyError(
-        error instanceof Error ? error.message : 'Network error',
-        0
-      ));
+      return err(
+        new MNotifyError(
+          error instanceof Error ? error.message : "Network error",
+          0,
+        ),
+      );
     }
   }
 
@@ -140,10 +146,7 @@ export class HttpClient {
    * });
    * ```
    */
-  public async request<T>(
-    config: RequestConfig,
-    retryCount = 0
-  ): Promise<T> {
+  public async request<T>(config: RequestConfig, retryCount = 0): Promise<T> {
     const result = await this.requestSafe<T>(config, retryCount);
     return result.unwrap();
   }
@@ -153,17 +156,17 @@ export class HttpClient {
    */
   private buildUrl(path: string, params?: Record<string, string>): string {
     const url = new URL(path, this.baseUrl);
-    
+
     // Always add API key as query param
-    url.searchParams.set('key', this.apiKey);
-    
+    url.searchParams.set("key", this.apiKey);
+
     // Add additional params if provided
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         url.searchParams.set(key, value);
       });
     }
-    
+
     return url.toString();
   }
 
@@ -171,6 +174,6 @@ export class HttpClient {
    * Sleep utility for retry logic
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }

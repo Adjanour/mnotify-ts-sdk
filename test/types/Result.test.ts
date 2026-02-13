@@ -54,14 +54,17 @@ describe('Result Type', () => {
       const mapped = result.map(x => x * 2);
       expect(mapped.isErr()).toBe(true);
     });
-
+    
     it('should pattern match on err', () => {
       const error = new Error('test error');
-      const result = err(error);
-      const value = result.match({
+      const result = err<number, Error>(error); // Explicitly typed Result
+      
+      // Explicitly tell match that U is number | string
+      const value = result.match<number | string>({
         ok: () => 42,
         err: (e) => e.message
       });
+      
       expect(value).toBe('test error');
     });
 
@@ -80,14 +83,18 @@ describe('Result Type', () => {
 
   describe('tryCatch', () => {
     it('should catch thrown errors', () => {
-      const result = tryCatch(() => {
-        throw new Error('test error');
-      });
+      const result = tryCatch(
+        () => { throw new Error('test error'); },
+        (e) => e as Error
+      );
       expect(result.isErr()).toBe(true);
     });
 
     it('should return ok for successful operations', () => {
-      const result = tryCatch(() => 42);
+      const result = tryCatch(
+        () => 42,
+        (e) => e as Error
+      );
       expect(result.isOk()).toBe(true);
       expect(result.unwrap()).toBe(42);
     });
@@ -106,14 +113,18 @@ describe('Result Type', () => {
 
   describe('tryCatchAsync', () => {
     it('should catch async errors', async () => {
-      const result = await tryCatchAsync(async () => {
-        throw new Error('async error');
-      });
+      const result = await tryCatchAsync(
+        async () => { throw new Error('async error'); },
+        (e) => e as Error
+      );
       expect(result.isErr()).toBe(true);
     });
 
     it('should return ok for successful async operations', async () => {
-      const result = await tryCatchAsync(async () => 42);
+      const result = await tryCatchAsync(
+        async () => 42,
+        (e) => e as Error
+      );
       expect(result.isOk()).toBe(true);
       expect(result.unwrap()).toBe(42);
     });
