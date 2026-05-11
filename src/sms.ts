@@ -1,3 +1,10 @@
+/**
+ * SMS service.
+ *
+ * Provides methods for sending SMS messages and retrieving
+ * campaign delivery reports.
+ */
+
 import { annotate, invalidResponse } from "./errors.js";
 import type { MNotifyError } from "./errors.js";
 import { toArray } from "./helpers.js";
@@ -6,9 +13,11 @@ import type { Result } from "./result.js";
 import { ok } from "./result.js";
 import type { SendSMSOptions, SendSMSResponse, SmsDeliveryReport } from "./types.js";
 
+/** SMS sending and campaign status operations. */
 export class SMS {
 	constructor(private readonly client: HttpClient) {}
 
+	/** Sends an SMS message to one or more recipients. */
 	send(options: SendSMSOptions): Promise<Result<SendSMSResponse, MNotifyError>> {
 		return this.request<SendSMSResponse>(
 			"/sms/quick",
@@ -36,6 +45,7 @@ export class SMS {
 		);
 	}
 
+	/** Fetches the delivery report for a campaign. */
 	getStatus(campaignId: string, status = "null"): Promise<Result<SmsDeliveryReport, MNotifyError>> {
 		return this.request<SmsDeliveryReport>(
 			`/campaign/${campaignId}/${status}`,

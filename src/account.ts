@@ -1,3 +1,10 @@
+/**
+ * Account service.
+ *
+ * Provides methods for checking account balance, registering sender IDs,
+ * and checking sender ID approval status.
+ */
+
 import { annotate, invalidResponse } from "./errors.js";
 import type { MNotifyError } from "./errors.js";
 import type { HttpClient } from "./http.js";
@@ -5,9 +12,11 @@ import type { Result } from "./result.js";
 import { ok } from "./result.js";
 import type { BalanceResponse, SenderIdStatus } from "./types.js";
 
+/** Account-related operations: balance and sender ID management. */
 export class Account {
 	constructor(private readonly client: HttpClient) {}
 
+	/** Fetches the current account balance. */
 	async getBalance(): Promise<Result<BalanceResponse, MNotifyError>> {
 		const result = annotate(
 			await this.client.request<BalanceResponse>({ method: "GET", url: "/balance/sms" }),
@@ -25,6 +34,7 @@ export class Account {
 		return ok(data as unknown as BalanceResponse);
 	}
 
+	/** Registers a new sender ID. */
 	async registerSender(
 		name: string,
 		purpose: string[] = ["general"],
@@ -44,6 +54,7 @@ export class Account {
 		return ok(result.value);
 	}
 
+	/** Checks the approval status of a sender ID. */
 	async checkSender(name: string): Promise<Result<SenderIdStatus, MNotifyError>> {
 		const result = annotate(
 			await this.client.request<SenderIdStatus>({

@@ -1,3 +1,11 @@
+/**
+ * Groups service.
+ *
+ * Provides methods for managing contact groups, including creating,
+ * listing, fetching individual groups, adding/removing contacts, and deleting groups.
+ * Normalizes API responses, supporting both `id` and `_id` field names.
+ */
+
 import { annotate, invalidResponse } from "./errors.js";
 import type { MNotifyError } from "./errors.js";
 import type { HttpClient } from "./http.js";
@@ -5,9 +13,11 @@ import type { Result } from "./result.js";
 import { ok } from "./result.js";
 import type { CreateGroupInput, Group } from "./types.js";
 
+/** Contact group management operations. */
 export class Groups {
 	constructor(private readonly client: HttpClient) {}
 
+	/** Creates a new contact group. */
 	create(input: CreateGroupInput): Promise<Result<Group, MNotifyError>> {
 		return this.request<Group>(
 			"/group",
@@ -20,14 +30,17 @@ export class Groups {
 		);
 	}
 
+	/** Lists all contact groups. */
 	list(): Promise<Result<Group[], MNotifyError>> {
 		return this.requestArray<Group>("/group", "list", normalizeGroup);
 	}
 
+	/** Fetches a single group by its ID. */
 	get(id: string): Promise<Result<Group, MNotifyError>> {
 		return this.request<Group>(`/group/${id}`, { method: "GET" }, "get", normalizeGroup);
 	}
 
+	/** Adds an existing contact to a group. */
 	addContact(
 		groupId: string,
 		contactId: string,
@@ -42,6 +55,7 @@ export class Groups {
 		);
 	}
 
+	/** Removes a contact from a group. */
 	removeContact(
 		groupId: string,
 		contactId: string,
@@ -55,6 +69,7 @@ export class Groups {
 		);
 	}
 
+	/** Deletes a group by its ID. */
 	delete(id: string): Promise<Result<{ status: string; message: string }, MNotifyError>> {
 		return this.requestRaw(`/group/${id}`, { method: "DELETE" }, "delete");
 	}

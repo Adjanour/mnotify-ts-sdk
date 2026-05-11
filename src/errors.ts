@@ -1,16 +1,33 @@
+/**
+ * Error types and helpers for the mNotify SDK.
+ *
+ * Provides {@link MNotifyError}, a structured error class, along with
+ * utility functions for annotating results with context and producing
+ * validation-error results.
+ */
+
 import type { Result } from "./result.js";
 import { err } from "./result.js";
 
+/** Contextual metadata attached to an error for debugging and tracing. */
 export interface MNotifyErrorContext {
+	/** The service where the error occurred (e.g., "SMS", "Groups"). */
 	service?: string;
+	/** The operation being performed when the error occurred. */
 	operation?: string;
+	/** The stage of the request lifecycle where the error occurred. */
 	stage?: "request" | "validation" | "response" | "network";
+	/** The HTTP method used in the request. */
 	method?: string;
+	/** The API path that was called. */
 	path?: string;
+	/** The full URL that was requested (with API key redacted). */
 	url?: string;
+	/** The retry count at the time of the error. */
 	retryCount?: number;
 }
 
+/** Structured error representing an mNotify API failure. */
 export class MNotifyError extends Error {
 	constructor(
 		message: string,
@@ -26,6 +43,7 @@ export class MNotifyError extends Error {
 		}
 	}
 
+	/** Returns a new MNotifyError with merged context. */
 	withContext(context: MNotifyErrorContext): MNotifyError {
 		const err = new MNotifyError(
 			this.message,
@@ -38,6 +56,10 @@ export class MNotifyError extends Error {
 		return err;
 	}
 
+	/**
+	 * Creates an MNotifyError from an unknown value.
+	 * Preserves the original error if it is already an MNotifyError.
+	 */
 	static fromUnknown(
 		error: unknown,
 		fallbackMessage: string,
@@ -78,6 +100,7 @@ export class MNotifyError extends Error {
 	}
 }
 
+/** Attaches error context to a Result's error value if it is an Err. */
 export function annotate<T>(
 	result: Result<T, MNotifyError>,
 	context: MNotifyErrorContext,
@@ -85,6 +108,7 @@ export function annotate<T>(
 	return result.mapErr((error) => error.withContext(context));
 }
 
+/** Returns an Err Result indicating an invalid response format from the API. */
 export function invalidResponse<T>(
 	entity: string,
 	data: T,

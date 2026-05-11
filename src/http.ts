@@ -1,15 +1,28 @@
+/**
+ * HTTP client for the mNotify API.
+ *
+ * Provides a minimal fetch-based HTTP client with retry logic,
+ * timeout support, and structured error handling.
+ */
+
 import { MNotifyError } from "./errors.js";
 import type { Result } from "./result.js";
 import { err, ok } from "./result.js";
 import type { MNotifyConfig } from "./types.js";
 
+/** Configuration for an individual HTTP request. */
 export interface RequestConfig {
+	/** HTTP method. */
 	method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+	/** API path (relative to the base URL). */
 	url: string;
+	/** Optional request body (will be JSON-serialized). */
 	data?: unknown;
+	/** Optional query parameters. */
 	params?: Record<string, string>;
 }
 
+/** Low-level HTTP client for communicating with the mNotify API. */
 export class HttpClient {
 	private readonly apiKey: string;
 	private readonly baseUrl: string;
@@ -23,6 +36,7 @@ export class HttpClient {
 		this.maxRetries = config.maxRetries || 3;
 	}
 
+	/** Performs an HTTP request, returning a Result. Retries on 429 rate-limit responses. */
 	async request<T>(config: RequestConfig, retryCount = 0): Promise<Result<T, MNotifyError>> {
 		const url = this.buildUrl(config.url, config.params);
 		const requestContext = {

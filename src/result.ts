@@ -1,5 +1,14 @@
+/**
+ * Railway-oriented programming primitives.
+ *
+ * Provides a `Result` type for representing success/failure without exceptions,
+ * along with constructors (`ok`, `err`) and combinators (`tryCatch`, `tryCatchAsync`, `combine`).
+ */
+
+/** Represents the outcome of an operation that can succeed or fail. */
 export type Result<T, E = Error> = Ok<T, E> | Err<T, E>;
 
+/** A successful result containing a value. */
 export interface Ok<T, E> {
 	readonly success: true;
 	readonly value: T;
@@ -14,6 +23,7 @@ export interface Ok<T, E> {
 	match<U>(matcher: { ok: (value: T) => U; err: (error: E) => U }): U;
 }
 
+/** A failed result containing an error. */
 export interface Err<T, E> {
 	readonly success: false;
 	readonly error: E;
@@ -28,6 +38,7 @@ export interface Err<T, E> {
 	match<U>(matcher: { ok: (value: T) => U; err: (error: E) => U }): U;
 }
 
+/** Creates a successful Result wrapping the given value. */
 export function ok<T, E = Error>(value: T): Result<T, E> {
 	return {
 		success: true,
@@ -62,6 +73,7 @@ export function ok<T, E = Error>(value: T): Result<T, E> {
 	};
 }
 
+/** Creates a failed Result containing the given error. */
 export function err<T, E = Error>(error: E): Result<T, E> {
 	return {
 		success: false,
@@ -96,6 +108,10 @@ export function err<T, E = Error>(error: E): Result<T, E> {
 	};
 }
 
+/**
+ * Wraps a synchronous function in try/catch, returning a Result.
+ * If the function throws, the error handler is called to produce the error value.
+ */
 export function tryCatch<T, E = Error>(
 	fn: () => T,
 	errorHandler: (error: unknown) => E,
@@ -107,6 +123,10 @@ export function tryCatch<T, E = Error>(
 	}
 }
 
+/**
+ * Wraps an async function in try/catch, returning a Promise of a Result.
+ * If the function throws or rejects, the error handler is called to produce the error value.
+ */
 export async function tryCatchAsync<T, E = Error>(
 	fn: () => Promise<T>,
 	errorHandler: (error: unknown) => E,
@@ -118,6 +138,10 @@ export async function tryCatchAsync<T, E = Error>(
 	}
 }
 
+/**
+ * Combines an array of Results into a single Result containing an array of values.
+ * Returns the first error encountered, or an array of all values if all Results are Ok.
+ */
 export function combine<T, E>(results: Result<T, E>[]): Result<T[], E> {
 	const values: T[] = [];
 	for (const result of results) {

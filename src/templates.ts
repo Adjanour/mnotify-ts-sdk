@@ -1,3 +1,11 @@
+/**
+ * Templates service.
+ *
+ * Provides methods for managing SMS templates — creating, listing,
+ * fetching individual templates, and deleting them.
+ * Normalizes API responses, supporting both `id`/`_id` and `name`/`title` field names.
+ */
+
 import { annotate, invalidResponse } from "./errors.js";
 import type { MNotifyError } from "./errors.js";
 import type { HttpClient } from "./http.js";
@@ -5,9 +13,11 @@ import type { Result } from "./result.js";
 import { ok } from "./result.js";
 import type { CreateTemplateInput, Template } from "./types.js";
 
+/** SMS template management operations. */
 export class Templates {
 	constructor(private readonly client: HttpClient) {}
 
+	/** Creates a new SMS template. */
 	create(input: CreateTemplateInput): Promise<Result<Template, MNotifyError>> {
 		return this.requestSingle(
 			"/template",
@@ -17,14 +27,17 @@ export class Templates {
 		);
 	}
 
+	/** Lists all SMS templates. */
 	list(): Promise<Result<Template[], MNotifyError>> {
 		return this.requestArray("/template", "list", normalizeTemplate);
 	}
 
+	/** Fetches a single template by its ID. */
 	get(id: string): Promise<Result<Template, MNotifyError>> {
 		return this.requestSingle(`/template/${id}`, { method: "GET" }, "get", normalizeTemplate);
 	}
 
+	/** Deletes a template by its ID. */
 	async delete(id: string): Promise<Result<{ status: string; message: string }, MNotifyError>> {
 		const result = annotate(
 			await this.client.request<{ status: string; message: string }>({

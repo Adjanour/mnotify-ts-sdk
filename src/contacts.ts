@@ -1,12 +1,26 @@
+/**
+ * Contacts service.
+ *
+ * Provides methods for creating contacts and listing contacts within groups.
+ * Normalizes the API response, converting `_id` to `id`.
+ */
+
 import { MNotifyError, annotate, invalidResponse } from "./errors.js";
 import type { HttpClient } from "./http.js";
 import type { Result } from "./result.js";
 import { err, ok } from "./result.js";
 import type { Contact, CreateContactInput } from "./types.js";
 
+/** Contact management operations. */
 export class Contacts {
 	constructor(private readonly client: HttpClient) {}
 
+	/**
+	 * Creates a new contact in the specified group.
+	 *
+	 * @param input - Contact details (name, phone, etc.).
+	 * @param groupId - The ID of the group to add the contact to (required by mNotify v2 API).
+	 */
 	create(input: CreateContactInput, groupId: string): Promise<Result<Contact, MNotifyError>> {
 		if (!groupId) {
 			return Promise.resolve(
@@ -33,6 +47,7 @@ export class Contacts {
 		);
 	}
 
+	/** Lists all contacts. */
 	list(): Promise<Result<Contact[], MNotifyError>> {
 		return this.requestArray("/contact", "list", normalizeContact);
 	}
