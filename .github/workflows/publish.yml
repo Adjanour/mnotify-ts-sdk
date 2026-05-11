@@ -4,22 +4,16 @@ on:
   release:
     types: [published]
   workflow_dispatch:
-    inputs:
-      version:
-        description: "Version to publish (e.g., 3.0.0)"
-        required: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       id-token: write
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+    - uses: actions/checkout@v6
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -43,7 +37,7 @@ jobs:
       run: npm run build
 
     - name: Publish to JSR
-      run: npx jsr publish --allow-dirty
+      run: npx jsr publish
 
     - name: Publish to NPM
       run: npm publish --provenance --access public
