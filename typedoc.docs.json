@@ -1,0 +1,18 @@
+{
+  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-missing-exports"],
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "hideBreadcrumbs": true,
+  "hidePageHeader": true,
+  "parametersFormat": "table",
+  "propertyMembersFormat": "table",
+  "typeDeclarationFormat": "list",
+  "indexFormat": "table",
+  "useCodeBlocks": true,
+  "expandObjects": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "excludeInternal": true,
+  "exclude": ["**/-internal-/**"]
+}

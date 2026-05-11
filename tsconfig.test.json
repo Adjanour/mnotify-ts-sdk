@@ -1,17 +1,10 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-      "noEmit": false,
-      "types": ["jest", "node"],
-      "outDir": "./test-dist",
-      "paths": {
-        "@/*": ["src/*"]
-      },
-      "isolatedModules": true
-    },
-    "include": [
-      "src/**/*",
-      "test/**/*",
-      "jest.config.ts"
-    ],
-  }
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "verbatimModuleSyntax": false,
+    "isolatedDeclarations": false,
+    "types": ["jest", "node"]
+  },
+  "include": ["src/**/*", "test/**/*"]
+}

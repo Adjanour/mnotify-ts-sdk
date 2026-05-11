@@ -2,17 +2,15 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "bundler",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "rootDir": "./src",
-    "outDir": "./dist/esm",
-    "declaration": true,
-    "declarationMap": true,
+    "outDir": "./dist/cjs",
+    "declaration": false,
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "verbatimModuleSyntax": true
+    "skipLibCheck": true
   }
 }
