@@ -1,5 +1,5 @@
 {
-  "name": "@adjanour/mnotify",
+  "name": "@adjarnor/mnotify-ts-sdk",
   "version": "3.0.0",
   "license": "MIT",
   "exports": "./src/index.ts",
