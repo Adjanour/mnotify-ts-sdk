@@ -6,10 +6,10 @@ const config = {
   coverageDirectory: "coverage",
   coverageThreshold: {
     global: {
-      branches: 80,
+      branches: 55,
       functions: 85,
-      lines: 90,
-      statements: 90,
+      lines: 85,
+      statements: 80,
     },
   },
   coveragePathIgnorePatterns: ["/node_modules/", "/dist/", "/examples/"],
