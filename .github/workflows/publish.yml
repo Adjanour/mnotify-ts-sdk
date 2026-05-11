@@ -5,6 +5,10 @@ on:
     types: [published]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -13,31 +17,31 @@ jobs:
       id-token: write
 
     steps:
-    - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: "22.x"
-        registry-url: "https://registry.npmjs.org"
-        cache: "npm"
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22.x"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
 
-    - name: Setup Deno
-      uses: denoland/setup-deno@v2
-      with:
-        deno-version: v2.x
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Run tests
-      run: npm test
+      - name: Run tests
+        run: npm test
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        run: npm run build
 
-    - name: Publish to JSR
-      run: npx jsr publish
+      - name: Publish to JSR
+        run: npx jsr publish
 
-    - name: Publish to NPM
-      run: npm publish --provenance --access public
+      - name: Publish to NPM
+        run: npm publish
