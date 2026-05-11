@@ -62,7 +62,7 @@ export class MNotifyError extends Error {
 		return new MNotifyError(fallbackMessage, statusCode, data, context, error);
 	}
 
-	toJSON() {
+	toJSON(): Record<string, unknown> {
 		return {
 			name: this.name,
 			message: this.message,
