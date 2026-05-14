@@ -1,6 +1,8 @@
 # Interface: Group
 
-Defined in: types.ts:61
+Defined in: [types.ts:91](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L91)
+
+A contact group in the mNotify system.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:61
 contact_count: number;
 ```
 
-Defined in: types.ts:65
+Defined in: [types.ts:99](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L99)
+
+Number of contacts in the group.
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: types.ts:65
 created_at: string;
 ```
 
-Defined in: types.ts:66
+Defined in: [types.ts:101](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L101)
+
+ISO timestamp of when the group was created.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: types.ts:66
 optional description?: string;
 ```
 
-Defined in: types.ts:64
+Defined in: [types.ts:97](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L97)
+
+Optional description of the group.
 
 ***
 
@@ -40,7 +48,9 @@ Defined in: types.ts:64
 id: string;
 ```
 
-Defined in: types.ts:62
+Defined in: [types.ts:93](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L93)
+
+Unique group identifier.
 
 ***
 
@@ -50,7 +60,9 @@ Defined in: types.ts:62
 name: string;
 ```
 
-Defined in: types.ts:63
+Defined in: [types.ts:95](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L95)
+
+Name of the group.
 
 ***
 
@@ -60,4 +72,6 @@ Defined in: types.ts:63
 updated_at: string;
 ```
 
-Defined in: types.ts:67
+Defined in: [types.ts:103](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L103)
+
+ISO timestamp of when the group was last updated.

@@ -4,7 +4,10 @@
 function tryCatchAsync<T, E>(fn, errorHandler): Promise<Result<T, E>>;
 ```
 
-Defined in: result.ts:110
+Defined in: [result.ts:130](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/result.ts#L130)
+
+Wraps an async function in try/catch, returning a Promise of a Result.
+If the function throws or rejects, the error handler is called to produce the error value.
 
 ## Type Parameters
 

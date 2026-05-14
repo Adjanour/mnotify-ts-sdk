@@ -1,6 +1,8 @@
 # Class: Templates
 
-Defined in: templates.ts:8
+Defined in: [templates.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/templates.ts#L17)
+
+SMS template management operations.
 
 ## Constructors
 
@@ -10,7 +12,7 @@ Defined in: templates.ts:8
 new Templates(client): Templates;
 ```
 
-Defined in: templates.ts:9
+Defined in: [templates.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/templates.ts#L18)
 
 #### Parameters
 
@@ -30,7 +32,9 @@ Defined in: templates.ts:9
 create(input): Promise<Result<Template, MNotifyError>>;
 ```
 
-Defined in: templates.ts:11
+Defined in: [templates.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/templates.ts#L21)
+
+Creates a new SMS template.
 
 #### Parameters
 
@@ -53,7 +57,9 @@ delete(id): Promise<Result<{
 }, MNotifyError>>;
 ```
 
-Defined in: templates.ts:28
+Defined in: [templates.ts:41](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/templates.ts#L41)
+
+Deletes a template by its ID.
 
 #### Parameters
 
@@ -76,7 +82,9 @@ Defined in: templates.ts:28
 get(id): Promise<Result<Template, MNotifyError>>;
 ```
 
-Defined in: templates.ts:24
+Defined in: [templates.ts:36](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/templates.ts#L36)
+
+Fetches a single template by its ID.
 
 #### Parameters
 
@@ -96,7 +104,9 @@ Defined in: templates.ts:24
 list(): Promise<Result<Template[], MNotifyError>>;
 ```
 
-Defined in: templates.ts:20
+Defined in: [templates.ts:31](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/templates.ts#L31)
+
+Lists all SMS templates.
 
 #### Returns
 

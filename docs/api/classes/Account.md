@@ -1,6 +1,8 @@
 # Class: Account
 
-Defined in: account.ts:8
+Defined in: [account.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/account.ts#L16)
+
+Account-related operations: balance and sender ID management.
 
 ## Constructors
 
@@ -10,7 +12,7 @@ Defined in: account.ts:8
 new Account(client): Account;
 ```
 
-Defined in: account.ts:9
+Defined in: [account.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/account.ts#L17)
 
 #### Parameters
 
@@ -30,7 +32,9 @@ Defined in: account.ts:9
 checkSender(name): Promise<Result<SenderIdStatus, MNotifyError>>;
 ```
 
-Defined in: account.ts:47
+Defined in: [account.ts:58](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/account.ts#L58)
+
+Checks the approval status of a sender ID.
 
 #### Parameters
 
@@ -50,7 +54,9 @@ Defined in: account.ts:47
 getBalance(): Promise<Result<BalanceResponse, MNotifyError>>;
 ```
 
-Defined in: account.ts:11
+Defined in: [account.ts:20](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/account.ts#L20)
+
+Fetches the current account balance.
 
 #### Returns
 
@@ -67,7 +73,9 @@ registerSender(name, purpose?): Promise<Result<{
 }, MNotifyError>>;
 ```
 
-Defined in: account.ts:28
+Defined in: [account.ts:38](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/account.ts#L38)
+
+Registers a new sender ID.
 
 #### Parameters
 

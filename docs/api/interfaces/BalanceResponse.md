@@ -1,6 +1,8 @@
 # Interface: BalanceResponse
 
-Defined in: types.ts:89
+Defined in: [types.ts:139](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L139)
+
+Response containing the account balance.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:89
 balance: number;
 ```
 
-Defined in: types.ts:90
+Defined in: [types.ts:141](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L141)
+
+Current account balance.
 
 ***
 
@@ -20,4 +24,6 @@ Defined in: types.ts:90
 currency: string;
 ```
 
-Defined in: types.ts:91
+Defined in: [types.ts:143](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L143)
+
+Currency code (e.g., GHS).

@@ -1,6 +1,8 @@
 # Interface: SenderIdStatus
 
-Defined in: types.ts:94
+Defined in: [types.ts:147](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L147)
+
+Status of a registered sender ID.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:94
 optional approval_status?: string;
 ```
 
-Defined in: types.ts:98
+Defined in: [types.ts:155](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L155)
+
+Approval status of the sender ID (e.g., approved, pending).
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: types.ts:98
 optional message?: string;
 ```
 
-Defined in: types.ts:96
+Defined in: [types.ts:151](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L151)
+
+Optional message from the API.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: types.ts:96
 optional sender_name?: string;
 ```
 
-Defined in: types.ts:97
+Defined in: [types.ts:153](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L153)
+
+The sender name that was checked.
 
 ***
 
@@ -40,4 +48,6 @@ Defined in: types.ts:97
 status: string;
 ```
 
-Defined in: types.ts:95
+Defined in: [types.ts:149](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L149)
+
+Status of the sender ID registration.

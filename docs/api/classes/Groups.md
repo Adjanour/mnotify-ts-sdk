@@ -1,6 +1,8 @@
 # Class: Groups
 
-Defined in: groups.ts:8
+Defined in: [groups.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L17)
+
+Contact group management operations.
 
 ## Constructors
 
@@ -10,7 +12,7 @@ Defined in: groups.ts:8
 new Groups(client): Groups;
 ```
 
-Defined in: groups.ts:9
+Defined in: [groups.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L18)
 
 #### Parameters
 
@@ -33,7 +35,9 @@ addContact(groupId, contactId): Promise<Result<{
 }, MNotifyError>>;
 ```
 
-Defined in: groups.ts:31
+Defined in: [groups.ts:44](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L44)
+
+Adds an existing contact to a group.
 
 #### Parameters
 
@@ -57,7 +61,9 @@ Defined in: groups.ts:31
 create(input): Promise<Result<Group, MNotifyError>>;
 ```
 
-Defined in: groups.ts:11
+Defined in: [groups.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L21)
+
+Creates a new contact group.
 
 #### Parameters
 
@@ -80,7 +86,9 @@ delete(id): Promise<Result<{
 }, MNotifyError>>;
 ```
 
-Defined in: groups.ts:58
+Defined in: [groups.ts:73](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L73)
+
+Deletes a group by its ID.
 
 #### Parameters
 
@@ -103,7 +111,9 @@ Defined in: groups.ts:58
 get(id): Promise<Result<Group, MNotifyError>>;
 ```
 
-Defined in: groups.ts:27
+Defined in: [groups.ts:39](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L39)
+
+Fetches a single group by its ID.
 
 #### Parameters
 
@@ -123,7 +133,9 @@ Defined in: groups.ts:27
 list(): Promise<Result<Group[], MNotifyError>>;
 ```
 
-Defined in: groups.ts:23
+Defined in: [groups.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L34)
+
+Lists all contact groups.
 
 #### Returns
 
@@ -140,7 +152,9 @@ removeContact(groupId, contactId): Promise<Result<{
 }, MNotifyError>>;
 ```
 
-Defined in: groups.ts:45
+Defined in: [groups.ts:59](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/groups.ts#L59)
+
+Removes a contact from a group.
 
 #### Parameters
 

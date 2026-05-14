@@ -1,6 +1,8 @@
 # Interface: MNotifyConfig
 
-Defined in: types.ts:3
+Defined in: [types.ts:5](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L5)
+
+Configuration options for creating an MNotify client instance.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:3
 apiKey: string;
 ```
 
-Defined in: types.ts:4
+Defined in: [types.ts:7](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L7)
+
+Your mNotify API key.
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: types.ts:4
 optional baseUrl?: string;
 ```
 
-Defined in: types.ts:5
+Defined in: [types.ts:9](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L9)
+
+Base URL for the mNotify API. Defaults to https://api.mnotify.com/api.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: types.ts:5
 optional maxRetries?: number;
 ```
 
-Defined in: types.ts:7
+Defined in: [types.ts:13](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L13)
+
+Maximum number of retries for failed requests. Defaults to 3.
 
 ***
 
@@ -40,4 +48,6 @@ Defined in: types.ts:7
 optional timeout?: number;
 ```
 
-Defined in: types.ts:6
+Defined in: [types.ts:11](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L11)
+
+Request timeout in milliseconds. Defaults to 10000.

@@ -1,6 +1,8 @@
 # Interface: MNotifyErrorContext
 
-Defined in: errors.ts:4
+Defined in: [errors.ts:13](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L13)
+
+Contextual metadata attached to an error for debugging and tracing.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: errors.ts:4
 optional method?: string;
 ```
 
-Defined in: errors.ts:8
+Defined in: [errors.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L21)
+
+The HTTP method used in the request.
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: errors.ts:8
 optional operation?: string;
 ```
 
-Defined in: errors.ts:6
+Defined in: [errors.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L17)
+
+The operation being performed when the error occurred.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: errors.ts:6
 optional path?: string;
 ```
 
-Defined in: errors.ts:9
+Defined in: [errors.ts:23](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L23)
+
+The API path that was called.
 
 ***
 
@@ -40,7 +48,9 @@ Defined in: errors.ts:9
 optional retryCount?: number;
 ```
 
-Defined in: errors.ts:11
+Defined in: [errors.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L27)
+
+The retry count at the time of the error.
 
 ***
 
@@ -50,7 +60,9 @@ Defined in: errors.ts:11
 optional service?: string;
 ```
 
-Defined in: errors.ts:5
+Defined in: [errors.ts:15](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L15)
+
+The service where the error occurred (e.g., "SMS", "Groups").
 
 ***
 
@@ -60,7 +72,9 @@ Defined in: errors.ts:5
 optional stage?: "request" | "validation" | "response" | "network";
 ```
 
-Defined in: errors.ts:7
+Defined in: [errors.ts:19](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L19)
+
+The stage of the request lifecycle where the error occurred.
 
 ***
 
@@ -70,4 +84,6 @@ Defined in: errors.ts:7
 optional url?: string;
 ```
 
-Defined in: errors.ts:10
+Defined in: [errors.ts:25](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/errors.ts#L25)
+
+The full URL that was requested (with API key redacted).

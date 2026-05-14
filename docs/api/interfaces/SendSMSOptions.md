@@ -1,6 +1,8 @@
 # Interface: SendSMSOptions
 
-Defined in: types.ts:10
+Defined in: [types.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L17)
+
+Options for sending an SMS message.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:10
 optional is_schedule?: boolean;
 ```
 
-Defined in: types.ts:14
+Defined in: [types.ts:25](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L25)
+
+Whether the message is scheduled for later delivery.
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: types.ts:14
 message: string;
 ```
 
-Defined in: types.ts:13
+Defined in: [types.ts:23](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L23)
+
+The message content to send.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: types.ts:13
 recipient: string | string[];
 ```
 
-Defined in: types.ts:11
+Defined in: [types.ts:19](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L19)
+
+Recipient phone number(s). Can be a single number or an array of numbers.
 
 ***
 
@@ -40,7 +48,9 @@ Defined in: types.ts:11
 optional schedule_date?: string;
 ```
 
-Defined in: types.ts:15
+Defined in: [types.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L27)
+
+The scheduled delivery date/time (required if is_schedule is true).
 
 ***
 
@@ -50,4 +60,6 @@ Defined in: types.ts:15
 sender: string;
 ```
 
-Defined in: types.ts:12
+Defined in: [types.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L21)
+
+Sender ID (sender name) to use.

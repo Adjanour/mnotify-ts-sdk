@@ -1,6 +1,8 @@
 # Interface: Template
 
-Defined in: types.ts:75
+Defined in: [types.ts:115](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L115)
+
+An SMS template in the mNotify system.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:75
 content: string;
 ```
 
-Defined in: types.ts:78
+Defined in: [types.ts:121](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L121)
+
+Body content of the template.
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: types.ts:78
 created_at: string;
 ```
 
-Defined in: types.ts:80
+Defined in: [types.ts:125](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L125)
+
+ISO timestamp of when the template was created.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: types.ts:80
 id: string;
 ```
 
-Defined in: types.ts:76
+Defined in: [types.ts:117](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L117)
+
+Unique template identifier.
 
 ***
 
@@ -40,7 +48,9 @@ Defined in: types.ts:76
 name: string;
 ```
 
-Defined in: types.ts:77
+Defined in: [types.ts:119](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L119)
+
+Name of the template.
 
 ***
 
@@ -50,7 +60,9 @@ Defined in: types.ts:77
 status: "approved" | "pending" | "rejected";
 ```
 
-Defined in: types.ts:79
+Defined in: [types.ts:123](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L123)
+
+Approval status of the template.
 
 ***
 
@@ -60,4 +72,6 @@ Defined in: types.ts:79
 updated_at: string;
 ```
 
-Defined in: types.ts:81
+Defined in: [types.ts:127](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L127)
+
+ISO timestamp of when the template was last updated.

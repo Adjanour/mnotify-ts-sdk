@@ -1,6 +1,8 @@
 # Interface: SmsDeliveryReport
 
-Defined in: types.ts:35
+Defined in: [types.ts:53](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L53)
+
+Delivery report for an SMS campaign.
 
 ## Properties
 
@@ -19,18 +21,20 @@ report: {
 }[];
 ```
 
-Defined in: types.ts:37
+Defined in: [types.ts:57](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L57)
+
+Array of per-recipient delivery details.
 
 | Name | Type | Defined in |
 | ------ | ------ | ------ |
-| `_id` | `number` | types.ts:38 |
-| `campaign_id?` | `string` | types.ts:44 |
-| `date_sent` | `string` | types.ts:43 |
-| `message` | `string` | types.ts:40 |
-| `recipient` | `string` | types.ts:39 |
-| `retries` | `number` | types.ts:45 |
-| `sender` | `string` | types.ts:41 |
-| `status` | `string` | types.ts:42 |
+| `_id` | `number` | [types.ts:58](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L58) |
+| `campaign_id?` | `string` | [types.ts:64](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L64) |
+| `date_sent` | `string` | [types.ts:63](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L63) |
+| `message` | `string` | [types.ts:60](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L60) |
+| `recipient` | `string` | [types.ts:59](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L59) |
+| `retries` | `number` | [types.ts:65](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L65) |
+| `sender` | `string` | [types.ts:61](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L61) |
+| `status` | `string` | [types.ts:62](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L62) |
 
 ***
 
@@ -40,4 +44,6 @@ Defined in: types.ts:37
 status: string;
 ```
 
-Defined in: types.ts:36
+Defined in: [types.ts:55](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L55)
+
+Overall report status.

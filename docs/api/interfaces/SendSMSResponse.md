@@ -1,6 +1,8 @@
 # Interface: SendSMSResponse
 
-Defined in: types.ts:18
+Defined in: [types.ts:31](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L31)
+
+Response returned after sending an SMS campaign.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:18
 code: string;
 ```
 
-Defined in: types.ts:20
+Defined in: [types.ts:35](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L35)
+
+Response code from the API.
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: types.ts:20
 message: string;
 ```
 
-Defined in: types.ts:21
+Defined in: [types.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L37)
+
+Human-readable response message.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: types.ts:21
 status: string;
 ```
 
-Defined in: types.ts:19
+Defined in: [types.ts:33](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L33)
+
+Status of the send request.
 
 ***
 
@@ -50,16 +58,18 @@ summary: {
 };
 ```
 
-Defined in: types.ts:22
+Defined in: [types.ts:39](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L39)
+
+Summary of the SMS campaign results.
 
 | Name | Type | Defined in |
 | ------ | ------ | ------ |
-| `_id` | `string` | types.ts:23 |
-| `contacts` | `number` | types.ts:27 |
-| `credit_left` | `number` | types.ts:31 |
-| `credit_used` | `number` | types.ts:30 |
-| `message_id` | `string` | types.ts:24 |
-| `numbers_sent` | `string`[] | types.ts:29 |
-| `total_rejected` | `number` | types.ts:28 |
-| `total_sent` | `number` | types.ts:26 |
-| `type` | `string` | types.ts:25 |
+| `_id` | `string` | [types.ts:40](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L40) |
+| `contacts` | `number` | [types.ts:44](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L44) |
+| `credit_left` | `number` | [types.ts:48](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L48) |
+| `credit_used` | `number` | [types.ts:47](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L47) |
+| `message_id` | `string` | [types.ts:41](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L41) |
+| `numbers_sent` | `string`[] | [types.ts:46](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L46) |
+| `total_rejected` | `number` | [types.ts:45](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L45) |
+| `total_sent` | `number` | [types.ts:43](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L43) |
+| `type` | `string` | [types.ts:42](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L42) |

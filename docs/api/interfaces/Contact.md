@@ -1,6 +1,8 @@
 # Interface: Contact
 
-Defined in: types.ts:49
+Defined in: [types.ts:70](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L70)
+
+A contact stored in the mNotify system.
 
 ## Properties
 
@@ -10,7 +12,9 @@ Defined in: types.ts:49
 optional dbo?: string;
 ```
 
-Defined in: types.ts:56
+Defined in: [types.ts:84](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L84)
+
+Date of birth of the contact.
 
 ***
 
@@ -20,7 +24,9 @@ Defined in: types.ts:56
 optional email?: string[];
 ```
 
-Defined in: types.ts:55
+Defined in: [types.ts:82](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L82)
+
+Email address(es) associated with the contact.
 
 ***
 
@@ -30,7 +36,9 @@ Defined in: types.ts:55
 firstname: string;
 ```
 
-Defined in: types.ts:53
+Defined in: [types.ts:78](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L78)
+
+First name of the contact.
 
 ***
 
@@ -40,7 +48,9 @@ Defined in: types.ts:53
 id: string;
 ```
 
-Defined in: types.ts:50
+Defined in: [types.ts:72](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L72)
+
+Unique contact identifier.
 
 ***
 
@@ -50,7 +60,9 @@ Defined in: types.ts:50
 lastname: string;
 ```
 
-Defined in: types.ts:54
+Defined in: [types.ts:80](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L80)
+
+Last name of the contact.
 
 ***
 
@@ -60,7 +72,9 @@ Defined in: types.ts:54
 phone: string;
 ```
 
-Defined in: types.ts:51
+Defined in: [types.ts:74](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L74)
+
+Phone number of the contact.
 
 ***
 
@@ -70,4 +84,6 @@ Defined in: types.ts:51
 optional title?: string;
 ```
 
-Defined in: types.ts:52
+Defined in: [types.ts:76](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L76)
+
+Optional title (e.g., Mr, Mrs, Dr).

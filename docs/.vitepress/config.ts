@@ -1,6 +1,7 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
+  base: "/mnotify-ts-sdk/",
   title: "mNotify TS SDK",
   description: "Zero-dependency TypeScript SDK for mNotify BMS API",
   ignoreDeadLinks: true,

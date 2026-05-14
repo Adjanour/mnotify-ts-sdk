@@ -1,6 +1,8 @@
 # Class: MNotify
 
-Defined in: client.ts:9
+Defined in: [client.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/client.ts#L17)
+
+Main SDK client for the mNotify API.
 
 ## Constructors
 
@@ -10,7 +12,9 @@ Defined in: client.ts:9
 new MNotify(config): MNotify;
 ```
 
-Defined in: client.ts:16
+Defined in: [client.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/client.ts#L37)
+
+Creates a new mNotify client.
 
 #### Parameters
 
@@ -22,6 +26,12 @@ Defined in: client.ts:16
 
 `MNotify`
 
+#### Example
+
+```ts
+const mnotify = new MNotify({ apiKey: "your-api-key" });
+```
+
 ## Properties
 
 ### account
@@ -30,7 +40,9 @@ Defined in: client.ts:16
 readonly account: Account;
 ```
 
-Defined in: client.ts:12
+Defined in: [client.ts:23](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/client.ts#L23)
+
+Account balance and sender ID management.
 
 ***
 
@@ -40,7 +52,9 @@ Defined in: client.ts:12
 readonly contacts: Contacts;
 ```
 
-Defined in: client.ts:11
+Defined in: [client.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/client.ts#L21)
+
+Contact management.
 
 ***
 
@@ -50,7 +64,9 @@ Defined in: client.ts:11
 readonly groups: Groups;
 ```
 
-Defined in: client.ts:14
+Defined in: [client.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/client.ts#L27)
+
+Contact group management.
 
 ***
 
@@ -60,7 +76,9 @@ Defined in: client.ts:14
 readonly sms: SMS;
 ```
 
-Defined in: client.ts:10
+Defined in: [client.ts:19](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/client.ts#L19)
+
+SMS sending and campaign status.
 
 ***
 
@@ -70,4 +88,6 @@ Defined in: client.ts:10
 readonly templates: Templates;
 ```
 
-Defined in: client.ts:13
+Defined in: [client.ts:25](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/client.ts#L25)
+
+SMS template management.

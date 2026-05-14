@@ -4,7 +4,10 @@
 function combine<T, E>(results): Result<T[], E>;
 ```
 
-Defined in: result.ts:121
+Defined in: [result.ts:145](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/result.ts#L145)
+
+Combines an array of Results into a single Result containing an array of values.
+Returns the first error encountered, or an array of all values if all Results are Ok.
 
 ## Type Parameters
 
