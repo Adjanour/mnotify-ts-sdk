@@ -1,7 +1,7 @@
 # mNotify TypeScript SDK
 
 [![npm version](https://img.shields.io/npm/v/mnotify-ts-sdk)](https://www.npmjs.com/package/mnotify-ts-sdk)
-[![JSR](https://jsr.io/badges/@adjanour/mnotify)](https://jsr.io/@adjanour/mnotify)
+[![JSR](https://jsr.io/badges/@adjarnor/mnotify-ts-sdk)](https://jsr.io/@adjarnor/mnotify-ts-sdk)
 [![CI](https://github.com/adjanour/mnotify-ts-sdk/actions/workflows/test.yml/badge.svg)](https://github.com/adjanour/mnotify-ts-sdk/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -10,7 +10,7 @@ Zero-dependency TypeScript SDK for [mNotify BMS API](https://mnotify.com) — se
 - **Zero runtime dependencies** — uses native `fetch`
 - **Runtime-agnostic** — Node 18+, Deno, Bun, Cloudflare Workers, browsers
 - **Functional error handling** — every method returns a `Result` type
-- **Dual-published** — [npm](https://npmjs.com/package/mnotify-ts-sdk) + [JSR](https://jsr.io/@adjanour/mnotify)
+- **Dual-published** — [npm](https://npmjs.com/package/mnotify-ts-sdk) + [JSR](https://jsr.io/@adjarnor/mnotify-ts-sdk)
 
 ## Quick Start
 
@@ -82,12 +82,12 @@ npm install mnotify-ts-sdk
 
 ### JSR
 ```
-npx jsr add @adjanour/mnotify
+npx jsr add @adjarnor/mnotify-ts-sdk
 ```
 
 ### Deno
 ```
-deno add @adjanour/mnotify
+deno add @adjarnor/mnotify-ts-sdk
 ```
 
 ## Configuration

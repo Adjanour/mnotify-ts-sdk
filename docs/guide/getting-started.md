@@ -11,13 +11,13 @@ npm install mnotify-ts-sdk
 ### JSR
 
 ```
-npx jsr add @adjanour/mnotify
+npx jsr add @adjarnor/mnotify-ts-sdk
 ```
 
 ### Deno
 
 ```
-deno add @adjanour/mnotify
+deno add @adjarnor/mnotify-ts-sdk
 ```
 
 ## Basic Setup
