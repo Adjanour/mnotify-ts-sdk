@@ -161,7 +161,7 @@ describe("SMS", () => {
 				expect(result.value).toEqual(mockResponse);
 			}
 			expect(global.fetch).toHaveBeenCalledWith(
-				expect.stringContaining("/campaign/camp_123/null"),
+				expect.stringContaining("/campaign/camp_123?key=test-key"),
 				expect.any(Object),
 			);
 		});

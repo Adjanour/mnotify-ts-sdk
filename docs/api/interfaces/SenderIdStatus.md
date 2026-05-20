@@ -1,6 +1,6 @@
 # Interface: SenderIdStatus
 
-Defined in: [types.ts:147](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L147)
+Defined in: [types.ts:168](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L168)
 
 Status of a registered sender ID.
 
@@ -12,9 +12,21 @@ Status of a registered sender ID.
 optional approval_status?: string;
 ```
 
-Defined in: [types.ts:155](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L155)
+Defined in: [types.ts:178](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L178)
 
 Approval status of the sender ID (e.g., approved, pending).
+
+***
+
+### code?
+
+```ts
+optional code?: string;
+```
+
+Defined in: [types.ts:172](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L172)
+
+Optional API response code.
 
 ***
 
@@ -24,7 +36,7 @@ Approval status of the sender ID (e.g., approved, pending).
 optional message?: string;
 ```
 
-Defined in: [types.ts:151](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L151)
+Defined in: [types.ts:174](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L174)
 
 Optional message from the API.
 
@@ -36,7 +48,7 @@ Optional message from the API.
 optional sender_name?: string;
 ```
 
-Defined in: [types.ts:153](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L153)
+Defined in: [types.ts:176](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L176)
 
 The sender name that was checked.
 
@@ -48,6 +60,6 @@ The sender name that was checked.
 status: string;
 ```
 
-Defined in: [types.ts:149](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L149)
+Defined in: [types.ts:170](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L170)
 
-Status of the sender ID registration.
+Request status returned by the API.

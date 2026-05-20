@@ -39,7 +39,7 @@ async function main() {
 	console.log("Creating a template...");
 	const templateResult = await mnotify.templates.create({
 		name: templateName,
-		content: "Hello {{name}}, this is a template created by the SDK example.",
+		content: "Hello [fname], this is a template created by the SDK example.",
 	});
 
 	templateResult.match({
@@ -64,6 +64,23 @@ async function main() {
 	console.log("Tip: delete test data manually if you do not want to keep it.");
 	console.log(`Group ID: ${groupResult.value.id}`);
 	console.log(`Template ID: ${templateResult.value.id}`);
+
+	const contactResult = await mnotify.groups.addContact(groupResult.value.id, {
+		phone: "0541559369",
+		title: "Mr",
+		firstname: "Live",
+		lastname: "Compat",
+		email: "live@example.com",
+		dob: "1990-01-01",
+	});
+
+	if (contactResult.isOk()) {
+		console.log(`Created contact via group flow: ${contactResult.value.id}`);
+		const deletedContactResult = await mnotify.groups.removeContact(contactResult.value.id);
+		if (deletedContactResult.isOk()) {
+			console.log("Deleted contact created by the example.");
+		}
+	}
 }
 
 main().catch((error) => {

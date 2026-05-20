@@ -10,7 +10,8 @@ const result = await mnotify.contacts.create(
     phone: "233200000000",
     firstname: "John",
     lastname: "Doe",
-    email: ["john@example.com"],
+    email: "john@example.com",
+    dob: "1979-01-01",
   },
   "group_id_here",
 );
@@ -43,7 +44,7 @@ interface Contact {
   lastname: string;
   title?: string;
   email?: string[];
-  dbo?: string;
+  dob?: string;
 }
 ```
 

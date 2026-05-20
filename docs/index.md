@@ -57,6 +57,7 @@ const mnotify = new MNotify({
 
 const balance = await mnotify.account.getBalance();
 if (balance.isOk()) {
-  console.log(`Balance: ${balance.value.balance} ${balance.value.currency}`);
+  console.log(`Balance: ${balance.value.balance}`);
+  console.log(`Bonus: ${balance.value.bonus ?? 0}`);
 }
 ```

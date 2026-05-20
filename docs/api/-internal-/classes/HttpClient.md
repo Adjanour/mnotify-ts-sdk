@@ -1,6 +1,6 @@
 # Class: HttpClient
 
-Defined in: [http.ts:26](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/http.ts#L26)
+Defined in: [http.ts:26](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L26)
 
 Low-level HTTP client for communicating with the mNotify API.
 
@@ -12,7 +12,7 @@ Low-level HTTP client for communicating with the mNotify API.
 new HttpClient(config): HttpClient;
 ```
 
-Defined in: [http.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/http.ts#L32)
+Defined in: [http.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L32)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [http.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa7
 request<T>(config, retryCount?): Promise<Result<T, MNotifyError>>;
 ```
 
-Defined in: [http.ts:40](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/http.ts#L40)
+Defined in: [http.ts:40](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L40)
 
 Performs an HTTP request, returning a Result. Retries on 429 rate-limit responses.
 

@@ -1,6 +1,6 @@
 # Class: SMS
 
-Defined in: [sms.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/sms.ts#L17)
+Defined in: [sms.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/sms.ts#L17)
 
 SMS sending and campaign status operations.
 
@@ -12,7 +12,7 @@ SMS sending and campaign status operations.
 new SMS(client): SMS;
 ```
 
-Defined in: [sms.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/sms.ts#L18)
+Defined in: [sms.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/sms.ts#L18)
 
 #### Parameters
 
@@ -32,16 +32,16 @@ Defined in: [sms.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76
 getStatus(campaignId, status?): Promise<Result<SmsDeliveryReport, MNotifyError>>;
 ```
 
-Defined in: [sms.ts:49](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/sms.ts#L49)
+Defined in: [sms.ts:50](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/sms.ts#L50)
 
 Fetches the delivery report for a campaign.
 
 #### Parameters
 
-| Parameter | Type | Default value |
-| ------ | ------ | ------ |
-| `campaignId` | `string` | `undefined` |
-| `status` | `string` | `"null"` |
+| Parameter | Type |
+| ------ | ------ |
+| `campaignId` | `string` |
+| `status?` | `string` |
 
 #### Returns
 
@@ -55,7 +55,7 @@ Fetches the delivery report for a campaign.
 send(options): Promise<Result<SendSMSResponse, MNotifyError>>;
 ```
 
-Defined in: [sms.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/sms.ts#L21)
+Defined in: [sms.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/sms.ts#L21)
 
 Sends an SMS message to one or more recipients.
 

@@ -1,6 +1,6 @@
 # Interface: BalanceResponse
 
-Defined in: [types.ts:139](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L139)
+Defined in: [types.ts:158](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L158)
 
 Response containing the account balance.
 
@@ -12,18 +12,30 @@ Response containing the account balance.
 balance: number;
 ```
 
-Defined in: [types.ts:141](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L141)
+Defined in: [types.ts:162](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L162)
 
 Current account balance.
 
 ***
 
-### currency
+### bonus?
 
 ```ts
-currency: string;
+optional bonus?: number;
 ```
 
-Defined in: [types.ts:143](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L143)
+Defined in: [types.ts:164](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L164)
 
-Currency code (e.g., GHS).
+Bonus balance, when present.
+
+***
+
+### status
+
+```ts
+status: string;
+```
+
+Defined in: [types.ts:160](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L160)
+
+Request status returned by the API.

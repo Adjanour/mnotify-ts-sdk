@@ -25,6 +25,8 @@ export interface SendSMSOptions {
 	is_schedule?: boolean;
 	/** The scheduled delivery date/time (required if is_schedule is true). */
 	schedule_date?: string;
+	/** Optional SMS type, for example `otp` when sending OTP campaigns. */
+	sms_type?: string;
 }
 
 /** Response returned after sending an SMS campaign. */
@@ -38,7 +40,7 @@ export interface SendSMSResponse {
 	/** Summary of the SMS campaign results. */
 	summary: {
 		_id: string;
-		message_id: string;
+		message_id?: string;
 		type: string;
 		total_sent: number;
 		contacts: number;
@@ -81,11 +83,28 @@ export interface Contact {
 	/** Email address(es) associated with the contact. */
 	email?: string[];
 	/** Date of birth of the contact. */
+	dob?: string;
+	/** @deprecated Use `dob` instead. */
 	dbo?: string;
 }
 
 /** Input type for creating a new contact. Omits the id field which is assigned by the server. */
-export type CreateContactInput = Omit<Contact, "id">;
+export interface CreateContactInput {
+	/** Phone number of the contact. */
+	phone: string;
+	/** Optional title (e.g., Mr, Mrs, Dr). */
+	title?: string;
+	/** First name of the contact. */
+	firstname: string;
+	/** Last name of the contact. */
+	lastname: string;
+	/** Email address(es) associated with the contact. */
+	email?: string | string[];
+	/** Date of birth of the contact. */
+	dob?: string;
+	/** @deprecated Use `dob` instead. */
+	dbo?: string;
+}
 
 /** A contact group in the mNotify system. */
 export interface Group {
@@ -137,16 +156,20 @@ export interface CreateTemplateInput {
 
 /** Response containing the account balance. */
 export interface BalanceResponse {
+	/** Request status returned by the API. */
+	status: string;
 	/** Current account balance. */
 	balance: number;
-	/** Currency code (e.g., GHS). */
-	currency: string;
+	/** Bonus balance, when present. */
+	bonus?: number;
 }
 
 /** Status of a registered sender ID. */
 export interface SenderIdStatus {
-	/** Status of the sender ID registration. */
+	/** Request status returned by the API. */
 	status: string;
+	/** Optional API response code. */
+	code?: string;
 	/** Optional message from the API. */
 	message?: string;
 	/** The sender name that was checked. */

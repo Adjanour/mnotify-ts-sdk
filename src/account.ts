@@ -9,7 +9,7 @@ import { annotate, invalidResponse } from "./errors.js";
 import type { MNotifyError } from "./errors.js";
 import type { HttpClient } from "./http.js";
 import type { Result } from "./result.js";
-import { ok } from "./result.js";
+import { err, ok } from "./result.js";
 import type { BalanceResponse, SenderIdStatus } from "./types.js";
 
 /** Account-related operations: balance and sender ID management. */
@@ -19,19 +19,24 @@ export class Account {
 	/** Fetches the current account balance. */
 	async getBalance(): Promise<Result<BalanceResponse, MNotifyError>> {
 		const result = annotate(
-			await this.client.request<BalanceResponse>({ method: "GET", url: "/balance/sms" }),
+			await this.client.request<unknown>({ method: "GET", url: "/balance/sms" }),
 			{ service: "Account", operation: "getBalance" },
 		);
-		if (result.isErr()) return result;
+		if (result.isErr()) return err(result.error);
 		const data = result.value;
+		const record = data as Record<string, unknown>;
 		if (
 			typeof data !== "object" ||
 			data === null ||
-			typeof (data as unknown as Record<string, unknown>).balance !== "number"
+			typeof record.balance !== "number"
 		) {
-			return invalidResponse("balance", data, "getBalance");
+			return invalidResponse<BalanceResponse>("balance", data as BalanceResponse, "getBalance");
 		}
-		return ok(data as unknown as BalanceResponse);
+		return ok({
+			status: typeof record.status === "string" ? record.status : "success",
+			balance: record.balance as number,
+			bonus: typeof record.bonus === "number" ? record.bonus : undefined,
+		});
 	}
 
 	/** Registers a new sender ID. */
@@ -57,17 +62,44 @@ export class Account {
 	/** Checks the approval status of a sender ID. */
 	async checkSender(name: string): Promise<Result<SenderIdStatus, MNotifyError>> {
 		const result = annotate(
-			await this.client.request<SenderIdStatus>({
+			await this.client.request<unknown>({
 				method: "POST",
 				url: "/senderid/status",
 				data: { sender_name: name },
 			}),
 			{ service: "Account", operation: "checkSender" },
 		);
-		if (result.isErr()) return result;
+		if (result.isErr()) return err(result.error);
 		if (typeof result.value !== "object" || result.value === null) {
-			return invalidResponse("sender status", result.value, "checkSender");
+			return invalidResponse<SenderIdStatus>(
+				"sender status",
+				result.value as SenderIdStatus,
+				"checkSender",
+			);
 		}
-		return ok(result.value);
+		const data = result.value as Record<string, unknown>;
+		const summary =
+			typeof data.summary === "object" && data.summary !== null
+				? (data.summary as Record<string, unknown>)
+				: undefined;
+		return ok({
+			status: typeof data.status === "string" ? data.status : "success",
+			code: typeof data.code === "string" ? data.code : undefined,
+			message: typeof data.message === "string" ? data.message : undefined,
+			sender_name:
+				typeof summary?.sender_name === "string"
+					? summary.sender_name
+					: typeof summary?.["sender name"] === "string"
+						? (summary["sender name"] as string)
+						: typeof data.sender_name === "string"
+							? data.sender_name
+							: undefined,
+			approval_status:
+				typeof summary?.status === "string"
+					? summary.status
+					: typeof data.approval_status === "string"
+						? data.approval_status
+						: undefined,
+		});
 	}
 }

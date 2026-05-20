@@ -24,6 +24,7 @@
 | ------ | ------ |
 | [BalanceResponse](interfaces/BalanceResponse.md) | Response containing the account balance. |
 | [Contact](interfaces/Contact.md) | A contact stored in the mNotify system. |
+| [CreateContactInput](interfaces/CreateContactInput.md) | Input type for creating a new contact. Omits the id field which is assigned by the server. |
 | [CreateGroupInput](interfaces/CreateGroupInput.md) | Input type for creating a new group. |
 | [CreateTemplateInput](interfaces/CreateTemplateInput.md) | Input type for creating a new template. |
 | [Err](interfaces/Err.md) | A failed result containing an error. |
@@ -40,7 +41,6 @@
 
 | Type Alias | Description |
 | ------ | ------ |
-| [CreateContactInput](type-aliases/CreateContactInput.md) | Input type for creating a new contact. Omits the id field which is assigned by the server. |
 | [Result](type-aliases/Result.md) | Represents the outcome of an operation that can succeed or fail. |
 
 ## Functions

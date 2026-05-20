@@ -5,7 +5,7 @@
 ```ts
 const result = await mnotify.templates.create({
   name: "Welcome Message",
-  content: "Welcome {{name}} to our service!",
+  content: "Welcome [fname] to our service!",
 });
 ```
 

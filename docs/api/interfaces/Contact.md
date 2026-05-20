@@ -1,18 +1,32 @@
 # Interface: Contact
 
-Defined in: [types.ts:70](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L70)
+Defined in: [types.ts:72](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L72)
 
 A contact stored in the mNotify system.
 
 ## Properties
 
-### dbo?
+### ~~dbo?~~
 
 ```ts
 optional dbo?: string;
 ```
 
-Defined in: [types.ts:84](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L84)
+Defined in: [types.ts:88](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L88)
+
+#### Deprecated
+
+Use `dob` instead.
+
+***
+
+### dob?
+
+```ts
+optional dob?: string;
+```
+
+Defined in: [types.ts:86](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L86)
 
 Date of birth of the contact.
 
@@ -24,7 +38,7 @@ Date of birth of the contact.
 optional email?: string[];
 ```
 
-Defined in: [types.ts:82](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L82)
+Defined in: [types.ts:84](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L84)
 
 Email address(es) associated with the contact.
 
@@ -36,7 +50,7 @@ Email address(es) associated with the contact.
 firstname: string;
 ```
 
-Defined in: [types.ts:78](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L78)
+Defined in: [types.ts:80](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L80)
 
 First name of the contact.
 
@@ -48,7 +62,7 @@ First name of the contact.
 id: string;
 ```
 
-Defined in: [types.ts:72](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L72)
+Defined in: [types.ts:74](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L74)
 
 Unique contact identifier.
 
@@ -60,7 +74,7 @@ Unique contact identifier.
 lastname: string;
 ```
 
-Defined in: [types.ts:80](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L80)
+Defined in: [types.ts:82](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L82)
 
 Last name of the contact.
 
@@ -72,7 +86,7 @@ Last name of the contact.
 phone: string;
 ```
 
-Defined in: [types.ts:74](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L74)
+Defined in: [types.ts:76](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L76)
 
 Phone number of the contact.
 
@@ -84,6 +98,6 @@ Phone number of the contact.
 optional title?: string;
 ```
 
-Defined in: [types.ts:76](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L76)
+Defined in: [types.ts:78](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L78)
 
 Optional title (e.g., Mr, Mrs, Dr).

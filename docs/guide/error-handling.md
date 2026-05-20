@@ -10,7 +10,7 @@ The `match` method handles both cases inline:
 const result = await mnotify.sms.send({ ... });
 
 const message = result.match({
-  ok: (res) => `Sent! ID: ${res.summary.message_id}`,
+  ok: (res) => `Sent! Campaign: ${res.summary._id}`,
   err: (err) => `Failed: ${err.message}`,
 });
 ```

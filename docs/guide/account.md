@@ -7,7 +7,8 @@ const result = await mnotify.account.getBalance();
 
 result.match({
   ok: (balance) => {
-    console.log(`Balance: ${balance.balance} ${balance.currency}`);
+    console.log(`Balance: ${balance.balance}`);
+    console.log(`Bonus: ${balance.bonus ?? 0}`);
   },
   err: (error) => console.error(error.message),
 });

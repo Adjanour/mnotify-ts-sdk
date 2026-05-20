@@ -9,12 +9,10 @@ function getClient(): MNotify {
 }
 
 function minimumBalance(required: number) {
-	return <T extends { balance: number; currency: string }>(balance: T): Result<T, MNotifyError> => {
+	return <T extends { balance: number }>(balance: T): Result<T, MNotifyError> => {
 		return balance.balance >= required
 			? ok(balance)
-			: err(
-				new MNotifyError(`Need at least ${required} ${balance.currency} to continue.`, 400),
-			);
+			: err(new MNotifyError(`Need at least ${required} credits to continue.`, 400));
 	};
 }
 
@@ -24,7 +22,7 @@ async function examplePatternMatching(mnotify: MNotify) {
 	const result = await mnotify.account.getBalance();
 	console.log(
 		result.match({
-			ok: (balance) => `Balance: ${balance.balance} ${balance.currency}`,
+			ok: (balance) => `Balance: ${balance.balance}${typeof balance.bonus === "number" ? ` (bonus ${balance.bonus})` : ""}`,
 			err: (error) => `Balance lookup failed: ${error.message}`,
 		}),
 	);
@@ -41,7 +39,7 @@ async function exampleChaining(mnotify: MNotify) {
 		.andThen(minimumBalance(1));
 
 	result.match({
-		ok: (balance) => console.log(`Account is ${balance.label} with ${balance.balance} ${balance.currency}`),
+		ok: (balance) => console.log(`Account is ${balance.label} with ${balance.balance} credits`),
 		err: (error) => console.error(error.message),
 	});
 }
@@ -52,7 +50,7 @@ async function exampleFallbacks(mnotify: MNotify) {
 	const result = await mnotify.account.getBalance();
 	const amount = result.map((balance) => balance.balance).unwrapOr(0);
 	const formatted = result
-		.map((balance) => `${balance.balance} ${balance.currency}`)
+		.map((balance) => `${balance.balance} credits`)
 		.unwrapOrElse((error) => `fallback used because: ${error.message}`);
 
 	console.log("Amount:", amount);
@@ -63,7 +61,7 @@ async function exampleParallelOperations(mnotify: MNotify) {
 	console.log("\n=== Parallel Operations ===");
 
 	const senderName = getEnv("MNOTIFY_SENDER_ID");
-	const tasks = [(await mnotify.account.getBalance()).map((balance) => `Balance: ${balance.balance} ${balance.currency}`)];
+	const tasks = [(await mnotify.account.getBalance()).map((balance) => `Balance: ${balance.balance}`)];
 
 	if (senderName) {
 		tasks.push(

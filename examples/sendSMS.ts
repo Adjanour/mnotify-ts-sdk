@@ -45,7 +45,8 @@ async function main() {
 	const balanceResult = await mnotify.account.getBalance();
 	balanceResult.match({
 		ok: (balance) => {
-			console.log(`Balance: ${balance.balance} ${balance.currency}`);
+			console.log(`Balance: ${balance.balance}`);
+			if (typeof balance.bonus === "number") console.log(`Bonus: ${balance.bonus}`);
 		},
 		err: (error) => {
 			console.error("Balance check failed:", error.message);

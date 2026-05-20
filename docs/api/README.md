@@ -32,7 +32,7 @@ const result = await mnotify.sms.send({
 });
 
 result.match({
-  ok: (res) => console.log(`Sent! ID: ${res.summary.message_id}`),
+  ok: (res) => console.log(`Sent! Campaign: ${res.summary._id}`),
   err: (err) => console.error(`Failed: ${err.message}`),
 });
 ```
@@ -58,6 +58,7 @@ const result = await mnotify.account.getBalance();
 
 if (result.isOk()) {
   console.log(`Balance: ${result.value.balance}`);
+  console.log(`Bonus: ${result.value.bonus ?? 0}`);
 } else {
   console.error(result.error.message, result.error.statusCode);
 }

@@ -29,6 +29,7 @@ export class SMS {
 					message: options.message,
 					is_schedule: options.is_schedule || false,
 					schedule_date: options.schedule_date || "",
+					sms_type: options.sms_type,
 				},
 			},
 			"send",
@@ -46,9 +47,10 @@ export class SMS {
 	}
 
 	/** Fetches the delivery report for a campaign. */
-	getStatus(campaignId: string, status = "null"): Promise<Result<SmsDeliveryReport, MNotifyError>> {
+	getStatus(campaignId: string, status?: string): Promise<Result<SmsDeliveryReport, MNotifyError>> {
+		const path = status ? `/campaign/${campaignId}/${status}` : `/campaign/${campaignId}`;
 		return this.request<SmsDeliveryReport>(
-			`/campaign/${campaignId}/${status}`,
+			path,
 			{
 				method: "GET",
 			},

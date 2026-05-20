@@ -33,13 +33,15 @@ const result = await mnotify.sms.send({
 
 ### Scheduled Messages
 
+`schedule_date` should use the official `YYYY-MM-DD hh:mm` format.
+
 ```ts
 const result = await mnotify.sms.send({
   recipient: "233200000000",
   sender: "MyApp",
   message: "Scheduled message",
   is_schedule: true,
-  schedule_date: "2025-06-01T09:00:00Z",
+  schedule_date: "2025-06-01 09:00",
 });
 ```
 

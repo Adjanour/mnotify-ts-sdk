@@ -12,7 +12,7 @@ describe("Groups", () => {
 	});
 
 	describe("create", () => {
-		it("sends group_name to API and normalizes response", async () => {
+		it("sends name to API and normalizes response", async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: true,
 				json: async () => ({
@@ -31,13 +31,13 @@ describe("Groups", () => {
 				expect(result.value.id).toBe("g_1");
 				expect(result.value.name).toBe("VIP");
 			}
-			expect(global.fetch).toHaveBeenCalledWith(
-				expect.stringContaining("/group"),
-				expect.objectContaining({
-					method: "POST",
-					body: expect.stringContaining("group_name"),
-				}),
-			);
+				expect(global.fetch).toHaveBeenCalledWith(
+					expect.stringContaining("/group"),
+					expect.objectContaining({
+						method: "POST",
+						body: expect.stringContaining("name"),
+					}),
+				);
 		});
 	});
 
@@ -92,35 +92,53 @@ describe("Groups", () => {
 	});
 
 	describe("addContact", () => {
-		it("sends contact_id to /contact/{groupId}", async () => {
+		it("sends a contact payload to /contact/{groupId}", async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: true,
-				json: async () => ({ status: "success", message: "Contact added" }),
+				json: async () => ({
+					status: "success",
+					contact: {
+						_id: 4,
+						phone: "0244698970",
+						title: "Dr",
+						firstname: "Stephen",
+						lastname: "Strange",
+						email: "strange.smart@gmail.com",
+						dob: "1979-01-01",
+					},
+				}),
 			});
 
-			const result = await groups.addContact("g_1", "c_1");
+			const result = await groups.addContact("g_1", {
+				phone: "0244698970",
+				title: "Dr",
+				firstname: "Stephen",
+				lastname: "Strange",
+				email: "strange.smart@gmail.com",
+				dob: "1979-01-01",
+			});
 			expect(result.isOk()).toBe(true);
 			expect(global.fetch).toHaveBeenCalledWith(
 				expect.stringContaining("/contact/g_1"),
 				expect.objectContaining({
 					method: "POST",
-					body: expect.stringContaining("contact_id"),
+					body: expect.stringContaining("firstname"),
 				}),
 			);
 		});
 	});
 
 	describe("removeContact", () => {
-		it("calls DELETE on /contact/{contactId}/{groupId}", async () => {
+		it("calls DELETE on /contact/{contactId}", async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: true,
 				json: async () => ({ status: "success", message: "Removed" }),
 			});
 
-			const result = await groups.removeContact("g_1", "c_1");
+			const result = await groups.removeContact("c_1");
 			expect(result.isOk()).toBe(true);
 			expect(global.fetch).toHaveBeenCalledWith(
-				expect.stringContaining("/contact/c_1/g_1"),
+				expect.stringContaining("/contact/c_1"),
 				expect.objectContaining({ method: "DELETE" }),
 			);
 		});
