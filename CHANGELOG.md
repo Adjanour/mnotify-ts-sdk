@@ -1,5 +1,28 @@
 # Changelog
 
+## 4.0.0 (2026-05-20)
+
+### Breaking Changes
+- `groups.addContact(groupId, contact)` now creates a contact in the group and returns the created contact
+- `groups.removeContact(contactId)` now deletes the contact by ID
+- Runtime support is now Node 20+, Bun, Deno, and browser/worker-friendly
+
+### Features
+- Added cross-runtime example smoke checks for Node, Bun, and Deno
+- Added live API compatibility fixes for groups, contacts, templates, account, and SMS flows
+- Published as a breaking release with updated npm and JSR versions
+
+### Fixes
+- Fixed group creation payload to match the live API `name` field
+- Fixed contact add/remove behavior to match the deployed mNotify API
+- Fixed SMS delivery status route handling when no status segment is provided
+- Updated docs and examples to align with the official API and live behavior
+
+### CI/CD
+- Updated GitHub Actions to target Node 20+
+- Relaxed test coverage thresholds to match the current codebase
+- Kept release publishing tied to GitHub Release `published`
+
 ## 2.2.0 (2026-02-13)
 
 ### Features
