@@ -1,6 +1,6 @@
 # Class: Contacts
 
-Defined in: [contacts.ts:15](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/contacts.ts#L15)
+Defined in: [contacts.ts:15](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/contacts.ts#L15)
 
 Contact management operations.
 
@@ -12,7 +12,7 @@ Contact management operations.
 new Contacts(client): Contacts;
 ```
 
-Defined in: [contacts.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/contacts.ts#L16)
+Defined in: [contacts.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/contacts.ts#L16)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [contacts.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/96e
 create(input, groupId): Promise<Result<Contact, MNotifyError>>;
 ```
 
-Defined in: [contacts.ts:24](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/contacts.ts#L24)
+Defined in: [contacts.ts:24](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/contacts.ts#L24)
 
 Creates a new contact in the specified group.
 
@@ -55,7 +55,7 @@ Creates a new contact in the specified group.
 list(): Promise<Result<Contact[], MNotifyError>>;
 ```
 
-Defined in: [contacts.ts:51](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/contacts.ts#L51)
+Defined in: [contacts.ts:51](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/contacts.ts#L51)
 
 Lists all contacts.
 

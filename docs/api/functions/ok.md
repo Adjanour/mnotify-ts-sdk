@@ -4,7 +4,7 @@
 function ok<T, E>(value): Result<T, E>;
 ```
 
-Defined in: [result.ts:42](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/result.ts#L42)
+Defined in: [result.ts:42](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L42)
 
 Creates a successful Result wrapping the given value.
 

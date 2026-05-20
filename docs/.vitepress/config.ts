@@ -9,6 +9,7 @@ export default defineConfig({
     search: { provider: "local" },
     nav: [
       { text: "Guide", link: "/guide/getting-started" },
+      { text: "Examples", link: "/guide/examples" },
       { text: "API Reference", link: "/api/globals" },
       { text: "GitHub", link: "https://github.com/adjanour/mnotify-ts-sdk" },
     ],
@@ -18,6 +19,7 @@ export default defineConfig({
           text: "Guide",
           items: [
             { text: "Getting Started", link: "/guide/getting-started" },
+            { text: "Examples", link: "/guide/examples" },
             { text: "Sending SMS", link: "/guide/sending-sms" },
             { text: "Managing Contacts", link: "/guide/managing-contacts" },
             { text: "Contact Groups", link: "/guide/contact-groups" },

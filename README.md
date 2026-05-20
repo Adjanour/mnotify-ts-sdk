@@ -109,6 +109,14 @@ Full documentation at [https://adjanour.github.io/mnotify-ts-sdk](https://adjano
 npm run docs:dev
 ```
 
+## Examples
+
+Runnable examples live in [`examples/`](examples/README.md):
+
+- `npm run example:sms`
+- `npm run example:railway`
+- `npm run example:content`
+
 ## Scripts
 
 | Script | Description |
@@ -117,6 +125,9 @@ npm run docs:dev
 | `npm test` | Run tests |
 | `npm run lint` | Biome lint |
 | `npm run format` | Biome format |
+| `npm run example:sms` | Run the SMS example |
+| `npm run example:railway` | Run the Result-pattern example |
+| `npm run example:content` | Run the groups/templates example |
 | `npm run docs:dev` | Start docs dev server |
 | `npm run docs:build` | Build static docs |
 

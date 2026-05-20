@@ -1,6 +1,6 @@
 # Interface: Template
 
-Defined in: [types.ts:115](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L115)
+Defined in: [types.ts:115](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L115)
 
 An SMS template in the mNotify system.
 
@@ -12,7 +12,7 @@ An SMS template in the mNotify system.
 content: string;
 ```
 
-Defined in: [types.ts:121](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L121)
+Defined in: [types.ts:121](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L121)
 
 Body content of the template.
 
@@ -24,7 +24,7 @@ Body content of the template.
 created_at: string;
 ```
 
-Defined in: [types.ts:125](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L125)
+Defined in: [types.ts:125](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L125)
 
 ISO timestamp of when the template was created.
 
@@ -36,7 +36,7 @@ ISO timestamp of when the template was created.
 id: string;
 ```
 
-Defined in: [types.ts:117](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L117)
+Defined in: [types.ts:117](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L117)
 
 Unique template identifier.
 
@@ -48,7 +48,7 @@ Unique template identifier.
 name: string;
 ```
 
-Defined in: [types.ts:119](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L119)
+Defined in: [types.ts:119](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L119)
 
 Name of the template.
 
@@ -60,7 +60,7 @@ Name of the template.
 status: "approved" | "pending" | "rejected";
 ```
 
-Defined in: [types.ts:123](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L123)
+Defined in: [types.ts:123](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L123)
 
 Approval status of the template.
 
@@ -72,6 +72,6 @@ Approval status of the template.
 updated_at: string;
 ```
 
-Defined in: [types.ts:127](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L127)
+Defined in: [types.ts:127](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L127)
 
 ISO timestamp of when the template was last updated.

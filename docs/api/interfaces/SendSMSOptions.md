@@ -1,6 +1,6 @@
 # Interface: SendSMSOptions
 
-Defined in: [types.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L17)
+Defined in: [types.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L17)
 
 Options for sending an SMS message.
 
@@ -12,7 +12,7 @@ Options for sending an SMS message.
 optional is_schedule?: boolean;
 ```
 
-Defined in: [types.ts:25](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L25)
+Defined in: [types.ts:25](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L25)
 
 Whether the message is scheduled for later delivery.
 
@@ -24,7 +24,7 @@ Whether the message is scheduled for later delivery.
 message: string;
 ```
 
-Defined in: [types.ts:23](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L23)
+Defined in: [types.ts:23](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L23)
 
 The message content to send.
 
@@ -36,7 +36,7 @@ The message content to send.
 recipient: string | string[];
 ```
 
-Defined in: [types.ts:19](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L19)
+Defined in: [types.ts:19](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L19)
 
 Recipient phone number(s). Can be a single number or an array of numbers.
 
@@ -48,7 +48,7 @@ Recipient phone number(s). Can be a single number or an array of numbers.
 optional schedule_date?: string;
 ```
 
-Defined in: [types.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L27)
+Defined in: [types.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L27)
 
 The scheduled delivery date/time (required if is_schedule is true).
 
@@ -60,6 +60,6 @@ The scheduled delivery date/time (required if is_schedule is true).
 sender: string;
 ```
 
-Defined in: [types.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/types.ts#L21)
+Defined in: [types.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L21)
 
 Sender ID (sender name) to use.

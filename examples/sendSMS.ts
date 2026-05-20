@@ -1,80 +1,79 @@
-import { MNotify } from "../src";
+import { MNotify } from "../dist/index.mjs";
 
-/**
- * Example usage of the mNotify SDK
- *
- * To run this example:
- * 1. Set your API key as an environment variable:
- *    export MNOTIFY_API_KEY=your_api_key_here
- * 2. Run with ts-node:
- *    npm run example:sms
- */
-async function main() {
-  const apiKey = process.env.MNOTIFY_API_KEY;
-  const baseUrl = process.env.MNOTIFY_BASE_URL || "https://api.mnotify.com/api";
-  const sender =
-    process.env.MNOTIFY_SMS_SENDER || process.env.MNOTIFY_SENDER_ID;
-  const recipient = process.env.MNOTIFY_SMS_RECIPIENT || "233595661863";
-
-  if (!apiKey) {
-    throw new Error("MNOTIFY_API_KEY environment variable is required");
-  }
-  if (!sender) {
-    throw new Error(
-      "MNOTIFY_SMS_SENDER (or MNOTIFY_SENDER_ID) environment variable is required",
-    );
-  }
-
-  // Initialize the SDK with your API key
-  const mnotify = new MNotify({ apiKey, baseUrl });
-
-  console.log(
-    `Config: baseUrl=${baseUrl}, sender=${sender}, recipient=${recipient}`,
-  );
-
-  try {
-    // Example 1: Send SMS
-    console.log("Sending SMS...");
-    const smsResponse = await mnotify.sms.sendQuickBulkSMS({
-      recipient: [recipient],
-      sender,
-      message: "Hello from mNotify SDK!",
-    });
-    console.log("SMS sent successfully:", smsResponse.summary);
-
-    // Example 2: Check balance
-    console.log("\nChecking account balance...");
-    const balance = await mnotify.account.getBalance();
-    console.log("Account balance:", balance);
-
-    // Example 3: Create contact (optional; requires group id in v2)
-    const groupId = process.env.MNOTIFY_GROUP_ID;
-    if (groupId) {
-      console.log("\nCreating contact...");
-      const contact = await mnotify.contacts.createContact(
-        {
-          phone: "233200000000",
-          firstname: "John",
-          lastname: "Doe",
-        },
-        groupId,
-      );
-      console.log("Contact created:", contact);
-    } else {
-      console.log(
-        "\nSkipping contact creation (set MNOTIFY_GROUP_ID to enable).",
-      );
-    }
-
-    // Example 4: Check delivery status after a delay
-    setTimeout(async () => {
-      console.log("\nChecking delivery status...");
-      const status = await mnotify.sms.getSMSStatus(smsResponse.summary._id);
-      console.log("Delivery status:", status.report);
-    }, 5000);
-  } catch (error) {
-    console.error("Error:", error);
-  }
+function requireEnv(name: string): string {
+	const value = process.env[name];
+	if (!value) {
+		throw new Error(`${name} environment variable is required`);
+	}
+	return value;
 }
 
-main();
+async function main() {
+	const apiKey = requireEnv("MNOTIFY_API_KEY");
+	const sender = process.env.MNOTIFY_SMS_SENDER ?? process.env.MNOTIFY_SENDER_ID;
+	const recipient = process.env.MNOTIFY_SMS_RECIPIENT ?? "233200000000";
+	const baseUrl = process.env.MNOTIFY_BASE_URL ?? "https://api.mnotify.com/api";
+
+	if (!sender) {
+		throw new Error(
+			"Set MNOTIFY_SMS_SENDER or MNOTIFY_SENDER_ID to an approved sender ID before running this example.",
+		);
+	}
+
+	const mnotify = new MNotify({ apiKey, baseUrl });
+
+	console.log(`Sending SMS to ${recipient} with sender ${sender}...`);
+
+	const sendResult = await mnotify.sms.send({
+		recipient,
+		sender,
+		message: "Hello from the mNotify TypeScript SDK.",
+	});
+
+	sendResult.match({
+		ok: (response) => {
+			console.log("Send succeeded:", response.summary);
+		},
+		err: (error) => {
+			console.error("Send failed:", {
+				message: error.message,
+				statusCode: error.statusCode,
+				context: error.context,
+			});
+		},
+	});
+
+	const balanceResult = await mnotify.account.getBalance();
+	balanceResult.match({
+		ok: (balance) => {
+			console.log(`Balance: ${balance.balance} ${balance.currency}`);
+		},
+		err: (error) => {
+			console.error("Balance check failed:", error.message);
+		},
+	});
+
+	if (sendResult.isErr()) {
+		process.exitCode = 1;
+		return;
+	}
+
+	const campaignId = sendResult.value.summary._id;
+	console.log(`Checking delivery status for campaign ${campaignId}...`);
+
+	const statusResult = await mnotify.sms.getStatus(campaignId);
+	statusResult.match({
+		ok: (status) => {
+			console.log("Delivery report status:", status.status);
+			console.log("Delivery report entries:", status.report.length);
+		},
+		err: (error) => {
+			console.error("Delivery status check failed:", error.message);
+		},
+	});
+}
+
+main().catch((error) => {
+	console.error(error instanceof Error ? error.message : error);
+	process.exitCode = 1;
+});

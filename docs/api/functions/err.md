@@ -4,7 +4,7 @@
 function err<T, E>(error): Result<T, E>;
 ```
 
-Defined in: [result.ts:77](https://github.com/Adjanour/mnotify-ts-sdk/blob/96ee30f0ca2fe9cab828f3d83ce687463c643551/src/result.ts#L77)
+Defined in: [result.ts:77](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L77)
 
 Creates a failed Result containing the given error.
 
