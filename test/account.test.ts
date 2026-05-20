@@ -11,19 +11,19 @@ describe("Account", () => {
 		jest.clearAllMocks();
 	});
 
-		describe("getBalance", () => {
-			it("fetches balance from API", async () => {
-				(global.fetch as jest.Mock).mockResolvedValueOnce({
-					ok: true,
-					json: async () => ({ status: "success", balance: 100.5, bonus: 12 }),
-				});
+	describe("getBalance", () => {
+		it("fetches balance from API", async () => {
+			(global.fetch as jest.Mock).mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({ status: "success", balance: 100.5, bonus: 12 }),
+			});
 
 			const result = await account.getBalance();
 			expect(result.isOk()).toBe(true);
-				if (result.isOk()) {
-					expect(result.value.balance).toBe(100.5);
-					expect(result.value.bonus).toBe(12);
-				}
+			if (result.isOk()) {
+				expect(result.value.balance).toBe(100.5);
+				expect(result.value.bonus).toBe(12);
+			}
 			expect(global.fetch).toHaveBeenCalledWith(
 				expect.stringContaining("/balance/sms"),
 				expect.any(Object),
@@ -60,24 +60,24 @@ describe("Account", () => {
 		});
 	});
 
-		describe("checkSender", () => {
-			it("calls /senderid/status with sender_name", async () => {
-				(global.fetch as jest.Mock).mockResolvedValueOnce({
-					ok: true,
-					json: async () => ({
-						status: "success",
-						code: "2000",
-						summary: { "sender name": "MyApp", status: "Approved" },
-					}),
-				});
+	describe("checkSender", () => {
+		it("calls /senderid/status with sender_name", async () => {
+			(global.fetch as jest.Mock).mockResolvedValueOnce({
+				ok: true,
+				json: async () => ({
+					status: "success",
+					code: "2000",
+					summary: { "sender name": "MyApp", status: "Approved" },
+				}),
+			});
 
-				const result = await account.checkSender("MyApp");
-				expect(result.isOk()).toBe(true);
-				if (result.isOk()) {
-					expect(result.value.sender_name).toBe("MyApp");
-					expect(result.value.approval_status).toBe("Approved");
-				}
-				expect(global.fetch).toHaveBeenCalledWith(
+			const result = await account.checkSender("MyApp");
+			expect(result.isOk()).toBe(true);
+			if (result.isOk()) {
+				expect(result.value.sender_name).toBe("MyApp");
+				expect(result.value.approval_status).toBe("Approved");
+			}
+			expect(global.fetch).toHaveBeenCalledWith(
 				expect.stringContaining("/senderid/status"),
 				expect.objectContaining({
 					method: "POST",

@@ -31,13 +31,13 @@ describe("Groups", () => {
 				expect(result.value.id).toBe("g_1");
 				expect(result.value.name).toBe("VIP");
 			}
-				expect(global.fetch).toHaveBeenCalledWith(
-					expect.stringContaining("/group"),
-					expect.objectContaining({
-						method: "POST",
-						body: expect.stringContaining("name"),
-					}),
-				);
+			expect(global.fetch).toHaveBeenCalledWith(
+				expect.stringContaining("/group"),
+				expect.objectContaining({
+					method: "POST",
+					body: expect.stringContaining("name"),
+				}),
+			);
 		});
 	});
 

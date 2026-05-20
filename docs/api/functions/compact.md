@@ -4,7 +4,7 @@
 function compact<T>(obj): Partial<T>;
 ```
 
-Defined in: [helpers.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/helpers.ts#L34)
+Defined in: [helpers.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/helpers.ts#L34)
 
 Removes null and undefined values from an object, returning a partial copy.
 

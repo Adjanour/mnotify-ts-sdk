@@ -36,7 +36,8 @@ export class Templates {
 				: typeof result.value._id === "number"
 					? String(result.value._id)
 					: null;
-		if (!id) return invalidResponse<Template>("template", result.value as unknown as Template, "create");
+		if (!id)
+			return invalidResponse<Template>("template", result.value as unknown as Template, "create");
 		return ok({
 			id,
 			name: input.name,
@@ -54,13 +55,10 @@ export class Templates {
 
 	/** Fetches a single template by its ID. */
 	get(id: string): Promise<Result<Template, MNotifyError>> {
-		return this.requestSingle(
-			`/template/${id}`,
-			{ method: "GET" },
-			"get",
-			normalizeTemplate,
-			["template_list", "template"],
-		);
+		return this.requestSingle(`/template/${id}`, { method: "GET" }, "get", normalizeTemplate, [
+			"template_list",
+			"template",
+		]);
 	}
 
 	/** Deletes a template by its ID. */
@@ -132,9 +130,7 @@ function normalizeTemplate(data: unknown): Template | null {
 		id,
 		name,
 		content,
-		status: ["approved", "pending", "rejected"].includes(
-			String(d.status ?? d.type).toLowerCase(),
-		)
+		status: ["approved", "pending", "rejected"].includes(String(d.status ?? d.type).toLowerCase())
 			? (String(d.status ?? d.type).toLowerCase() as Template["status"])
 			: "pending",
 		created_at: typeof d.created_at === "string" ? d.created_at : "",

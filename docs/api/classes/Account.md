@@ -1,6 +1,6 @@
 # Class: Account
 
-Defined in: [account.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/account.ts#L16)
+Defined in: [account.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/account.ts#L16)
 
 Account-related operations: balance and sender ID management.
 
@@ -12,7 +12,7 @@ Account-related operations: balance and sender ID management.
 new Account(client): Account;
 ```
 
-Defined in: [account.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/account.ts#L17)
+Defined in: [account.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/account.ts#L17)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [account.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/f076
 checkSender(name): Promise<Result<SenderIdStatus, MNotifyError>>;
 ```
 
-Defined in: [account.ts:63](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/account.ts#L63)
+Defined in: [account.ts:59](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/account.ts#L59)
 
 Checks the approval status of a sender ID.
 
@@ -54,7 +54,7 @@ Checks the approval status of a sender ID.
 getBalance(): Promise<Result<BalanceResponse, MNotifyError>>;
 ```
 
-Defined in: [account.ts:20](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/account.ts#L20)
+Defined in: [account.ts:20](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/account.ts#L20)
 
 Fetches the current account balance.
 
@@ -73,7 +73,7 @@ registerSender(name, purpose?): Promise<Result<{
 }, MNotifyError>>;
 ```
 
-Defined in: [account.ts:43](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/account.ts#L43)
+Defined in: [account.ts:39](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/account.ts#L39)
 
 Registers a new sender ID.
 

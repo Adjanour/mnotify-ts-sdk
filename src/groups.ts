@@ -58,21 +58,28 @@ export class Groups {
 	}
 
 	/** Adds an existing contact to a group. */
-	addContact(
-		groupId: string,
-		input: CreateContactInput,
-	): Promise<Result<Contact, MNotifyError>> {
+	addContact(groupId: string, input: CreateContactInput): Promise<Result<Contact, MNotifyError>> {
 		return this.createContact(groupId, input);
 	}
 
 	/** Deletes a contact by its ID. */
-	removeContact(contactId: string): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-		return this.requestJson<{ status: string; message: string }>(`/contact/${contactId}`, "DELETE", "removeContact");
+	removeContact(
+		contactId: string,
+	): Promise<Result<{ status: string; message: string }, MNotifyError>> {
+		return this.requestJson<{ status: string; message: string }>(
+			`/contact/${contactId}`,
+			"DELETE",
+			"removeContact",
+		);
 	}
 
 	/** Deletes a group by its ID. */
 	delete(id: string): Promise<Result<{ status: string; message: string }, MNotifyError>> {
-		return this.requestJson<{ status: string; message: string }>(`/group/${id}`, "DELETE", "delete");
+		return this.requestJson<{ status: string; message: string }>(
+			`/group/${id}`,
+			"DELETE",
+			"delete",
+		);
 	}
 
 	private async request<T>(
@@ -115,10 +122,10 @@ export class Groups {
 		operation: string,
 		data?: unknown,
 	): Promise<Result<T, MNotifyError>> {
-		const result = annotate(
-			await this.client.request<T>({ method, url: path, data }),
-			{ service: "Groups", operation },
-		);
+		const result = annotate(await this.client.request<T>({ method, url: path, data }), {
+			service: "Groups",
+			operation,
+		});
 		if (result.isErr()) return result;
 		return ok(result.value);
 	}
@@ -136,8 +143,10 @@ export class Groups {
 			{ service: "Groups", operation: "addContact" },
 		);
 		if (result.isErr()) return err(result.error);
-		const contact =
-			normalizeContact(unwrapObject(result.value, ["contact"]) ?? result.value, input);
+		const contact = normalizeContact(
+			unwrapObject(result.value, ["contact"]) ?? result.value,
+			input,
+		);
 		if (contact) return ok(contact);
 		return invalidResponse<Contact>("contact", result.value as unknown as Contact, "addContact");
 	}
@@ -191,20 +200,27 @@ function normalizeContact(data: unknown, input?: CreateContactInput): Contact | 
 		firstname: typeof d.firstname === "string" ? d.firstname : fallback.firstname,
 		lastname: typeof d.lastname === "string" ? d.lastname : fallback.lastname,
 		title: typeof d.title === "string" ? d.title : fallback.title,
-		email:
-			Array.isArray(d.email)
-				? d.email.filter((e): e is string => typeof e === "string")
-				: typeof d.email === "string"
-					? [d.email]
-					: typeof fallback.email === "string"
-						? [fallback.email]
-						: Array.isArray(fallback.email)
-							? fallback.email
-							: undefined,
+		email: Array.isArray(d.email)
+			? d.email.filter((e): e is string => typeof e === "string")
+			: typeof d.email === "string"
+				? [d.email]
+				: typeof fallback.email === "string"
+					? [fallback.email]
+					: Array.isArray(fallback.email)
+						? fallback.email
+						: undefined,
 		dob:
-			typeof d.dob === "string" ? d.dob : typeof d.dbo === "string" ? d.dbo : fallback.dob ?? fallback.dbo,
+			typeof d.dob === "string"
+				? d.dob
+				: typeof d.dbo === "string"
+					? d.dbo
+					: (fallback.dob ?? fallback.dbo),
 		dbo:
-			typeof d.dbo === "string" ? d.dbo : typeof d.dob === "string" ? d.dob : fallback.dbo ?? fallback.dob,
+			typeof d.dbo === "string"
+				? d.dbo
+				: typeof d.dob === "string"
+					? d.dob
+					: (fallback.dbo ?? fallback.dob),
 	};
 }
 

@@ -13,74 +13,74 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-        cache: npm
-    - run: npm ci
-    - run: npm run lint
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
 
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x, 22.x]
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: npm
-    - run: npm ci
-    - run: npm test -- --coverage
-    - uses: codecov/codecov-action@v5
-      if: matrix.node-version == '22.x'
-      with:
-        fail_ci_if_error: false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci
+      - run: npm test -- --coverage
+      - uses: codecov/codecov-action@v5
+        if: matrix.node-version == '22.x'
+        with:
+          fail_ci_if_error: false
 
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-        cache: npm
-    - run: npm ci
-    - run: npm run build
-    - run: npm run example:smoke
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run example:smoke
 
   bun-smoke:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-        cache: npm
-    - uses: oven-sh/setup-bun@v2
-      with:
-        bun-version: latest
-    - run: npm ci
-    - run: npm run build
-    - run: MNOTIFY_EXAMPLE_MODE=smoke bun run examples/sendSMS.ts
-    - run: MNOTIFY_EXAMPLE_MODE=smoke bun run examples/railwayOrientedExample.ts
-    - run: MNOTIFY_EXAMPLE_MODE=smoke bun run examples/contentManagement.ts
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: npm ci
+      - run: npm run build
+      - run: MNOTIFY_EXAMPLE_MODE=smoke bun run examples/sendSMS.ts
+      - run: MNOTIFY_EXAMPLE_MODE=smoke bun run examples/railwayOrientedExample.ts
+      - run: MNOTIFY_EXAMPLE_MODE=smoke bun run examples/contentManagement.ts
 
   deno-smoke:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-        cache: npm
-    - uses: denoland/setup-deno@v2
-      with:
-        deno-version: v2.x
-    - run: npm ci
-    - run: npm run build
-    - run: MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/sendSMS.ts
-    - run: MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/railwayOrientedExample.ts
-    - run: MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/contentManagement.ts
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: npm ci
+      - run: npm run build
+      - run: MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/sendSMS.ts
+      - run: MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/railwayOrientedExample.ts
+      - run: MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/contentManagement.ts

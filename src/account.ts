@@ -25,11 +25,7 @@ export class Account {
 		if (result.isErr()) return err(result.error);
 		const data = result.value;
 		const record = data as Record<string, unknown>;
-		if (
-			typeof data !== "object" ||
-			data === null ||
-			typeof record.balance !== "number"
-		) {
+		if (typeof data !== "object" || data === null || typeof record.balance !== "number") {
 			return invalidResponse<BalanceResponse>("balance", data as BalanceResponse, "getBalance");
 		}
 		return ok({

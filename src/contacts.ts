@@ -44,7 +44,10 @@ export class Contacts {
 
 	/** Lists all contacts. */
 	list(): Promise<Result<Contact[], MNotifyError>> {
-		return this.requestArray("/contact", "list", normalizeContact, ["contact_list", "contacts_list"]);
+		return this.requestArray("/contact", "list", normalizeContact, [
+			"contact_list",
+			"contacts_list",
+		]);
 	}
 
 	private async createContact(
@@ -68,7 +71,8 @@ export class Contacts {
 				: typeof result.value._id === "number"
 					? String(result.value._id)
 					: null;
-		if (!id) return invalidResponse<Contact>("contact", result.value as unknown as Contact, "create");
+		if (!id)
+			return invalidResponse<Contact>("contact", result.value as unknown as Contact, "create");
 		return ok(contactFromInput(id, input));
 	}
 
@@ -124,16 +128,13 @@ function normalizeContact(data: unknown): Contact | null {
 		firstname: typeof d.firstname === "string" ? d.firstname : "",
 		lastname: typeof d.lastname === "string" ? d.lastname : "",
 		title: typeof d.title === "string" ? d.title : undefined,
-		email:
-			Array.isArray(d.email)
-				? d.email.filter((e): e is string => typeof e === "string")
-				: typeof d.email === "string"
-					? [d.email]
-					: undefined,
-		dob:
-			typeof d.dob === "string" ? d.dob : typeof d.dbo === "string" ? d.dbo : undefined,
-		dbo:
-			typeof d.dbo === "string" ? d.dbo : typeof d.dob === "string" ? d.dob : undefined,
+		email: Array.isArray(d.email)
+			? d.email.filter((e): e is string => typeof e === "string")
+			: typeof d.email === "string"
+				? [d.email]
+				: undefined,
+		dob: typeof d.dob === "string" ? d.dob : typeof d.dbo === "string" ? d.dbo : undefined,
+		dbo: typeof d.dbo === "string" ? d.dbo : typeof d.dob === "string" ? d.dob : undefined,
 	};
 }
 

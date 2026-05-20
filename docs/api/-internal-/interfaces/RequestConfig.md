@@ -1,6 +1,6 @@
 # Interface: RequestConfig
 
-Defined in: [http.ts:14](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L14)
+Defined in: [http.ts:14](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/http.ts#L14)
 
 Configuration for an individual HTTP request.
 
@@ -12,7 +12,7 @@ Configuration for an individual HTTP request.
 optional data?: unknown;
 ```
 
-Defined in: [http.ts:20](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L20)
+Defined in: [http.ts:20](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/http.ts#L20)
 
 Optional request body (will be JSON-serialized).
 
@@ -24,7 +24,7 @@ Optional request body (will be JSON-serialized).
 method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 ```
 
-Defined in: [http.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L16)
+Defined in: [http.ts:16](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/http.ts#L16)
 
 HTTP method.
 
@@ -36,7 +36,7 @@ HTTP method.
 optional params?: Record<string, string>;
 ```
 
-Defined in: [http.ts:22](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L22)
+Defined in: [http.ts:22](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/http.ts#L22)
 
 Optional query parameters.
 
@@ -48,6 +48,6 @@ Optional query parameters.
 url: string;
 ```
 
-Defined in: [http.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/http.ts#L18)
+Defined in: [http.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/http.ts#L18)
 
 API path (relative to the base URL).

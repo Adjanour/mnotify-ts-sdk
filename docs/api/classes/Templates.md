@@ -1,6 +1,6 @@
 # Class: Templates
 
-Defined in: [templates.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/templates.ts#L17)
+Defined in: [templates.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/templates.ts#L17)
 
 SMS template management operations.
 
@@ -12,7 +12,7 @@ SMS template management operations.
 new Templates(client): Templates;
 ```
 
-Defined in: [templates.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/templates.ts#L18)
+Defined in: [templates.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/templates.ts#L18)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [templates.ts:18](https://github.com/Adjanour/mnotify-ts-sdk/blob/f0
 create(input): Promise<Result<Template, MNotifyError>>;
 ```
 
-Defined in: [templates.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/templates.ts#L21)
+Defined in: [templates.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/templates.ts#L21)
 
 Creates a new SMS template.
 
@@ -57,7 +57,7 @@ delete(id): Promise<Result<{
 }, MNotifyError>>;
 ```
 
-Defined in: [templates.ts:67](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/templates.ts#L67)
+Defined in: [templates.ts:65](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/templates.ts#L65)
 
 Deletes a template by its ID.
 
@@ -82,7 +82,7 @@ Deletes a template by its ID.
 get(id): Promise<Result<Template, MNotifyError>>;
 ```
 
-Defined in: [templates.ts:56](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/templates.ts#L56)
+Defined in: [templates.ts:57](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/templates.ts#L57)
 
 Fetches a single template by its ID.
 
@@ -104,7 +104,7 @@ Fetches a single template by its ID.
 list(): Promise<Result<Template[], MNotifyError>>;
 ```
 
-Defined in: [templates.ts:51](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/templates.ts#L51)
+Defined in: [templates.ts:52](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/templates.ts#L52)
 
 Lists all SMS templates.
 

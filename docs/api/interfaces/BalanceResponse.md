@@ -1,6 +1,6 @@
 # Interface: BalanceResponse
 
-Defined in: [types.ts:158](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L158)
+Defined in: [types.ts:158](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/types.ts#L158)
 
 Response containing the account balance.
 
@@ -12,7 +12,7 @@ Response containing the account balance.
 balance: number;
 ```
 
-Defined in: [types.ts:162](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L162)
+Defined in: [types.ts:162](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/types.ts#L162)
 
 Current account balance.
 
@@ -24,7 +24,7 @@ Current account balance.
 optional bonus?: number;
 ```
 
-Defined in: [types.ts:164](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L164)
+Defined in: [types.ts:164](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/types.ts#L164)
 
 Bonus balance, when present.
 
@@ -36,6 +36,6 @@ Bonus balance, when present.
 status: string;
 ```
 
-Defined in: [types.ts:160](https://github.com/Adjanour/mnotify-ts-sdk/blob/f07627c7fdffaee599e5ec81bf71142b407065ab/src/types.ts#L160)
+Defined in: [types.ts:160](https://github.com/Adjanour/mnotify-ts-sdk/blob/327384f0264f1a881b58446e7701bf016fcf1f24/src/types.ts#L160)
 
 Request status returned by the API.
