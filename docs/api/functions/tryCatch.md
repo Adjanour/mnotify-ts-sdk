@@ -4,7 +4,7 @@
 function tryCatch<T, E>(fn, errorHandler): Result<T, E>;
 ```
 
-Defined in: [result.ts:115](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L115)
+Defined in: [result.ts:115](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L115)
 
 Wraps a synchronous function in try/catch, returning a Result.
 If the function throws, the error handler is called to produce the error value.

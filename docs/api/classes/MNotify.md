@@ -1,6 +1,6 @@
 # Class: MNotify
 
-Defined in: [client.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/client.ts#L17)
+Defined in: [client.ts:17](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/client.ts#L17)
 
 Main SDK client for the mNotify API.
 
@@ -12,7 +12,7 @@ Main SDK client for the mNotify API.
 new MNotify(config): MNotify;
 ```
 
-Defined in: [client.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/client.ts#L37)
+Defined in: [client.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/client.ts#L37)
 
 Creates a new mNotify client.
 
@@ -40,7 +40,7 @@ const mnotify = new MNotify({ apiKey: "your-api-key" });
 readonly account: Account;
 ```
 
-Defined in: [client.ts:23](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/client.ts#L23)
+Defined in: [client.ts:23](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/client.ts#L23)
 
 Account balance and sender ID management.
 
@@ -52,7 +52,7 @@ Account balance and sender ID management.
 readonly contacts: Contacts;
 ```
 
-Defined in: [client.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/client.ts#L21)
+Defined in: [client.ts:21](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/client.ts#L21)
 
 Contact management.
 
@@ -64,7 +64,7 @@ Contact management.
 readonly groups: Groups;
 ```
 
-Defined in: [client.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/client.ts#L27)
+Defined in: [client.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/client.ts#L27)
 
 Contact group management.
 
@@ -76,7 +76,7 @@ Contact group management.
 readonly sms: SMS;
 ```
 
-Defined in: [client.ts:19](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/client.ts#L19)
+Defined in: [client.ts:19](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/client.ts#L19)
 
 SMS sending and campaign status.
 
@@ -88,6 +88,6 @@ SMS sending and campaign status.
 readonly templates: Templates;
 ```
 
-Defined in: [client.ts:25](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/client.ts#L25)
+Defined in: [client.ts:25](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/client.ts#L25)
 
 SMS template management.

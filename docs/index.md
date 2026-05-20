@@ -20,12 +20,32 @@ const result = await mnotify.sms.send({
 - **Runtime-agnostic** — Node 18+, Deno, Bun, Cloudflare Workers, browsers
 - **Railway-oriented programming** — explicit error handling via `Result` types
 - **Type-safe** — full TypeScript declarations
-- **Dual-published** — npm (`mnotify-ts-sdk`) + JSR (`@adjanour/mnotify`)
+- **Dual-published** — npm (`mnotify-ts-sdk`) + JSR (`@adjarnor/mnotify-ts-sdk`)
 
 ## Quick Start
 
 ```
 npm install mnotify-ts-sdk
+```
+
+```ts
+import { MNotify } from "mnotify-ts-sdk";
+```
+
+```bash
+bun add mnotify-ts-sdk
+```
+
+```ts
+import { MNotify } from "mnotify-ts-sdk";
+```
+
+```bash
+deno add jsr:@adjarnor/mnotify-ts-sdk
+```
+
+```ts
+import { MNotify } from "jsr:@adjarnor/mnotify-ts-sdk";
 ```
 
 ```ts

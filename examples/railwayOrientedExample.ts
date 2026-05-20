@@ -1,14 +1,10 @@
 import { MNotify, MNotifyError, combine, err, ok, type Result } from "../dist/index.mjs";
+import { exitWithError, getApiKeyForExample, getEnv, isSmokeMode } from "./runtime.ts";
 
 function getClient(): MNotify {
-	const apiKey = process.env.MNOTIFY_API_KEY;
-	if (!apiKey) {
-		throw new Error("MNOTIFY_API_KEY environment variable is required");
-	}
-
 	return new MNotify({
-		apiKey,
-		baseUrl: process.env.MNOTIFY_BASE_URL ?? "https://api.mnotify.com/api",
+		apiKey: getApiKeyForExample(),
+		baseUrl: getEnv("MNOTIFY_BASE_URL") ?? "https://api.mnotify.com/api",
 	});
 }
 
@@ -66,7 +62,7 @@ async function exampleFallbacks(mnotify: MNotify) {
 async function exampleParallelOperations(mnotify: MNotify) {
 	console.log("\n=== Parallel Operations ===");
 
-	const senderName = process.env.MNOTIFY_SENDER_ID;
+	const senderName = getEnv("MNOTIFY_SENDER_ID");
 	const tasks = [(await mnotify.account.getBalance()).map((balance) => `Balance: ${balance.balance} ${balance.currency}`)];
 
 	if (senderName) {
@@ -96,7 +92,7 @@ async function exampleParallelOperations(mnotify: MNotify) {
 async function exampleContactCreation(mnotify: MNotify) {
 	console.log("\n=== Contact Creation ===");
 
-	const groupId = process.env.MNOTIFY_GROUP_ID;
+	const groupId = getEnv("MNOTIFY_GROUP_ID");
 	if (!groupId) {
 		console.log("Set MNOTIFY_GROUP_ID to run the contact creation example.");
 		return;
@@ -123,6 +119,11 @@ async function main() {
 
 	console.log("Railway-oriented examples for the current Result-only API");
 
+	if (isSmokeMode()) {
+		console.log("Smoke mode: constructed client and loaded all Result helpers.");
+		return;
+	}
+
 	await examplePatternMatching(mnotify);
 	await exampleChaining(mnotify);
 	await exampleFallbacks(mnotify);
@@ -131,6 +132,5 @@ async function main() {
 }
 
 main().catch((error) => {
-	console.error(error instanceof Error ? error.message : error);
-	process.exitCode = 1;
+	exitWithError(error);
 });

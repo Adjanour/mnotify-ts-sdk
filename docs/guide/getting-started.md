@@ -2,10 +2,24 @@
 
 ## Installation
 
-### npm
+### Node / npm
 
 ```
 npm install mnotify-ts-sdk
+```
+
+```ts
+import { MNotify } from "mnotify-ts-sdk";
+```
+
+### Bun
+
+```bash
+bun add mnotify-ts-sdk
+```
+
+```ts
+import { MNotify } from "mnotify-ts-sdk";
 ```
 
 ### JSR
@@ -17,7 +31,11 @@ npx jsr add @adjarnor/mnotify-ts-sdk
 ### Deno
 
 ```
-deno add @adjarnor/mnotify-ts-sdk
+deno add jsr:@adjarnor/mnotify-ts-sdk
+```
+
+```ts
+import { MNotify } from "jsr:@adjarnor/mnotify-ts-sdk";
 ```
 
 ## Basic Setup
@@ -62,3 +80,32 @@ The client exposes five services:
 | `mnotify.account` | Check balance and manage sender IDs |
 
 Every method returns a `Result` type — see [Error Handling](/guide/error-handling) for details.
+
+## Cross-Runtime Examples
+
+Build once, then run examples in your runtime of choice.
+
+### Node
+
+```bash
+npm run build
+npm run example:smoke
+```
+
+### Bun
+
+```bash
+npm run build
+MNOTIFY_EXAMPLE_MODE=smoke bun run examples/sendSMS.ts
+MNOTIFY_EXAMPLE_MODE=smoke bun run examples/railwayOrientedExample.ts
+MNOTIFY_EXAMPLE_MODE=smoke bun run examples/contentManagement.ts
+```
+
+### Deno
+
+```bash
+npm run build
+MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/sendSMS.ts
+MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/railwayOrientedExample.ts
+MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/contentManagement.ts
+```

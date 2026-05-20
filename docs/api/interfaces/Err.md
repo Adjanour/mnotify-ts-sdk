@@ -1,6 +1,6 @@
 # Interface: Err\<T, E\>
 
-Defined in: [result.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L27)
+Defined in: [result.ts:27](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L27)
 
 A failed result containing an error.
 
@@ -19,7 +19,7 @@ A failed result containing an error.
 readonly error: E;
 ```
 
-Defined in: [result.ts:29](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L29)
+Defined in: [result.ts:29](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L29)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [result.ts:29](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 readonly success: false;
 ```
 
-Defined in: [result.ts:28](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L28)
+Defined in: [result.ts:28](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L28)
 
 ## Methods
 
@@ -39,7 +39,7 @@ Defined in: [result.ts:28](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 andThen<U>(fn): Result<U, E>;
 ```
 
-Defined in: [result.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L34)
+Defined in: [result.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L34)
 
 #### Type Parameters
 
@@ -65,7 +65,7 @@ Defined in: [result.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 isErr(): this is Err<T, E>;
 ```
 
-Defined in: [result.ts:31](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L31)
+Defined in: [result.ts:31](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L31)
 
 #### Returns
 
@@ -79,7 +79,7 @@ Defined in: [result.ts:31](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 isOk(): this is Ok<T, E>;
 ```
 
-Defined in: [result.ts:30](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L30)
+Defined in: [result.ts:30](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L30)
 
 #### Returns
 
@@ -93,7 +93,7 @@ Defined in: [result.ts:30](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 map<U>(fn): Result<U, E>;
 ```
 
-Defined in: [result.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L32)
+Defined in: [result.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L32)
 
 #### Type Parameters
 
@@ -119,7 +119,7 @@ Defined in: [result.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 mapErr<F>(fn): Result<T, F>;
 ```
 
-Defined in: [result.ts:33](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L33)
+Defined in: [result.ts:33](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L33)
 
 #### Type Parameters
 
@@ -145,7 +145,7 @@ Defined in: [result.ts:33](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 match<U>(matcher): U;
 ```
 
-Defined in: [result.ts:38](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L38)
+Defined in: [result.ts:38](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L38)
 
 #### Type Parameters
 
@@ -173,7 +173,7 @@ Defined in: [result.ts:38](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 unwrap(): T;
 ```
 
-Defined in: [result.ts:35](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L35)
+Defined in: [result.ts:35](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L35)
 
 #### Returns
 
@@ -187,7 +187,7 @@ Defined in: [result.ts:35](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 unwrapOr(defaultValue): T;
 ```
 
-Defined in: [result.ts:36](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L36)
+Defined in: [result.ts:36](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L36)
 
 #### Parameters
 
@@ -207,7 +207,7 @@ Defined in: [result.ts:36](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 unwrapOrElse(fn): T;
 ```
 
-Defined in: [result.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/result.ts#L37)
+Defined in: [result.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/result.ts#L37)
 
 #### Parameters
 

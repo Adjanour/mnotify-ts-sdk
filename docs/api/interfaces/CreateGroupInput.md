@@ -1,6 +1,6 @@
 # Interface: CreateGroupInput
 
-Defined in: [types.ts:107](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L107)
+Defined in: [types.ts:107](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L107)
 
 Input type for creating a new group.
 
@@ -12,7 +12,7 @@ Input type for creating a new group.
 optional description?: string;
 ```
 
-Defined in: [types.ts:111](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L111)
+Defined in: [types.ts:111](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L111)
 
 Optional description of the group.
 
@@ -24,6 +24,6 @@ Optional description of the group.
 name: string;
 ```
 
-Defined in: [types.ts:109](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L109)
+Defined in: [types.ts:109](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L109)
 
 Name of the group.

@@ -54,6 +54,7 @@
     "example:sms": "npm run build && node --experimental-strip-types examples/sendSMS.ts",
     "example:railway": "npm run build && node --experimental-strip-types examples/railwayOrientedExample.ts",
     "example:content": "npm run build && node --experimental-strip-types examples/contentManagement.ts",
+    "example:smoke": "MNOTIFY_EXAMPLE_MODE=smoke node --experimental-strip-types examples/sendSMS.ts && MNOTIFY_EXAMPLE_MODE=smoke node --experimental-strip-types examples/railwayOrientedExample.ts && MNOTIFY_EXAMPLE_MODE=smoke node --experimental-strip-types examples/contentManagement.ts",
     "docs:api": "typedoc --options typedoc.docs.json",
     "docs:dev": "npm run docs:api && vitepress dev docs",
     "docs:build": "npm run docs:api && vitepress build docs",

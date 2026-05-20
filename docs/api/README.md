@@ -75,9 +75,22 @@ const final = await result
 
 ## Installation
 
-### npm
+### Node / npm
 ```
 npm install mnotify-ts-sdk
+```
+
+```typescript
+import { MNotify } from "mnotify-ts-sdk";
+```
+
+### Bun
+```
+bun add mnotify-ts-sdk
+```
+
+```typescript
+import { MNotify } from "mnotify-ts-sdk";
 ```
 
 ### JSR
@@ -87,7 +100,11 @@ npx jsr add @adjarnor/mnotify-ts-sdk
 
 ### Deno
 ```
-deno add @adjarnor/mnotify-ts-sdk
+deno add jsr:@adjarnor/mnotify-ts-sdk
+```
+
+```typescript
+import { MNotify } from "jsr:@adjarnor/mnotify-ts-sdk";
 ```
 
 ## Configuration
@@ -117,6 +134,12 @@ Runnable examples live in [`examples/`](_media/README.md):
 - `npm run example:railway`
 - `npm run example:content`
 
+Cross-runtime example commands:
+
+- Node: `npm run build && npm run example:smoke`
+- Bun: `npm run build && MNOTIFY_EXAMPLE_MODE=smoke bun run examples/sendSMS.ts`
+- Deno: `npm run build && MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/sendSMS.ts`
+
 ## Scripts
 
 | Script | Description |
@@ -128,6 +151,7 @@ Runnable examples live in [`examples/`](_media/README.md):
 | `npm run example:sms` | Run the SMS example |
 | `npm run example:railway` | Run the Result-pattern example |
 | `npm run example:content` | Run the groups/templates example |
+| `npm run example:smoke` | Smoke-run all examples in Node |
 | `npm run docs:dev` | Start docs dev server |
 | `npm run docs:build` | Build static docs |
 

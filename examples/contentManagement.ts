@@ -1,20 +1,19 @@
 import { MNotify } from "../dist/index.mjs";
-
-function requireEnv(name: string): string {
-	const value = process.env[name];
-	if (!value) {
-		throw new Error(`${name} environment variable is required`);
-	}
-	return value;
-}
+import { exitWithError, getApiKeyForExample, getEnv, isSmokeMode, setFailureExitCode } from "./runtime.ts";
 
 async function main() {
-	const apiKey = requireEnv("MNOTIFY_API_KEY");
-	const baseUrl = process.env.MNOTIFY_BASE_URL ?? "https://api.mnotify.com/api";
-	const groupName = process.env.MNOTIFY_EXAMPLE_GROUP_NAME ?? `SDK Example ${Date.now()}`;
-	const templateName = process.env.MNOTIFY_EXAMPLE_TEMPLATE_NAME ?? `SDK Template ${Date.now()}`;
+	const apiKey = getApiKeyForExample();
+	const baseUrl = getEnv("MNOTIFY_BASE_URL") ?? "https://api.mnotify.com/api";
+	const groupName = getEnv("MNOTIFY_EXAMPLE_GROUP_NAME") ?? `SDK Example ${Date.now()}`;
+	const templateName = getEnv("MNOTIFY_EXAMPLE_TEMPLATE_NAME") ?? `SDK Template ${Date.now()}`;
 
 	const mnotify = new MNotify({ apiKey, baseUrl });
+
+	if (isSmokeMode()) {
+		console.log("Smoke mode: constructed client and validated group/template example configuration.");
+		console.log({ groupName, templateName, baseUrl });
+		return;
+	}
 
 	console.log("Creating a group...");
 	const groupResult = await mnotify.groups.create({
@@ -24,7 +23,7 @@ async function main() {
 
 	if (groupResult.isErr()) {
 		console.error("Group creation failed:", groupResult.error.message);
-		process.exitCode = 1;
+		setFailureExitCode();
 		return;
 	}
 
@@ -47,7 +46,7 @@ async function main() {
 		ok: (template) => console.log("Created template:", template),
 		err: (error) => {
 			console.error("Template creation failed:", error.message);
-			process.exitCode = 1;
+			setFailureExitCode();
 		},
 	});
 
@@ -68,6 +67,5 @@ async function main() {
 }
 
 main().catch((error) => {
-	console.error(error instanceof Error ? error.message : error);
-	process.exitCode = 1;
+	exitWithError(error);
 });

@@ -1,11 +1,34 @@
 # Examples
 
-Build the SDK, then run either example:
+Build the SDK, then run the examples in your runtime of choice:
 
 ```bash
+npm run build
 npm run example:sms
 npm run example:railway
 npm run example:content
+```
+
+```bash
+npm run build
+bun run examples/sendSMS.ts
+bun run examples/railwayOrientedExample.ts
+bun run examples/contentManagement.ts
+```
+
+```bash
+npm run build
+deno run --allow-env --allow-net examples/sendSMS.ts
+deno run --allow-env --allow-net examples/railwayOrientedExample.ts
+deno run --allow-env --allow-net examples/contentManagement.ts
+```
+
+Smoke mode skips network calls and does not require a real API key:
+
+```bash
+MNOTIFY_EXAMPLE_MODE=smoke node --experimental-strip-types examples/sendSMS.ts
+MNOTIFY_EXAMPLE_MODE=smoke bun run examples/sendSMS.ts
+MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/sendSMS.ts
 ```
 
 Required environment variables:

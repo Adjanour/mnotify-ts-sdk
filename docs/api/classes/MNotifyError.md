@@ -1,6 +1,6 @@
 # Class: MNotifyError
 
-Defined in: [errors.ts:31](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L31)
+Defined in: [errors.ts:31](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L31)
 
 Structured error representing an mNotify API failure.
 
@@ -21,7 +21,7 @@ new MNotifyError(
    cause?): MNotifyError;
 ```
 
-Defined in: [errors.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L32)
+Defined in: [errors.ts:32](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L32)
 
 #### Parameters
 
@@ -51,7 +51,7 @@ Error.constructor
 readonly optional cause?: unknown;
 ```
 
-Defined in: [errors.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L37)
+Defined in: [errors.ts:37](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L37)
 
 #### Inherited from
 
@@ -67,7 +67,7 @@ Error.cause
 readonly optional context?: MNotifyErrorContext;
 ```
 
-Defined in: [errors.ts:36](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L36)
+Defined in: [errors.ts:36](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L36)
 
 ***
 
@@ -77,7 +77,7 @@ Defined in: [errors.ts:36](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 readonly optional data?: unknown;
 ```
 
-Defined in: [errors.ts:35](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L35)
+Defined in: [errors.ts:35](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L35)
 
 ***
 
@@ -87,7 +87,7 @@ Defined in: [errors.ts:35](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 readonly statusCode: number;
 ```
 
-Defined in: [errors.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L34)
+Defined in: [errors.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L34)
 
 ## Methods
 
@@ -97,7 +97,7 @@ Defined in: [errors.ts:34](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 toJSON(): Record<string, unknown>;
 ```
 
-Defined in: [errors.ts:87](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L87)
+Defined in: [errors.ts:87](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L87)
 
 #### Returns
 
@@ -111,7 +111,7 @@ Defined in: [errors.ts:87](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed9
 withContext(context): MNotifyError;
 ```
 
-Defined in: [errors.ts:47](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L47)
+Defined in: [errors.ts:47](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L47)
 
 Returns a new MNotifyError with merged context.
 
@@ -138,7 +138,7 @@ static fromUnknown(
    data?): MNotifyError;
 ```
 
-Defined in: [errors.ts:63](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/errors.ts#L63)
+Defined in: [errors.ts:63](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/errors.ts#L63)
 
 Creates an MNotifyError from an unknown value.
 Preserves the original error if it is already an MNotifyError.

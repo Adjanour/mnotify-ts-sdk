@@ -1,6 +1,6 @@
 # Interface: Group
 
-Defined in: [types.ts:91](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L91)
+Defined in: [types.ts:91](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L91)
 
 A contact group in the mNotify system.
 
@@ -12,7 +12,7 @@ A contact group in the mNotify system.
 contact_count: number;
 ```
 
-Defined in: [types.ts:99](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L99)
+Defined in: [types.ts:99](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L99)
 
 Number of contacts in the group.
 
@@ -24,7 +24,7 @@ Number of contacts in the group.
 created_at: string;
 ```
 
-Defined in: [types.ts:101](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L101)
+Defined in: [types.ts:101](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L101)
 
 ISO timestamp of when the group was created.
 
@@ -36,7 +36,7 @@ ISO timestamp of when the group was created.
 optional description?: string;
 ```
 
-Defined in: [types.ts:97](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L97)
+Defined in: [types.ts:97](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L97)
 
 Optional description of the group.
 
@@ -48,7 +48,7 @@ Optional description of the group.
 id: string;
 ```
 
-Defined in: [types.ts:93](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L93)
+Defined in: [types.ts:93](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L93)
 
 Unique group identifier.
 
@@ -60,7 +60,7 @@ Unique group identifier.
 name: string;
 ```
 
-Defined in: [types.ts:95](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L95)
+Defined in: [types.ts:95](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L95)
 
 Name of the group.
 
@@ -72,6 +72,6 @@ Name of the group.
 updated_at: string;
 ```
 
-Defined in: [types.ts:103](https://github.com/Adjanour/mnotify-ts-sdk/blob/2fed91eedea1d4c1a76a327282eb523016c1040d/src/types.ts#L103)
+Defined in: [types.ts:103](https://github.com/Adjanour/mnotify-ts-sdk/blob/d345aa76bf5105d594bb458953bad99534ff7361/src/types.ts#L103)
 
 ISO timestamp of when the group was last updated.

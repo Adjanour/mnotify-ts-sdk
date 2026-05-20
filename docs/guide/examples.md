@@ -4,12 +4,44 @@ The repository ships with runnable local examples under `examples/`.
 
 ## Run Them
 
+Build the package first because the examples import `../dist/index.mjs`.
+
+### Node
+
 ```bash
-export MNOTIFY_API_KEY="your-api-key"
+npm run build
 npm run example:sms
 npm run example:railway
 npm run example:content
 ```
+
+### Bun
+
+```bash
+npm run build
+bun run examples/sendSMS.ts
+bun run examples/railwayOrientedExample.ts
+bun run examples/contentManagement.ts
+```
+
+### Deno
+
+```bash
+npm run build
+deno run --allow-env --allow-net examples/sendSMS.ts
+deno run --allow-env --allow-net examples/railwayOrientedExample.ts
+deno run --allow-env --allow-net examples/contentManagement.ts
+```
+
+### Smoke Mode For CI Or Local Validation
+
+```bash
+MNOTIFY_EXAMPLE_MODE=smoke bun run examples/sendSMS.ts
+MNOTIFY_EXAMPLE_MODE=smoke deno run --allow-env examples/sendSMS.ts
+MNOTIFY_EXAMPLE_MODE=smoke node --experimental-strip-types examples/sendSMS.ts
+```
+
+Real API runs still require `MNOTIFY_API_KEY`. The SMS example also needs an approved sender via `MNOTIFY_SMS_SENDER` or `MNOTIFY_SENDER_ID`.
 
 ## Available Examples
 

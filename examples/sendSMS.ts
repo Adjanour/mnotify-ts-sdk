@@ -1,18 +1,11 @@
 import { MNotify } from "../dist/index.mjs";
-
-function requireEnv(name: string): string {
-	const value = process.env[name];
-	if (!value) {
-		throw new Error(`${name} environment variable is required`);
-	}
-	return value;
-}
+import { exitWithError, getApiKeyForExample, getEnv, isSmokeMode, setFailureExitCode } from "./runtime.ts";
 
 async function main() {
-	const apiKey = requireEnv("MNOTIFY_API_KEY");
-	const sender = process.env.MNOTIFY_SMS_SENDER ?? process.env.MNOTIFY_SENDER_ID;
-	const recipient = process.env.MNOTIFY_SMS_RECIPIENT ?? "233200000000";
-	const baseUrl = process.env.MNOTIFY_BASE_URL ?? "https://api.mnotify.com/api";
+	const apiKey = getApiKeyForExample();
+	const sender = getEnv("MNOTIFY_SMS_SENDER") ?? getEnv("MNOTIFY_SENDER_ID") ?? (isSmokeMode() ? "SMOKE" : undefined);
+	const recipient = getEnv("MNOTIFY_SMS_RECIPIENT") ?? "233200000000";
+	const baseUrl = getEnv("MNOTIFY_BASE_URL") ?? "https://api.mnotify.com/api";
 
 	if (!sender) {
 		throw new Error(
@@ -21,6 +14,12 @@ async function main() {
 	}
 
 	const mnotify = new MNotify({ apiKey, baseUrl });
+
+	if (isSmokeMode()) {
+		console.log("Smoke mode: constructed client and validated SMS example configuration.");
+		console.log({ sender, recipient, baseUrl });
+		return;
+	}
 
 	console.log(`Sending SMS to ${recipient} with sender ${sender}...`);
 
@@ -54,7 +53,7 @@ async function main() {
 	});
 
 	if (sendResult.isErr()) {
-		process.exitCode = 1;
+		setFailureExitCode();
 		return;
 	}
 
@@ -74,6 +73,5 @@ async function main() {
 }
 
 main().catch((error) => {
-	console.error(error instanceof Error ? error.message : error);
-	process.exitCode = 1;
+	exitWithError(error);
 });
